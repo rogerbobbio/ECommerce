@@ -22,8 +22,10 @@ namespace ECommerce.Models
 
         public DbSet<City> Cities { get; set; }
 
-        public System.Data.Entity.DbSet<ECommerce.Models.Company> Companies { get; set; }
+        public DbSet<Company> Companies { get; set; }
 
-        public System.Data.Entity.DbSet<ECommerce.Models.ProjectState> ProjectStates { get; set; }
+        public DbSet<ProjectState> ProjectStates { get; set; }
+
+        public System.Data.Entity.DbSet<ECommerce.Models.PensionSystem> PensionSystems { get; set; }
     }
 }

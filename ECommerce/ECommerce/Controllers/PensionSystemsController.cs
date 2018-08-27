@@ -7,47 +7,47 @@ using ECommerce.Models;
 
 namespace ECommerce.Controllers
 {
-    public class DepartmentsController : Controller
+    public class PensionSystemsController : Controller
     {
         private ECommerceContext db = new ECommerceContext();
 
-        // GET: Departments
+        // GET: PensionSystems
         public ActionResult Index()
         {
-            return View(db.Departments.ToList());
+            return View(db.PensionSystems.ToList());
         }
 
-        // GET: Departments/Details/5
+        // GET: PensionSystems/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var department = db.Departments.Find(id);
-            if (department == null)
+            PensionSystem pensionSystem = db.PensionSystems.Find(id);
+            if (pensionSystem == null)
             {
                 return HttpNotFound();
             }
-            return View(department);
+            return View(pensionSystem);
         }
 
-        // GET: Departments/Create
+        // GET: PensionSystems/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: Departments/Create
+        // POST: PensionSystems/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "DepartmentId,Name")] Department department)
+        public ActionResult Create([Bind(Include = "PensionSystemId,Name,Commission,Bonus,Input,Total,Top")] PensionSystem pensionSystem)
         {
             if (ModelState.IsValid)
             {
-                db.Departments.Add(department);
+                db.PensionSystems.Add(pensionSystem);
                 try
                 {
                     db.SaveChanges();
@@ -67,34 +67,34 @@ namespace ECommerce.Controllers
                 }
             }
 
-            return View(department);
+            return View(pensionSystem);
         }
 
-        // GET: Departments/Edit/5
+        // GET: PensionSystems/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var department = db.Departments.Find(id);
-            if (department == null)
+            PensionSystem pensionSystem = db.PensionSystems.Find(id);
+            if (pensionSystem == null)
             {
                 return HttpNotFound();
             }
-            return View(department);
+            return View(pensionSystem);
         }
 
-        // POST: Departments/Edit/5
+        // POST: PensionSystems/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "DepartmentId,Name")] Department department)
+        public ActionResult Edit([Bind(Include = "PensionSystemId,Name,Commission,Bonus,Input,Total,Top")] PensionSystem pensionSystem)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(department).State = EntityState.Modified;
+                db.Entry(pensionSystem).State = EntityState.Modified;
                 try
                 {
                     db.SaveChanges();
@@ -113,31 +113,31 @@ namespace ECommerce.Controllers
                     }
                 }
             }
-            return View(department);
+            return View(pensionSystem);
         }
 
-        // GET: Departments/Delete/5
+        // GET: PensionSystems/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var department = db.Departments.Find(id);
-            if (department == null)
+            PensionSystem pensionSystem = db.PensionSystems.Find(id);
+            if (pensionSystem == null)
             {
                 return HttpNotFound();
             }
-            return View(department);
+            return View(pensionSystem);
         }
 
-        // POST: Departments/Delete/5
+        // POST: PensionSystems/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            var department = db.Departments.Find(id);
-            db.Departments.Remove(department);
+            var pensionSystem = db.PensionSystems.Find(id);
+            db.PensionSystems.Remove(pensionSystem);
             try
             {
                 db.SaveChanges();
@@ -155,8 +155,7 @@ namespace ECommerce.Controllers
                     ModelState.AddModelError(string.Empty, ex.Message);
                 }
             }
-
-            return View(department);
+            return View(pensionSystem);
         }
 
         protected override void Dispose(bool disposing)

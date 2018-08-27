@@ -207,6 +207,7 @@
     <Compile Include="Controllers\DepartmentsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\PensionSystemsController.cs" />
     <Compile Include="Controllers\ProjectStatesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -219,6 +220,7 @@
     <Compile Include="Models\ECommerceContext.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\PensionSystem.cs" />
     <Compile Include="Models\ProjectState.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -301,6 +303,11 @@
     <Content Include="Views\ProjectStates\Details.cshtml" />
     <Content Include="Views\ProjectStates\Edit.cshtml" />
     <Content Include="Views\ProjectStates\Index.cshtml" />
+    <Content Include="Views\PensionSystems\Create.cshtml" />
+    <Content Include="Views\PensionSystems\Delete.cshtml" />
+    <Content Include="Views\PensionSystems\Details.cshtml" />
+    <Content Include="Views\PensionSystems\Edit.cshtml" />
+    <Content Include="Views\PensionSystems\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
