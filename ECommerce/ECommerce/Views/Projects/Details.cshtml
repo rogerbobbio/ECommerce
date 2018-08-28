@@ -1,0 +1,76 @@
+﻿@model ECommerce.Models.Project
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Project</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.City.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.City.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Companies.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Companies.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Department.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Department.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ProjectState.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ProjectState.Name)
+        </dd>
+
+
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ProjectBegin)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ProjectBegin)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ProjectEnd)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ProjectEnd)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ProjectId }, new { @class = "btn btn-warning" }) |
+    @Html.ActionLink("Back to List", "Index", new { }, new { @class = "btn btn-success" })
+</p>
