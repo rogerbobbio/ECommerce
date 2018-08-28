@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Web;
@@ -61,15 +61,41 @@ namespace ECommerce.Models
         public int ProjectId { get; set; }
 
         [Required(ErrorMessage = "The field {0} is required")]
-        [MaxLength(10, ErrorMessage = "The field {0} must be at least {1} characteres length.")]
-        public string Dni { get; set; }
-
-        public bool State { get; set; }
-
-        [Required(ErrorMessage = "The field {0} is required")]
         [Range(1, double.MaxValue, ErrorMessage = "You must select a {0}")]
         [Display(Name = "Pension System")]
         public int PensionSystemId { get; set; }
+
+        [Required(ErrorMessage = "The field {0} is required")]
+        [Range(1, double.MaxValue, ErrorMessage = "You must select a {0}")]
+        [Display(Name = "User Rol")]
+        public int UserRolId { get; set; }
+
+        [Required(ErrorMessage = "The field {0} is required")]
+        [MaxLength(10, ErrorMessage = "The field {0} must be at least {1} characteres length.")]
+        public string Dni { get; set; }
+
+        [Required(ErrorMessage = "The field {0} is required")]
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        [Display(Name = "Fecha de Nacimiento")]
+        public DateTime BirthDate { get; set; }
+
+        [Required(ErrorMessage = "The field {0} is required")]
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        [Display(Name = "Fecha de Ingreso")]
+        public DateTime AdmissionDate { get; set; }
+
+        [Display(Name = "Numero de Hijos")]
+        public int Children { get; set; }
+
+        public bool State { get; set; }
+
+        public string Account { get; set; }
+        public string Bank { get; set; }
+
+        [Display(Name = "Usuario")]
+        public string FullName { get { return string.Format("{0} {1}", FirstName, LastName); }  }
 
         [NotMapped]
         public HttpPostedFileBase PhotoFile { get; set; }
@@ -79,5 +105,6 @@ namespace ECommerce.Models
         public virtual Project Project { get; set; }
         public virtual Company Company { get; set; }
         public virtual PensionSystem PensionSystem { get; set; }
+        public virtual UserRol UserRol { get; set; }
     }
 }

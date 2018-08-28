@@ -37,6 +37,27 @@ namespace ECommerce.Classes
             return projectState.OrderBy(d => d.Name).ToList();
         }
 
+        public static List<PensionSystem> GetPensionSystems()
+        {
+            var pensionSystem = db.PensionSystems.ToList();
+            pensionSystem.Add(new PensionSystem { PensionSystemId = 0, Name = "[Select a Pension System...]" });
+            return pensionSystem.OrderBy(d => d.Name).ToList();
+        }
+
+        public static List<Project> GetProjects()
+        {
+            var project = db.Projects.ToList();
+            project.Add(new Project { ProjectId = 0, Name = "[Select a Project...]" });
+            return project.OrderBy(d => d.Name).ToList();
+        }
+
+        public static List<UserRol> GetUserRols()
+        {
+            var userRol = db.UserRols.ToList();
+            userRol.Add(new UserRol { UserRolId = 0, Name = "[Select a User Rol...]" });
+            return userRol.OrderBy(d => d.Name).ToList();
+        }
+
         public void Dispose()
         {
             db.Dispose();

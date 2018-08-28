@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -51,5 +52,7 @@ namespace ECommerce.Models
         public virtual Department Department { get; set; }
         public virtual ProjectState ProjectState { get; set; }
         public virtual Company Companies { get; set; }
+
+        public virtual ICollection<User> Users { get; set; }
     }
 }

@@ -52,5 +52,6 @@ namespace ECommerce.Models
 
         public virtual ICollection<Project> Projects { get; set; }
         public virtual ICollection<UserRol> UserRols { get; set; }
+        public virtual ICollection<User> Users { get; set; }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ECommerce.Models
@@ -60,5 +61,7 @@ namespace ECommerce.Models
         public double Scholarship { get; set; }
 
         public virtual Company Companies { get; set; }
+
+        public virtual ICollection<User> Users { get; set; }
     }
 }
