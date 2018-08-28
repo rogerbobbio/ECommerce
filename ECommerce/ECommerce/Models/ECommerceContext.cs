@@ -29,5 +29,7 @@ namespace ECommerce.Models
         public System.Data.Entity.DbSet<ECommerce.Models.PensionSystem> PensionSystems { get; set; }
 
         public System.Data.Entity.DbSet<ECommerce.Models.Project> Projects { get; set; }
+
+        public System.Data.Entity.DbSet<ECommerce.Models.UserRol> UserRols { get; set; }
     }
 }
