@@ -1,12 +1,17 @@
-﻿using System.Web.Mvc;
+﻿using System.Linq;
+using System.Web.Mvc;
+using ECommerce.Models;
 
 namespace ECommerce.Controllers
 {
     public class HomeController : Controller
     {
+        private ECommerceContext db = new ECommerceContext();
+
         public ActionResult Index()
         {
-            return View();
+            var user = db.Users.FirstOrDefault(u => u.UserName == User.Identity.Name);
+            return View(user);
         }
 
         public ActionResult About()

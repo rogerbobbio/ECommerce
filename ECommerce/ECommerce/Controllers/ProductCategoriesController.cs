@@ -8,7 +8,7 @@ using ECommerce.Models;
 
 namespace ECommerce.Controllers
 {
-    [Authorize(Roles = "User")]
+    [Authorize(Roles = "User, Admin")]
     public class ProductCategoriesController : Controller
     {
         private ECommerceContext db = new ECommerceContext();
