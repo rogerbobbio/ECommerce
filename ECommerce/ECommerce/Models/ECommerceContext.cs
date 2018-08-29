@@ -33,5 +33,7 @@ namespace ECommerce.Models
         public System.Data.Entity.DbSet<ECommerce.Models.UserRol> UserRols { get; set; }
 
         public System.Data.Entity.DbSet<ECommerce.Models.User> Users { get; set; }
+
+        public System.Data.Entity.DbSet<ECommerce.Models.ProductCategory> ProductCategories { get; set; }
     }
 }

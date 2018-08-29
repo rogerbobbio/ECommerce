@@ -8,6 +8,7 @@ namespace ECommerce.Models
     {
         [Key]
         public int CityId { get; set; }
+
         [Required(ErrorMessage = "The field {0} is required")]
         [MaxLength(50, ErrorMessage = "The field {0} must be at least {1} characteres length.")]
         [Display(Name = "City")]
@@ -17,6 +18,7 @@ namespace ECommerce.Models
         [Required(ErrorMessage = "The field {0} is required")]
         [Range(1, double.MaxValue, ErrorMessage = "You must select a {0}")]
         [Index("City_Name_Index", 1, IsUnique = true)]
+        [Display(Name = "Department")]
         public int DepartmentId { get; set; }
 
         public virtual Department Department { get; set; }

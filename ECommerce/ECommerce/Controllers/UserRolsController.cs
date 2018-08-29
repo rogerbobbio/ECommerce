@@ -8,6 +8,7 @@ using ECommerce.Models;
 
 namespace ECommerce.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class UserRolsController : Controller
     {
         private ECommerceContext db = new ECommerceContext();

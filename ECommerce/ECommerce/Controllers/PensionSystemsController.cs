@@ -7,6 +7,7 @@ using ECommerce.Models;
 
 namespace ECommerce.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class PensionSystemsController : Controller
     {
         private ECommerceContext db = new ECommerceContext();

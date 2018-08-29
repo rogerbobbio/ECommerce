@@ -8,70 +8,53 @@ using ECommerce.Models;
 
 namespace ECommerce.Controllers
 {
-    [Authorize(Roles = "Admin")]
-    public class CompaniesController : Controller
+    [Authorize(Roles = "User")]
+    public class ProductCategoriesController : Controller
     {
         private ECommerceContext db = new ECommerceContext();
 
-        // GET: Companies
+        // GET: ProductCategories
         public ActionResult Index()
         {
-            var companies = db.Companies.Include(c => c.City).Include(c => c.Department);
-            return View(companies.ToList());
+            var productCategories = db.ProductCategories.Include(p => p.Company);
+            return View(productCategories.ToList());
         }
 
-        // GET: Companies/Details/5
+        // GET: ProductCategories/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var company = db.Companies.Find(id);
-            if (company == null)
+            var productCategory = db.ProductCategories.Find(id);
+            if (productCategory == null)
             {
                 return HttpNotFound();
             }
-            return View(company);
+            return View(productCategory);
         }
 
-        // GET: Companies/Create
+        // GET: ProductCategories/Create
         public ActionResult Create()
         {
-            ViewBag.CityId = new SelectList(CombosHelper.GetCities(), "CityId", "Name");
-            ViewBag.DepartmentId = new SelectList(CombosHelper.GetDepartments(), "DepartmentId", "Name");
+            ViewBag.CompanyId = new SelectList(CombosHelper.GetCompanies(), "CompanyId", "Name");
             return View();
         }
 
-        // POST: Companies/Create
+        // POST: ProductCategories/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(Company company)
+        public ActionResult Create([Bind(Include = "ProductCategoryId,Description,CompanyId")] ProductCategory productCategory)
         {
             if (ModelState.IsValid)
             {
+                db.ProductCategories.Add(productCategory);
                 try
-                {                    
-                    db.Companies.Add(company);
+                {
                     db.SaveChanges();
-                    
-                    if (company.LogoFile != null)
-                    {                        
-                        const string folder = "~/Content/Logos";
-                        var file = string.Format("{0}.jpg", company.CompanyId);
-
-                        var response = FilesHelper.UploadPhoto(company.LogoFile, folder, file);
-                        if (response)
-                        {
-                            var pic = string.Format("{0}/{1}", folder, file);
-                            company.Logo = pic;
-                            db.Entry(company).State = EntityState.Modified;
-                            db.SaveChanges();
-                        }
-                    }
-                   
                     return RedirectToAction("Index");
                 }
                 catch (Exception ex)
@@ -88,53 +71,38 @@ namespace ECommerce.Controllers
                 }
             }
 
-            ViewBag.CityId = new SelectList(CombosHelper.GetCities(), "CityId", "Name", company.CityId);
-            ViewBag.DepartmentId = new SelectList(CombosHelper.GetDepartments(), "DepartmentId", "Name", company.DepartmentId);
-            return View(company);
+            ViewBag.CompanyId = new SelectList(CombosHelper.GetCompanies(), "CompanyId", "Name", productCategory.CompanyId);
+            return View(productCategory);
         }
 
-        // GET: Companies/Edit/5
+        // GET: ProductCategories/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var company = db.Companies.Find(id);
-            if (company == null)
+            var productCategory = db.ProductCategories.Find(id);
+            if (productCategory == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.CityId = new SelectList(CombosHelper.GetCities(), "CityId", "Name", company.CityId);
-            ViewBag.DepartmentId = new SelectList(CombosHelper.GetDepartments(), "DepartmentId", "Name", company.DepartmentId);
-            return View(company);
+            ViewBag.CompanyId = new SelectList(CombosHelper.GetCompanies(), "CompanyId", "Name", productCategory.CompanyId);
+            return View(productCategory);
         }
 
-        // POST: Companies/Edit/5
+        // POST: ProductCategories/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(Company company)
+        public ActionResult Edit([Bind(Include = "ProductCategoryId,Description,CompanyId")] ProductCategory productCategory)
         {
             if (ModelState.IsValid)
-            {                
+            {
+                db.Entry(productCategory).State = EntityState.Modified;
                 try
-                {                    
-                    if (company.LogoFile != null)
-                    {
-                        var pic = string.Empty;
-                        const string folder = "~/Content/Logos";
-                        var file = string.Format("{0}.jpg", company.CompanyId);
-                        var response = FilesHelper.UploadPhoto(company.LogoFile, folder, file);
-                        if (response)
-                        {
-                            pic = string.Format("{0}/{1}.", folder, file);
-                            company.Logo = pic;                            
-                        }
-                    }
-
-                    db.Entry(company).State = EntityState.Modified;
+                {
                     db.SaveChanges();
                     return RedirectToAction("Index");
                 }
@@ -151,33 +119,32 @@ namespace ECommerce.Controllers
                     }
                 }
             }
-            ViewBag.CityId = new SelectList(CombosHelper.GetCities(), "CityId", "Name", company.CityId);
-            ViewBag.DepartmentId = new SelectList(CombosHelper.GetDepartments(), "DepartmentId", "Name", company.DepartmentId);
-            return View(company);
+            ViewBag.CompanyId = new SelectList(CombosHelper.GetCompanies(), "CompanyId", "Name", productCategory.CompanyId);
+            return View(productCategory);
         }
 
-        // GET: Companies/Delete/5
+        // GET: ProductCategories/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var company = db.Companies.Find(id);
-            if (company == null)
+            var productCategory = db.ProductCategories.Find(id);
+            if (productCategory == null)
             {
                 return HttpNotFound();
             }
-            return View(company);
+            return View(productCategory);
         }
 
-        // POST: Companies/Delete/5
+        // POST: ProductCategories/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            var company = db.Companies.Find(id);
-            db.Companies.Remove(company);
+            var productCategory = db.ProductCategories.Find(id);
+            db.ProductCategories.Remove(productCategory);
             try
             {
                 db.SaveChanges();
@@ -195,14 +162,7 @@ namespace ECommerce.Controllers
                     ModelState.AddModelError(string.Empty, ex.Message);
                 }
             }
-            return View(company);
-        }
-
-        public JsonResult GetCities(int departmentId)
-        {
-            db.Configuration.ProxyCreationEnabled = false;
-            var cities = db.Cities.Where(c => c.DepartmentId == departmentId);
-            return Json(cities);
+            return View(productCategory);
         }
 
         protected override void Dispose(bool disposing)

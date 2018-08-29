@@ -8,6 +8,7 @@ using ECommerce.Models;
 
 namespace ECommerce.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class UsersController : Controller
     {
         private ECommerceContext db = new ECommerceContext();
@@ -146,6 +147,14 @@ namespace ECommerce.Controllers
                         }
                     }
 
+                    var db2 = new ECommerceContext();
+                    var currentUser = db2.Users.Find(user.UserId);
+                    if (currentUser.UserName != user.UserName)
+                    {
+                        UsersHelper.UpdateUserName(currentUser.UserName, user.UserName);
+                    }
+                    db2.Dispose();
+
                     db.Entry(user).State = EntityState.Modified;
                     db.SaveChanges();
                     return RedirectToAction("Index");
@@ -197,6 +206,7 @@ namespace ECommerce.Controllers
             try
             {
                 db.SaveChanges();
+                UsersHelper.DeleteUser(user.UserName);
                 return RedirectToAction("Index");
             }
             catch (Exception ex)
