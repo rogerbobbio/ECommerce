@@ -12,7 +12,10 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Company.Name)
+            @if (User.IsInRole("Admin"))
+            {
+                @Html.DisplayNameFor(model => model.Company.Name)
+            }
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Description)
@@ -23,15 +26,18 @@
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.Company.Name)
+            @if (User.IsInRole("Admin"))
+            {
+                @Html.DisplayFor(modelItem => item.Company.Name)
+            }
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Description)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id = item.ProductCategoryId }, new { @class = "btn btn-warning" }) |
-            @Html.ActionLink("Details", "Details", new { id = item.ProductCategoryId }, new { @class = "btn btn-info" }) |
-            @Html.ActionLink("Delete", "Delete", new { id = item.ProductCategoryId }, new { @class = "btn btn-danger" })
+            @Html.ActionLink("Edit", "Edit", new {id = item.ProductCategoryId}, new {@class = "btn btn-warning"}) |
+            @Html.ActionLink("Details", "Details", new {id = item.ProductCategoryId}, new {@class = "btn btn-info"}) |
+            @Html.ActionLink("Delete", "Delete", new {id = item.ProductCategoryId}, new {@class = "btn btn-danger"})
         </td>
     </tr>
 }

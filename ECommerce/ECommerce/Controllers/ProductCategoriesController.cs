@@ -2,6 +2,7 @@
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
+using System.Web.Configuration;
 using System.Web.Mvc;
 using ECommerce.Classes;
 using ECommerce.Models;
@@ -13,14 +14,26 @@ namespace ECommerce.Controllers
     {
         private ECommerceContext db = new ECommerceContext();
 
-        // GET: ProductCategories
         public ActionResult Index()
         {
-            var productCategories = db.ProductCategories.Include(p => p.Company);
+            IQueryable<ProductCategory> productCategories;
+            var adminUser = WebConfigurationManager.AppSettings["AdminUser"];
+            if (adminUser == User.Identity.Name)
+                productCategories = db.ProductCategories.Include(p => p.Company);
+            else
+            {
+                //verifica el usuario logeado y filtra por su compania
+                var user = db.Users.FirstOrDefault(u => u.UserName == User.Identity.Name);
+                if (user == null)
+                    return RedirectToAction("Index", "Home");
+
+                productCategories = db.ProductCategories.Where(c => c.CompanyId == user.CompanyId);
+                //==================================================
+            }
+            
             return View(productCategories.ToList());
         }
 
-        // GET: ProductCategories/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -34,20 +47,28 @@ namespace ECommerce.Controllers
             }
             return View(productCategory);
         }
-
-        // GET: ProductCategories/Create
+        
         public ActionResult Create()
         {
-            ViewBag.CompanyId = new SelectList(CombosHelper.GetCompanies(), "CompanyId", "Name");
-            return View();
+            var adminUser = WebConfigurationManager.AppSettings["AdminUser"];
+            if (adminUser == User.Identity.Name)
+            {
+                ViewBag.CompanyId = new SelectList(CombosHelper.GetCompanies(), "CompanyId", "Name");
+                return View();
+            }
+            //verifica el usuario logeado y envia su compania a la vista
+            var user = db.Users.FirstOrDefault(u => u.UserName == User.Identity.Name);
+            if (user == null)
+                return RedirectToAction("Index", "Home");
+
+            var productCategory = new ProductCategory { CompanyId = user.CompanyId };
+            return View(productCategory);
         }
 
-        // POST: ProductCategories/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ProductCategoryId,Description,CompanyId")] ProductCategory productCategory)
+        public ActionResult Create(ProductCategory productCategory)
         {
             if (ModelState.IsValid)
             {
@@ -75,7 +96,7 @@ namespace ECommerce.Controllers
             return View(productCategory);
         }
 
-        // GET: ProductCategories/Edit/5
+        
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -87,16 +108,16 @@ namespace ECommerce.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.CompanyId = new SelectList(CombosHelper.GetCompanies(), "CompanyId", "Name", productCategory.CompanyId);
+
+            var adminUser = WebConfigurationManager.AppSettings["AdminUser"];
+            if (adminUser == User.Identity.Name)
+                ViewBag.CompanyId = new SelectList(CombosHelper.GetCompanies(), "CompanyId", "Name", productCategory.CompanyId);
             return View(productCategory);
         }
-
-        // POST: ProductCategories/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ProductCategoryId,Description,CompanyId")] ProductCategory productCategory)
+        public ActionResult Edit(ProductCategory productCategory)
         {
             if (ModelState.IsValid)
             {
