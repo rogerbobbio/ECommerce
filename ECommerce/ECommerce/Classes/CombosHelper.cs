@@ -51,9 +51,23 @@ namespace ECommerce.Classes
             return project.OrderBy(d => d.Name).ToList();
         }
 
+        public static List<Project> GetProjects(int companyId)
+        {
+            var project = db.Projects.Where(c => c.CompanyId == companyId).ToList();
+            project.Add(new Project { ProjectId = 0, Name = "[Select a Project...]" });
+            return project.OrderBy(d => d.Name).ToList();
+        }
+
         public static List<UserRol> GetUserRols()
         {
             var userRol = db.UserRols.ToList();
+            userRol.Add(new UserRol { UserRolId = 0, Name = "[Select a User Rol...]" });
+            return userRol.OrderBy(d => d.Name).ToList();
+        }
+
+        public static List<UserRol> GetUserRols(int companyId)
+        {
+            var userRol = db.UserRols.Where(c => c.CompanyId == companyId).ToList();
             userRol.Add(new UserRol { UserRolId = 0, Name = "[Select a User Rol...]" });
             return userRol.OrderBy(d => d.Name).ToList();
         }

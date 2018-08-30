@@ -24,7 +24,10 @@
             @Html.DisplayNameFor(model => model.ProjectEnd)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Companies.Name)
+            @if (User.IsInRole("Admin"))
+            {
+                @Html.DisplayNameFor(model => model.Companies.Name)
+            }
         </th>
         <th>
             @Html.DisplayNameFor(model => model.City.Name)
@@ -50,7 +53,10 @@
             @Html.DisplayFor(modelItem => item.ProjectEnd)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Companies.Name)
+            @if (User.IsInRole("Admin"))
+            {
+                @Html.DisplayFor(modelItem => item.Companies.Name)
+            }
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.City.Name)

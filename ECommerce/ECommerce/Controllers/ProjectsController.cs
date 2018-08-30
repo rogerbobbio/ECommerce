@@ -2,6 +2,7 @@
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
+using System.Web.Configuration;
 using System.Web.Mvc;
 using ECommerce.Classes;
 using ECommerce.Models;
@@ -12,15 +13,27 @@ namespace ECommerce.Controllers
     public class ProjectsController : Controller
     {
         private ECommerceContext db = new ECommerceContext();
-
-        // GET: Projects
+        
         public ActionResult Index()
         {
-            var projects = db.Projects.Include(p => p.City).Include(p => p.Companies).Include(p => p.Department).Include(p => p.ProjectState);
+            IQueryable<Project> projects;
+            var adminUser = WebConfigurationManager.AppSettings["AdminUser"];
+            if (adminUser == User.Identity.Name)
+                projects = db.Projects.Include(p => p.City).Include(p => p.Companies).Include(p => p.Department).Include(p => p.ProjectState);
+            else
+            {
+                //verifica el usuario logeado y filtra por su compania
+                var user = db.Users.FirstOrDefault(u => u.UserName == User.Identity.Name);
+                if (user == null)
+                    return RedirectToAction("Index", "Home");
+
+                projects = db.Projects.Where(c => c.CompanyId == user.CompanyId);
+                //==================================================
+            }
+            
             return View(projects.ToList());
         }
-
-        // GET: Projects/Details/5
+        
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -34,23 +47,31 @@ namespace ECommerce.Controllers
             }
             return View(project);
         }
-
-        // GET: Projects/Create
+        
         public ActionResult Create()
         {
-            ViewBag.CityId = new SelectList(CombosHelper.GetCities(), "CityId", "Name");
-            ViewBag.CompanyId = new SelectList(CombosHelper.GetCompanies(), "CompanyId", "Name");
+            ViewBag.CityId = new SelectList(CombosHelper.GetCities(), "CityId", "Name");            
             ViewBag.DepartmentId = new SelectList(CombosHelper.GetDepartments(), "DepartmentId", "Name");
-            ViewBag.ProjectStateId = new SelectList(CombosHelper.GetProjectStates(), "ProjectStateId", "Name");
-            return View();
-        }
+            ViewBag.ProjectStateId = new SelectList(CombosHelper.GetProjectStates(), "ProjectStateId", "Name");            
 
-        // POST: Projects/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+            var adminUser = WebConfigurationManager.AppSettings["AdminUser"];
+            if (adminUser == User.Identity.Name)
+            {
+                ViewBag.CompanyId = new SelectList(CombosHelper.GetCompanies(), "CompanyId", "Name");
+                return View();
+            }
+            //verifica el usuario logeado y envia su compania a la vista
+            var user = db.Users.FirstOrDefault(u => u.UserName == User.Identity.Name);
+            if (user == null)
+                return RedirectToAction("Index", "Home");
+
+            var project = new Project { CompanyId = user.CompanyId };
+            return View(project);
+        }
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ProjectId,Name,DepartmentId,CityId,ProjectStateId,CompanyId,ProjectBegin,ProjectEnd")] Project project)
+        public ActionResult Create(Project project)
         {
             if (ModelState.IsValid)
             {
@@ -81,7 +102,7 @@ namespace ECommerce.Controllers
             return View(project);
         }
 
-        // GET: Projects/Edit/5
+        
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -93,19 +114,20 @@ namespace ECommerce.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.CityId = new SelectList(CombosHelper.GetCities(), "CityId", "Name", project.CityId);
-            ViewBag.CompanyId = new SelectList(CombosHelper.GetCompanies(), "CompanyId", "Name", project.CompanyId);
+            ViewBag.CityId = new SelectList(CombosHelper.GetCities(), "CityId", "Name", project.CityId);            
             ViewBag.DepartmentId = new SelectList(CombosHelper.GetDepartments(), "DepartmentId", "Name", project.DepartmentId);
             ViewBag.ProjectStateId = new SelectList(CombosHelper.GetProjectStates(), "ProjectStateId", "Name", project.ProjectStateId);
+
+            var adminUser = WebConfigurationManager.AppSettings["AdminUser"];
+            if (adminUser == User.Identity.Name)
+                ViewBag.CompanyId = new SelectList(CombosHelper.GetCompanies(), "CompanyId", "Name", project.CompanyId);
+
             return View(project);
         }
-
-        // POST: Projects/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ProjectId,Name,DepartmentId,CityId,ProjectStateId,CompanyId,ProjectBegin,ProjectEnd")] Project project)
+        public ActionResult Edit(Project project)
         {
             if (ModelState.IsValid)
             {

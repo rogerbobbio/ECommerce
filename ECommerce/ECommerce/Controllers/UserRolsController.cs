@@ -2,6 +2,7 @@
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
+using System.Web.Configuration;
 using System.Web.Mvc;
 using ECommerce.Classes;
 using ECommerce.Models;
@@ -16,11 +17,24 @@ namespace ECommerce.Controllers
         // GET: UserRols
         public ActionResult Index()
         {
-            var userRols = db.UserRols.Include(u => u.Companies);
+            IQueryable<UserRol> userRols;
+            var adminUser = WebConfigurationManager.AppSettings["AdminUser"];
+            if (adminUser == User.Identity.Name)
+                userRols = db.UserRols.Include(u => u.Companies);
+            else
+            {
+                //verifica el usuario logeado y filtra por su compania
+                var user = db.Users.FirstOrDefault(u => u.UserName == User.Identity.Name);
+                if (user == null)
+                    return RedirectToAction("Index", "Home");
+
+                userRols = db.UserRols.Where(c => c.CompanyId == user.CompanyId);
+                //==================================================
+            }
+            
             return View(userRols.ToList());
         }
-
-        // GET: UserRols/Details/5
+        
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -35,19 +49,28 @@ namespace ECommerce.Controllers
             return View(userRol);
         }
 
-        // GET: UserRols/Create
+        
         public ActionResult Create()
         {
-            ViewBag.CompanyId = new SelectList(CombosHelper.GetCompanies(), "CompanyId", "Name");
-            return View();
+            var adminUser = WebConfigurationManager.AppSettings["AdminUser"];
+            if (adminUser == User.Identity.Name)
+            {
+                ViewBag.CompanyId = new SelectList(CombosHelper.GetCompanies(), "CompanyId", "Name");
+                return View();
+            }
+            //verifica el usuario logeado y envia su compania a la vista
+            var user = db.Users.FirstOrDefault(u => u.UserName == User.Identity.Name);
+            if (user == null)
+                return RedirectToAction("Index", "Home");
+
+            var userRol = new UserRol { CompanyId = user.CompanyId };
+            return View(userRol);
         }
 
-        // POST: UserRols/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "UserRolId,Name,CompanyId,BasicJornal,Buc,AccumulatedMobility,Dominical,Holidays,Cts,Reward,HourExtra60,HourExtra100,Scholarship")] UserRol userRol)
+        public ActionResult Create(UserRol userRol)
         {
             if (ModelState.IsValid)
             {
@@ -75,7 +98,7 @@ namespace ECommerce.Controllers
             return View(userRol);
         }
 
-        // GET: UserRols/Edit/5
+        
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -87,16 +110,16 @@ namespace ECommerce.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.CompanyId = new SelectList(CombosHelper.GetCompanies(), "CompanyId", "Name", userRol.CompanyId);
+
+            var adminUser = WebConfigurationManager.AppSettings["AdminUser"];
+            if (adminUser == User.Identity.Name)
+                ViewBag.CompanyId = new SelectList(CombosHelper.GetCompanies(), "CompanyId", "Name", userRol.CompanyId);
             return View(userRol);
         }
 
-        // POST: UserRols/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "UserRolId,Name,CompanyId,BasicJornal,Buc,AccumulatedMobility,Dominical,Holidays,Cts,Reward,HourExtra60,HourExtra100,Scholarship")] UserRol userRol)
+        public ActionResult Edit(UserRol userRol)
         {
             if (ModelState.IsValid)
             {

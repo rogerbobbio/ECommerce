@@ -15,7 +15,10 @@
             @Html.DisplayNameFor(model => model.Name)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Companies.Name)
+            @if (User.IsInRole("Admin"))
+            {
+                @Html.DisplayNameFor(model => model.Companies.Name)
+            }
         </th>
         <th>
             @Html.DisplayNameFor(model => model.BasicJornal)
@@ -56,7 +59,10 @@
             @Html.DisplayFor(modelItem => item.Name)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Companies.Name)
+            @if (User.IsInRole("Admin"))
+            {
+                @Html.DisplayFor(modelItem => item.Companies.Name)
+            }
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.BasicJornal)

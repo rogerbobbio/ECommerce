@@ -2,25 +2,38 @@
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
+using System.Web.Configuration;
 using System.Web.Mvc;
 using ECommerce.Classes;
 using ECommerce.Models;
 
 namespace ECommerce.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "User, Admin")]
     public class UsersController : Controller
     {
         private ECommerceContext db = new ECommerceContext();
 
-        // GET: Users
         public ActionResult Index()
         {
-            var users = db.Users.Include(u => u.City).Include(u => u.Company).Include(u => u.Department).Include(u => u.PensionSystem).Include(u => u.Project).Include(u => u.UserRol);
+            IQueryable<User> users;
+            var adminUser = WebConfigurationManager.AppSettings["AdminUser"];
+            if (adminUser == User.Identity.Name)
+                users = db.Users.Include(u => u.City).Include(u => u.Company).Include(u => u.Department).Include(u => u.PensionSystem).Include(u => u.Project).Include(u => u.UserRol);
+            else
+            {
+                //verifica el usuario logeado y filtra por su compania
+                var user = db.Users.FirstOrDefault(u => u.UserName == User.Identity.Name);
+                if (user == null)
+                    return RedirectToAction("Index", "Home");
+
+                users = db.Users.Where(c => c.CompanyId == user.CompanyId);
+                //==================================================
+            }
+            
             return View(users.ToList());
         }
 
-        // GET: Users/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -35,21 +48,32 @@ namespace ECommerce.Controllers
             return View(user);
         }
 
-        // GET: Users/Create
         public ActionResult Create()
         {
-            ViewBag.CityId = new SelectList(CombosHelper.GetCities(), "CityId", "Name");
-            ViewBag.CompanyId = new SelectList(CombosHelper.GetCompanies(), "CompanyId", "Name");
+            ViewBag.CityId = new SelectList(CombosHelper.GetCities(), "CityId", "Name");            
             ViewBag.DepartmentId = new SelectList(CombosHelper.GetDepartments(), "DepartmentId", "Name");
-            ViewBag.PensionSystemId = new SelectList(CombosHelper.GetPensionSystems(), "PensionSystemId", "Name");
-            ViewBag.ProjectId = new SelectList(CombosHelper.GetProjects(), "ProjectId", "Name");
-            ViewBag.UserRolId = new SelectList(CombosHelper.GetUserRols(), "UserRolId", "Name");
-            return View();
+            ViewBag.PensionSystemId = new SelectList(CombosHelper.GetPensionSystems(), "PensionSystemId", "Name");            
+
+            var adminUser = WebConfigurationManager.AppSettings["AdminUser"];
+            if (adminUser == User.Identity.Name)
+            {                
+                ViewBag.CompanyId = new SelectList(CombosHelper.GetCompanies(), "CompanyId", "Name");
+                ViewBag.ProjectId = new SelectList(CombosHelper.GetProjects(), "ProjectId", "Name");
+                ViewBag.UserRolId = new SelectList(CombosHelper.GetUserRols(), "UserRolId", "Name");
+                return View();
+            }            
+            //verifica el usuario logeado y envia su compania a la vista
+            var user = db.Users.FirstOrDefault(u => u.UserName == User.Identity.Name);
+            if (user == null)
+                return RedirectToAction("Index", "Home");
+
+            ViewBag.ProjectId = new SelectList(CombosHelper.GetProjects(user.CompanyId), "ProjectId", "Name");
+            ViewBag.UserRolId = new SelectList(CombosHelper.GetUserRols(user.CompanyId), "UserRolId", "Name");
+            var userModel = new User { CompanyId = user.CompanyId };
+            return View(userModel);
         }
 
-        // POST: Users/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+       
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(User user)
@@ -102,7 +126,6 @@ namespace ECommerce.Controllers
             return View(user);
         }
 
-        // GET: Users/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -114,18 +137,27 @@ namespace ECommerce.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.CityId = new SelectList(CombosHelper.GetCities(), "CityId", "Name", user.CityId);
-            ViewBag.CompanyId = new SelectList(CombosHelper.GetCompanies(), "CompanyId", "Name", user.CompanyId);
+            ViewBag.CityId = new SelectList(CombosHelper.GetCities(), "CityId", "Name", user.CityId);            
             ViewBag.DepartmentId = new SelectList(CombosHelper.GetDepartments(), "DepartmentId", "Name", user.DepartmentId);
-            ViewBag.PensionSystemId = new SelectList(CombosHelper.GetPensionSystems(), "PensionSystemId", "Name", user.PensionSystemId);
-            ViewBag.ProjectId = new SelectList(CombosHelper.GetProjects(), "ProjectId", "Name", user.ProjectId);
-            ViewBag.UserRolId = new SelectList(CombosHelper.GetUserRols(), "UserRolId", "Name", user.UserRolId);
+            ViewBag.PensionSystemId = new SelectList(CombosHelper.GetPensionSystems(), "PensionSystemId", "Name", user.PensionSystemId);            
+
+            var adminUser = WebConfigurationManager.AppSettings["AdminUser"];
+            if (adminUser == User.Identity.Name)
+            {
+                ViewBag.CompanyId = new SelectList(CombosHelper.GetCompanies(), "CompanyId", "Name", user.CompanyId);
+                ViewBag.ProjectId = new SelectList(CombosHelper.GetProjects(), "ProjectId", "Name", user.ProjectId);
+                ViewBag.UserRolId = new SelectList(CombosHelper.GetUserRols(), "UserRolId", "Name", user.UserRolId);
+            }
+            else
+            {
+                ViewBag.ProjectId = new SelectList(CombosHelper.GetProjects(user.CompanyId), "ProjectId", "Name", user.ProjectId);
+                ViewBag.UserRolId = new SelectList(CombosHelper.GetUserRols(user.CompanyId), "UserRolId", "Name", user.UserRolId);
+            }
+
             return View(user);
         }
 
-        // POST: Users/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(User user)
@@ -181,7 +213,6 @@ namespace ECommerce.Controllers
             return View(user);
         }
 
-        // GET: Users/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -196,7 +227,6 @@ namespace ECommerce.Controllers
             return View(user);
         }
 
-        // POST: Users/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
