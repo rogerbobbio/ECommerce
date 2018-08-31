@@ -29,6 +29,7 @@ namespace ECommerce.Models
         public string Logo { get; set; }
 
         [NotMapped]
+        [Display(Name = "Logo")]
         public HttpPostedFileBase LogoFile { get; set; }
 
         [Required(ErrorMessage = "The field {0} is required")]

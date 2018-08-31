@@ -44,10 +44,11 @@ namespace ECommerce.Models
         [DisplayFormat(DataFormatString = "{0:C2}", ApplyFormatInEditMode = false)]
         public decimal Price { get; set; }
 
-        [DataType(DataType.ImageUrl)]
+        [DataType(DataType.ImageUrl)]        
         public string Image { get; set; }
 
         [NotMapped]
+        [Display(Name = "Image")]
         public HttpPostedFileBase ImageFile { get; set; }
         
         [DataType(DataType.MultilineText)]

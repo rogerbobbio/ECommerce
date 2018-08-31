@@ -19,7 +19,10 @@ namespace ECommerce.Controllers
             IQueryable<Product> products;
             var adminUser = WebConfigurationManager.AppSettings["AdminUser"];
             if (adminUser == User.Identity.Name)
-                products = db.Products.Include(p => p.Company).Include(p => p.ProductCategory).Include(p => p.Tax);
+                products = db.Products
+                    .Include(p => p.Company)
+                    .Include(p => p.ProductCategory)
+                    .Include(p => p.Tax);
             else
             {
                 //verifica el usuario logeado y filtra por su compania
@@ -27,7 +30,10 @@ namespace ECommerce.Controllers
                 if (user == null)
                     return RedirectToAction("Index", "Home");
 
-                products = db.Products.Where(c => c.CompanyId == user.CompanyId);
+                products = db.Products
+                    .Include(p => p.ProductCategory)
+                    .Include(p => p.Tax)
+                    .Where(p => p.CompanyId == user.CompanyId);
                 //==================================================
             }
             
@@ -158,7 +164,7 @@ namespace ECommerce.Controllers
                     {
                         var pic = string.Empty;
                         const string folder = "~/Content/Products";
-                        var file = string.Format("{0}.jpg", product.CompanyId);
+                        var file = string.Format("{0}.jpg", product.ProductId);
                         var response = FilesHelper.UploadPhoto(product.ImageFile, folder, file);
                         if (response)
                         {

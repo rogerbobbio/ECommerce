@@ -18,8 +18,14 @@ namespace ECommerce.Controllers
         {
             IQueryable<User> users;
             var adminUser = WebConfigurationManager.AppSettings["AdminUser"];
+            //Note: Include es un INNER JOIN
             if (adminUser == User.Identity.Name)
-                users = db.Users.Include(u => u.City).Include(u => u.Company).Include(u => u.Department).Include(u => u.PensionSystem).Include(u => u.Project).Include(u => u.UserRol);
+                users = db.Users.Include(u => u.City)
+                    .Include(u => u.Company)
+                    .Include(u => u.Department)
+                    .Include(u => u.PensionSystem)
+                    .Include(u => u.Project)
+                    .Include(u => u.UserRol);
             else
             {
                 //verifica el usuario logeado y filtra por su compania
@@ -170,7 +176,7 @@ namespace ECommerce.Controllers
                     {
                         var pic = string.Empty;
                         const string folder = "~/Content/Users";
-                        var file = string.Format("{0}.jpg", user.CompanyId);
+                        var file = string.Format("{0}.jpg", user.UserId);
                         var response = FilesHelper.UploadPhoto(user.PhotoFile, folder, file);
                         if (response)
                         {

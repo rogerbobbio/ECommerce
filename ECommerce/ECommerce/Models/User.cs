@@ -41,6 +41,7 @@ namespace ECommerce.Models
         public string Photo { get; set; }
 
         [NotMapped]
+        [Display(Name = "Photo")]
         public HttpPostedFileBase PhotoFile { get; set; }
 
         [Required(ErrorMessage = "The field {0} is required")]
