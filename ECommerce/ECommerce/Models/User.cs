@@ -40,6 +40,9 @@ namespace ECommerce.Models
         [DataType(DataType.ImageUrl)]
         public string Photo { get; set; }
 
+        [NotMapped]
+        public HttpPostedFileBase PhotoFile { get; set; }
+
         [Required(ErrorMessage = "The field {0} is required")]
         [Range(1, double.MaxValue, ErrorMessage = "You must select a {0}")]
         [Display(Name = "Department")]
@@ -95,10 +98,7 @@ namespace ECommerce.Models
         public string Bank { get; set; }
 
         [Display(Name = "Usuario")]
-        public string FullName { get { return string.Format("{0} {1}", FirstName, LastName); }  }
-
-        [NotMapped]
-        public HttpPostedFileBase PhotoFile { get; set; }
+        public string FullName { get { return string.Format("{0} {1}", FirstName, LastName); }  }        
 
         public virtual City City { get; set; }
         public virtual Department Department { get; set; }

@@ -10,16 +10,17 @@ using ECommerce.Models;
 namespace ECommerce.Controllers
 {
     [Authorize(Roles = "User, Admin")]
-    public class ProductCategoriesController : Controller
+    public class TaxesController : Controller
     {
         private ECommerceContext db = new ECommerceContext();
 
+        
         public ActionResult Index()
         {
-            IQueryable<ProductCategory> productCategories;
+            IQueryable<Tax> taxes;
             var adminUser = WebConfigurationManager.AppSettings["AdminUser"];
             if (adminUser == User.Identity.Name)
-                productCategories = db.ProductCategories.Include(p => p.Company);
+                taxes = db.Taxes.Include(t => t.Company);
             else
             {
                 //verifica el usuario logeado y filtra por su compania
@@ -27,25 +28,25 @@ namespace ECommerce.Controllers
                 if (user == null)
                     return RedirectToAction("Index", "Home");
 
-                productCategories = db.ProductCategories.Where(c => c.CompanyId == user.CompanyId);
+                taxes = db.Taxes.Where(c => c.CompanyId == user.CompanyId);
                 //==================================================
             }
             
-            return View(productCategories.ToList());
+            return View(taxes.ToList());
         }
-
+        
         public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var productCategory = db.ProductCategories.Find(id);
-            if (productCategory == null)
+            var tax = db.Taxes.Find(id);
+            if (tax == null)
             {
                 return HttpNotFound();
             }
-            return View(productCategory);
+            return View(tax);
         }
         
         public ActionResult Create()
@@ -61,18 +62,17 @@ namespace ECommerce.Controllers
             if (user == null)
                 return RedirectToAction("Index", "Home");
 
-            var productCategory = new ProductCategory { CompanyId = user.CompanyId };
-            return View(productCategory);
+            var tax = new Tax { CompanyId = user.CompanyId };
+            return View(tax);
         }
 
-        
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(ProductCategory productCategory)
+        public ActionResult Create(Tax tax)
         {
             if (ModelState.IsValid)
             {
-                db.ProductCategories.Add(productCategory);
+                db.Taxes.Add(tax);
                 try
                 {
                     db.SaveChanges();
@@ -92,10 +92,9 @@ namespace ECommerce.Controllers
                 }
             }
 
-            ViewBag.CompanyId = new SelectList(CombosHelper.GetCompanies(), "CompanyId", "Name", productCategory.CompanyId);
-            return View(productCategory);
+            ViewBag.CompanyId = new SelectList(CombosHelper.GetCompanies(), "CompanyId", "Name", tax.CompanyId);
+            return View(tax);
         }
-
         
         public ActionResult Edit(int? id)
         {
@@ -103,25 +102,26 @@ namespace ECommerce.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var productCategory = db.ProductCategories.Find(id);
-            if (productCategory == null)
+            var tax = db.Taxes.Find(id);
+            if (tax == null)
             {
                 return HttpNotFound();
             }
 
             var adminUser = WebConfigurationManager.AppSettings["AdminUser"];
             if (adminUser == User.Identity.Name)
-                ViewBag.CompanyId = new SelectList(CombosHelper.GetCompanies(), "CompanyId", "Name", productCategory.CompanyId);
-            return View(productCategory);
+                ViewBag.CompanyId = new SelectList(CombosHelper.GetCompanies(), "CompanyId", "Name", tax.CompanyId);
+            return View(tax);
         }
+
         
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(ProductCategory productCategory)
+        public ActionResult Edit(Tax tax)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(productCategory).State = EntityState.Modified;
+                db.Entry(tax).State = EntityState.Modified;
                 try
                 {
                     db.SaveChanges();
@@ -140,8 +140,8 @@ namespace ECommerce.Controllers
                     }
                 }
             }
-            ViewBag.CompanyId = new SelectList(CombosHelper.GetCompanies(), "CompanyId", "Name", productCategory.CompanyId);
-            return View(productCategory);
+            ViewBag.CompanyId = new SelectList(CombosHelper.GetCompanies(), "CompanyId", "Name", tax.CompanyId);
+            return View(tax);
         }
 
         public ActionResult Delete(int? id)
@@ -150,20 +150,20 @@ namespace ECommerce.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var productCategory = db.ProductCategories.Find(id);
-            if (productCategory == null)
+            var tax = db.Taxes.Find(id);
+            if (tax == null)
             {
                 return HttpNotFound();
             }
-            return View(productCategory);
+            return View(tax);
         }
 
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            var productCategory = db.ProductCategories.Find(id);
-            db.ProductCategories.Remove(productCategory);
+            var tax = db.Taxes.Find(id);
+            db.Taxes.Remove(tax);
             try
             {
                 db.SaveChanges();
@@ -181,7 +181,7 @@ namespace ECommerce.Controllers
                     ModelState.AddModelError(string.Empty, ex.Message);
                 }
             }
-            return View(productCategory);
+            return View(tax);
         }
 
         protected override void Dispose(bool disposing)

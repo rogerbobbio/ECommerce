@@ -24,7 +24,8 @@ namespace ECommerce.Models
         public double BasicJornal { get; set; }
 
         [Display(Name = "B.U.C. (%)")]
-        [Range(0, 100, ErrorMessage = "The field {0} must be between {1} and {2}.")]
+        [Range(0, 1, ErrorMessage = "The field {0} must be between {1} and {2}.")]
+        [DisplayFormat(DataFormatString = "{0:P2}", ApplyFormatInEditMode = false)]
         [Required(ErrorMessage = "The field {0} is required")]
         public double Buc { get; set; }
 

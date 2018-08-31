@@ -72,6 +72,34 @@ namespace ECommerce.Classes
             return userRol.OrderBy(d => d.Name).ToList();
         }
 
+        public static List<ProductCategory> GetProductCategories()
+        {
+            var productCategory = db.ProductCategories.ToList();
+            productCategory.Add(new ProductCategory { ProductCategoryId = 0, Description = "[Select a Product Category...]" });
+            return productCategory.OrderBy(d => d.Description).ToList();
+        }
+
+        public static List<ProductCategory> GetProductCategories(int companyId)
+        {
+            var productCategory = db.ProductCategories.Where(c => c.CompanyId == companyId).ToList();
+            productCategory.Add(new ProductCategory { ProductCategoryId = 0, Description = "[Select a Product Category...]" });
+            return productCategory.OrderBy(d => d.Description).ToList();
+        }
+
+        public static List<Tax> GetTaxes()
+        {
+            var tax = db.Taxes.ToList();
+            tax.Add(new Tax { TaxId = 0, Description = "[Select a Tax...]" });
+            return tax.OrderBy(d => d.Description).ToList();
+        }
+
+        public static List<Tax> GetTaxes(int companyId)
+        {
+            var tax = db.Taxes.Where(c => c.CompanyId == companyId).ToList();
+            tax.Add(new Tax { TaxId = 0, Description = "[Select a Product Tax...]" });
+            return tax.OrderBy(d => d.Description).ToList();
+        }
+
         public void Dispose()
         {
             db.Dispose();

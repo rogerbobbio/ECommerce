@@ -1,0 +1,51 @@
+﻿@model IEnumerable<ECommerce.Models.Tax>
+
+@{
+    ViewBag.Title = "Tax";
+}
+
+<h2>Tax</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create", new { }, new { @class = "btn btn-primary" })
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @if (User.IsInRole("Admin"))
+            {
+                 @Html.DisplayNameFor(model => model.Company.Name)
+            }
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Rate)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @if (User.IsInRole("Admin"))
+            {
+                @Html.DisplayFor(modelItem => item.Company.Name)
+            }
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Rate)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id = item.TaxId }, new { @class = "btn btn-warning" }) |
+            @Html.ActionLink("Details", "Details", new { id = item.TaxId }, new { @class = "btn btn-info" }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.TaxId }, new { @class = "btn btn-danger" })
+        </td>
+    </tr>
+}
+
+</table>
