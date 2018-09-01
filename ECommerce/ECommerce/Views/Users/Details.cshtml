@@ -104,7 +104,10 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Photo)
+            @if (!string.IsNullOrEmpty(Model.Photo))
+            {
+                <img src="@Url.Content(Model.Photo)" alt="Image" style="width: 150px; height: 150px; max-width: 100%; height: auto;" />
+            }
         </dd>
 
         <dt>

@@ -26,20 +26,22 @@ namespace ECommerce.Models
 
         public DbSet<ProjectState> ProjectStates { get; set; }
 
-        public System.Data.Entity.DbSet<ECommerce.Models.PensionSystem> PensionSystems { get; set; }
+        public DbSet<PensionSystem> PensionSystems { get; set; }
 
-        public System.Data.Entity.DbSet<ECommerce.Models.Project> Projects { get; set; }
+        public DbSet<Project> Projects { get; set; }
 
-        public System.Data.Entity.DbSet<ECommerce.Models.UserRol> UserRols { get; set; }
+        public DbSet<UserRol> UserRols { get; set; }
 
-        public System.Data.Entity.DbSet<ECommerce.Models.User> Users { get; set; }
+        public DbSet<User> Users { get; set; }
 
-        public System.Data.Entity.DbSet<ECommerce.Models.ProductCategory> ProductCategories { get; set; }
+        public DbSet<ProductCategory> ProductCategories { get; set; }
 
-        public System.Data.Entity.DbSet<ECommerce.Models.Tax> Taxes { get; set; }
+        public DbSet<Tax> Taxes { get; set; }
 
-        public System.Data.Entity.DbSet<ECommerce.Models.Product> Products { get; set; }
+        public DbSet<Product> Products { get; set; }
 
-        public System.Data.Entity.DbSet<ECommerce.Models.Warehouse> Warehouses { get; set; }
+        public DbSet<Warehouse> Warehouses { get; set; }
+
+        public DbSet<Inventory> Inventories { get; set; }
     }
 }

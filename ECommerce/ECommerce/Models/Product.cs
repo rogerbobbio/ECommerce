@@ -1,5 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
 using System.Web;
 
 namespace ECommerce.Models
@@ -21,9 +23,10 @@ namespace ECommerce.Models
         [Display(Name = "Product")]
         [Index("Product_CompanyId_Description_Index", 2, IsUnique = true)]
         public string Description { get; set; }
-        
+
+        [Required(ErrorMessage = "The field {0} is required")]
         [MaxLength(13, ErrorMessage = "The field {0} must be at least {1} characteres length.")]
-        [Display(Name = "BarCode")]
+        [Display(Name = "Codigo")]
         [Index("Product_CompanyId_BarCode_Index", 2, IsUnique = true)]
         public string BarCode { get; set; }
 
@@ -53,8 +56,13 @@ namespace ECommerce.Models
         [DataType(DataType.MultilineText)]
         public string Remarks { get; set; }
 
+        [DisplayFormat(DataFormatString = "{0:N2}", ApplyFormatInEditMode = false)]
+        public double Stock { get { return Inventories.Sum(i => i.Stock); } }
+
         public virtual Company Company { get; set; }
         public virtual Tax Tax { get; set; }
         public virtual ProductCategory ProductCategory { get; set; }
+
+        public virtual ICollection<Inventory> Inventories { get; set; }
     }
 }
