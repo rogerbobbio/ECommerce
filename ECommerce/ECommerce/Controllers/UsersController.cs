@@ -20,7 +20,8 @@ namespace ECommerce.Controllers
             var adminUser = WebConfigurationManager.AppSettings["AdminUser"];
             //Note: Include es un INNER JOIN
             if (adminUser == User.Identity.Name)
-                users = db.Users.Include(u => u.City)
+                users = db.Users
+                    .Include(u => u.City)
                     .Include(u => u.Company)
                     .Include(u => u.Department)
                     .Include(u => u.PensionSystem)

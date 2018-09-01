@@ -12,6 +12,9 @@
 <table class="table">
     <tr>
         <th>
+            @Html.DisplayNameFor(model => model.Description)
+        </th>
+        <th>
             @if (User.IsInRole("Admin"))
             {
                 @Html.DisplayNameFor(model => model.Company.Name)
@@ -23,9 +26,7 @@
         <th>
             @Html.DisplayNameFor(model => model.Tax.Description)
         </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Description)
-        </th>
+
         <th>
             @Html.DisplayNameFor(model => model.BarCode)
         </th>
@@ -44,6 +45,9 @@
 @foreach (var item in Model) {
     <tr>
         <td>
+            @Html.DisplayFor(modelItem => item.Description)
+        </td>
+        <td>
             @if (User.IsInRole("Admin"))
             {
                 @Html.DisplayFor(modelItem => item.Company.Name)
@@ -55,28 +59,26 @@
         <td>
             @Html.DisplayFor(modelItem => item.Tax.Description)
         </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Description)
-        </td>
+
         <td>
             @Html.DisplayFor(modelItem => item.BarCode)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Price)
         </td>
-        <td>            
+        <td>
             @if (!string.IsNullOrEmpty(item.Image))
             {
-                <img src="@Url.Content(item.Image)" alt="Image" style="width: 100px; height: 150px; max-width: 100%; height: auto;" />
+                <img src="@Url.Content(item.Image)" alt="Image" style="width: 100px; height: 150px; max-width: 100%; height: auto;"/>
             }
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Remarks)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id = item.ProductId }, new { @class = "btn btn-warning" }) |
-            @Html.ActionLink("Details", "Details", new { id = item.ProductId }, new { @class = "btn btn-info" }) |
-            @Html.ActionLink("Delete", "Delete", new { id = item.ProductId }, new { @class = "btn btn-danger" })
+            @Html.ActionLink("Edit", "Edit", new {id = item.ProductId}, new {@class = "btn btn-warning"}) |
+            @Html.ActionLink("Details", "Details", new {id = item.ProductId}, new {@class = "btn btn-info"}) |
+            @Html.ActionLink("Delete", "Delete", new {id = item.ProductId}, new {@class = "btn btn-danger"})
         </td>
     </tr>
 }

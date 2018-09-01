@@ -21,8 +21,7 @@ namespace ECommerce.Models
         [Display(Name = "Product")]
         [Index("Product_CompanyId_Description_Index", 2, IsUnique = true)]
         public string Description { get; set; }
-
-        [Required(ErrorMessage = "The field {0} is required")]
+        
         [MaxLength(13, ErrorMessage = "The field {0} must be at least {1} characteres length.")]
         [Display(Name = "BarCode")]
         [Index("Product_CompanyId_BarCode_Index", 2, IsUnique = true)]
