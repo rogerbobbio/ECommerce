@@ -58,5 +58,6 @@ namespace ECommerce.Models
         public virtual ICollection<Tax> Taxes { get; set; }
         public virtual ICollection<Product> Products { get; set; }
         public virtual ICollection<Warehouse> Warehouses { get; set; }
+        public virtual ICollection<Customer> Customers { get; set; }
     }
 }
