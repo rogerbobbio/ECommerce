@@ -8,41 +8,41 @@ using ECommerce.Models;
 namespace ECommerce.Controllers
 {
     [Authorize(Roles = "Admin")]
-    public class ProjectStatesController : Controller
+    public class OrderStatesController : Controller
     {
         private ECommerceContext db = new ECommerceContext();
-
+        
         public ActionResult Index()
         {
-            return View(db.ProjectStates.ToList());
+            return View(db.OrderStates.ToList());
         }
-        
+
         public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var projectState = db.ProjectStates.Find(id);
-            if (projectState == null)
+            var orderState = db.OrderStates.Find(id);
+            if (orderState == null)
             {
                 return HttpNotFound();
             }
-            return View(projectState);
+            return View(orderState);
         }
         
         public ActionResult Create()
         {
             return View();
         }
-        
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(ProjectState projectState)
+        public ActionResult Create(OrderState orderState)
         {
             if (ModelState.IsValid)
             {
-                db.ProjectStates.Add(projectState);
+                db.OrderStates.Add(orderState);
                 try
                 {
                     db.SaveChanges();
@@ -62,7 +62,7 @@ namespace ECommerce.Controllers
                 }
             }
 
-            return View(projectState);
+            return View(orderState);
         }
         
         public ActionResult Edit(int? id)
@@ -71,21 +71,21 @@ namespace ECommerce.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var projectState = db.ProjectStates.Find(id);
-            if (projectState == null)
+            var orderState = db.OrderStates.Find(id);
+            if (orderState == null)
             {
                 return HttpNotFound();
             }
-            return View(projectState);
+            return View(orderState);
         }
-
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(ProjectState projectState)
+        public ActionResult Edit(OrderState orderState)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(projectState).State = EntityState.Modified;
+                db.Entry(orderState).State = EntityState.Modified;
                 try
                 {
                     db.SaveChanges();
@@ -104,7 +104,7 @@ namespace ECommerce.Controllers
                     }
                 }
             }
-            return View(projectState);
+            return View(orderState);
         }
         
         public ActionResult Delete(int? id)
@@ -113,20 +113,20 @@ namespace ECommerce.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var projectState = db.ProjectStates.Find(id);
-            if (projectState == null)
+            var orderState = db.OrderStates.Find(id);
+            if (orderState == null)
             {
                 return HttpNotFound();
             }
-            return View(projectState);
+            return View(orderState);
         }
         
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            var projectState = db.ProjectStates.Find(id);
-            db.ProjectStates.Remove(projectState);
+            var orderState = db.OrderStates.Find(id);
+            db.OrderStates.Remove(orderState);
             try
             {
                 db.SaveChanges();
@@ -144,7 +144,7 @@ namespace ECommerce.Controllers
                     ModelState.AddModelError(string.Empty, ex.Message);
                 }
             }
-            return View(projectState);
+            return View(orderState);
         }
 
         protected override void Dispose(bool disposing)

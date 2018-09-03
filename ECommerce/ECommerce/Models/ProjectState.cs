@@ -8,6 +8,7 @@ namespace ECommerce.Models
     {
         [Key]
         public int ProjectStateId { get; set; }
+
         [Required(ErrorMessage = "The field {0} is required")]
         [MaxLength(50, ErrorMessage = "The field {0} must be at least {1} characteres length.")]
         [Display(Name = "Project State")]

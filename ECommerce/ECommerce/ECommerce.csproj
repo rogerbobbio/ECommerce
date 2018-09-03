@@ -210,6 +210,7 @@
     <Compile Include="Controllers\DepartmentsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\OrderStatesController.cs" />
     <Compile Include="Controllers\PensionSystemsController.cs" />
     <Compile Include="Controllers\ProductCategoriesController.cs" />
     <Compile Include="Controllers\ProductsController.cs" />
@@ -226,6 +227,7 @@
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Customer.cs" />
     <Compile Include="Models\Inventory.cs" />
+    <Compile Include="Models\OrderState.cs" />
     <Compile Include="Models\Product.cs" />
     <Compile Include="Models\ProductCategory.cs" />
     <Compile Include="Models\City.cs" />
@@ -366,6 +368,11 @@
     <Content Include="Views\Customers\Details.cshtml" />
     <Content Include="Views\Customers\Edit.cshtml" />
     <Content Include="Views\Customers\Index.cshtml" />
+    <Content Include="Views\OrderStates\Create.cshtml" />
+    <Content Include="Views\OrderStates\Delete.cshtml" />
+    <Content Include="Views\OrderStates\Details.cshtml" />
+    <Content Include="Views\OrderStates\Edit.cshtml" />
+    <Content Include="Views\OrderStates\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
