@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using ECommerce.Models;
@@ -100,9 +101,38 @@ namespace ECommerce.Classes
             return tax.OrderBy(d => d.Description).ToList();
         }
 
+
+        public static List<Customer> GetCustomers()
+        {
+            var customer = db.Customers.ToList();
+            customer.Add(new Customer { CustomerId = 0, FirstName = "[Select a Customer...]" });
+            return customer.OrderBy(d => d.UserName).ThenBy(c => c.LastName).ToList();
+        }
+
+        public static List<Customer> GetCustomers(int companyId)
+        {
+            var customer = db.Customers.Where(c => c.CompanyId == companyId).ToList();
+            customer.Add(new Customer { CustomerId = 0, FirstName = "[Select a Customer...]" });
+            return customer.OrderBy(c => c.FirstName).ThenBy(c => c.LastName).ToList();
+        }
+
+        public static List<Product> GetProducts()
+        {
+            var product = db.Products.ToList();
+            product.Add(new Product { ProductId = 0, Description = "[Select a Product...]" });
+            return product.OrderBy(d => d.Description).ToList();
+        }
+
+        public static List<Product> GetProducts(int companyId)
+        {
+            var product = db.Products.Where(c => c.CompanyId == companyId).ToList();
+            product.Add(new Product { ProductId = 0, Description = "[Select a Product...]" });
+            return product.OrderBy(c => c.Description).ToList();
+        }
+
         public void Dispose()
         {
             db.Dispose();
-        }
+        }        
     }
 }

@@ -54,5 +54,6 @@ namespace ECommerce.Models
         public virtual Company Companies { get; set; }
 
         public virtual ICollection<User> Users { get; set; }
+        public virtual ICollection<Order> Orders { get; set; }
     }
 }

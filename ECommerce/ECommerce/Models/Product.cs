@@ -40,7 +40,6 @@ namespace ECommerce.Models
         [Display(Name = "Tax")]
         public int TaxId { get; set; }
 
-
         [Required(ErrorMessage = "The field {0} is required")]
         [Range(0, double.MaxValue, ErrorMessage = "The field {0} must be between {1} and {2}.")]
         [DisplayFormat(DataFormatString = "{0:C2}", ApplyFormatInEditMode = false)]
@@ -64,5 +63,7 @@ namespace ECommerce.Models
         public virtual ProductCategory ProductCategory { get; set; }
 
         public virtual ICollection<Inventory> Inventories { get; set; }
+        public virtual ICollection<OrderDetail> OrderDetails { get; set; }
+        public virtual ICollection<OrderDetailTmp> OrderDetailTmps { get; set; }
     }
 }

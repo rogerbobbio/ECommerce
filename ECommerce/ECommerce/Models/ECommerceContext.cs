@@ -44,8 +44,14 @@ namespace ECommerce.Models
 
         public DbSet<Inventory> Inventories { get; set; }
 
-        public System.Data.Entity.DbSet<ECommerce.Models.Customer> Customers { get; set; }
+        public DbSet<Customer> Customers { get; set; }
 
-        public System.Data.Entity.DbSet<ECommerce.Models.OrderState> OrderStates { get; set; }
+        public DbSet<OrderState> OrderStates { get; set; }
+
+        public DbSet<Order> Orders { get; set; }
+
+        public DbSet<OrderDetail> OrderDetails { get; set; }
+
+        public DbSet<OrderDetailTmp> OrderDetailTmps { get; set; }
     }
 }

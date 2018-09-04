@@ -67,7 +67,12 @@ namespace ECommerce.Controllers
                 ViewBag.CompanyId = new SelectList(CombosHelper.GetCompanies(), "CompanyId", "Name");
                 ViewBag.ProjectId = new SelectList(CombosHelper.GetProjects(), "ProjectId", "Name");
                 ViewBag.UserRolId = new SelectList(CombosHelper.GetUserRols(), "UserRolId", "Name");
-                return View();
+                var adminUserModel = new User
+                {
+                    State = true,
+                    AdmissionDate = DateTime.Now,
+                };
+                return View(adminUserModel);
             }            
             //verifica el usuario logeado y envia su compania a la vista
             var user = db.Users.FirstOrDefault(u => u.UserName == User.Identity.Name);
@@ -76,7 +81,12 @@ namespace ECommerce.Controllers
 
             ViewBag.ProjectId = new SelectList(CombosHelper.GetProjects(user.CompanyId), "ProjectId", "Name");
             ViewBag.UserRolId = new SelectList(CombosHelper.GetUserRols(user.CompanyId), "UserRolId", "Name");
-            var userModel = new User { CompanyId = user.CompanyId };
+            var userModel = new User
+            {
+                CompanyId = user.CompanyId,
+                AdmissionDate = DateTime.Now,
+                State = true,
+            };
             return View(userModel);
         }
 
@@ -124,12 +134,24 @@ namespace ECommerce.Controllers
                 }
             }
 
-            ViewBag.CityId = new SelectList(CombosHelper.GetCities(), "CityId", "Name", user.CityId);
-            ViewBag.CompanyId = new SelectList(CombosHelper.GetCompanies(), "CompanyId", "Name", user.CompanyId);
+            ViewBag.CityId = new SelectList(CombosHelper.GetCities(), "CityId", "Name", user.CityId);            
             ViewBag.DepartmentId = new SelectList(CombosHelper.GetDepartments(), "DepartmentId", "Name", user.DepartmentId);
             ViewBag.PensionSystemId = new SelectList(CombosHelper.GetPensionSystems(), "PensionSystemId", "Name", user.PensionSystemId);
-            ViewBag.ProjectId = new SelectList(CombosHelper.GetProjects(), "ProjectId", "Name", user.ProjectId);
-            ViewBag.UserRolId = new SelectList(CombosHelper.GetUserRols(), "UserRolId", "Name", user.UserRolId);
+
+            var adminUser = WebConfigurationManager.AppSettings["AdminUser"];
+            if (adminUser == User.Identity.Name)
+            {
+                ViewBag.CompanyId = new SelectList(CombosHelper.GetCompanies(), "CompanyId", "Name", user.CompanyId);
+
+                ViewBag.ProjectId = new SelectList(CombosHelper.GetProjects(), "ProjectId", "Name", user.ProjectId);
+                ViewBag.UserRolId = new SelectList(CombosHelper.GetUserRols(), "UserRolId", "Name", user.UserRolId);
+            }
+            else
+            {
+                var userIdentity = db.Users.FirstOrDefault(u => u.UserName == User.Identity.Name);
+                ViewBag.ProjectId = new SelectList(CombosHelper.GetProjects(userIdentity.CompanyId), "ProjectId", "Name", user.ProjectId);
+                ViewBag.UserRolId = new SelectList(CombosHelper.GetUserRols(userIdentity.CompanyId), "UserRolId", "Name", user.UserRolId);
+            }
             return View(user);
         }
 
@@ -212,11 +234,23 @@ namespace ECommerce.Controllers
                 }
             }
             ViewBag.CityId = new SelectList(CombosHelper.GetCities(), "CityId", "Name", user.CityId);
-            ViewBag.CompanyId = new SelectList(CombosHelper.GetCompanies(), "CompanyId", "Name", user.CompanyId);
             ViewBag.DepartmentId = new SelectList(CombosHelper.GetDepartments(), "DepartmentId", "Name", user.DepartmentId);
             ViewBag.PensionSystemId = new SelectList(CombosHelper.GetPensionSystems(), "PensionSystemId", "Name", user.PensionSystemId);
-            ViewBag.ProjectId = new SelectList(CombosHelper.GetProjects(), "ProjectId", "Name", user.ProjectId);
-            ViewBag.UserRolId = new SelectList(CombosHelper.GetUserRols(), "UserRolId", "Name", user.UserRolId);
+
+            var adminUser = WebConfigurationManager.AppSettings["AdminUser"];
+            if (adminUser == User.Identity.Name)
+            {
+                ViewBag.CompanyId = new SelectList(CombosHelper.GetCompanies(), "CompanyId", "Name", user.CompanyId);
+
+                ViewBag.ProjectId = new SelectList(CombosHelper.GetProjects(), "ProjectId", "Name", user.ProjectId);
+                ViewBag.UserRolId = new SelectList(CombosHelper.GetUserRols(), "UserRolId", "Name", user.UserRolId);
+            }
+            else
+            {
+                var userIdentity = db.Users.FirstOrDefault(u => u.UserName == User.Identity.Name);
+                ViewBag.ProjectId = new SelectList(CombosHelper.GetProjects(userIdentity.CompanyId), "ProjectId", "Name", user.ProjectId);
+                ViewBag.UserRolId = new SelectList(CombosHelper.GetUserRols(userIdentity.CompanyId), "UserRolId", "Name", user.UserRolId);
+            }
             return View(user);
         }
 

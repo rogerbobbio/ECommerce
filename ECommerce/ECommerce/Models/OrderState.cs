@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ECommerce.Models
@@ -13,5 +14,7 @@ namespace ECommerce.Models
         [Display(Name = "Order State")]
         [Index("OrderState_Description_Index", IsUnique = true)]
         public string Description { get; set; }
+
+        public virtual ICollection<Order> Orders { get; set; }
     }
 }

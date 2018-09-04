@@ -13,15 +13,13 @@ namespace ECommerce.Controllers
     public class CitiesController : Controller
     {
         private ECommerceContext db = new ECommerceContext();
-
-        // GET: Cities
+        
         public ActionResult Index()
         {
             var cities = db.Cities.Include(c => c.Department);
             return View(cities.ToList());
         }
-
-        // GET: Cities/Details/5
+        
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -35,20 +33,16 @@ namespace ECommerce.Controllers
             }
             return View(city);
         }
-
-        // GET: Cities/Create
+        
         public ActionResult Create()
         {
             ViewBag.DepartmentId = new SelectList(CombosHelper.GetDepartments(), "DepartmentId", "Name");
             return View();
         }
 
-        // POST: Cities/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "CityId,Name,DepartmentId")] City city)
+        public ActionResult Create(City city)
         {
             if (ModelState.IsValid)
             {
@@ -91,13 +85,10 @@ namespace ECommerce.Controllers
             ViewBag.DepartmentId = new SelectList(CombosHelper.GetDepartments(), "DepartmentId", "Name", city.DepartmentId);
             return View(city);
         }
-
-        // POST: Cities/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "CityId,Name,DepartmentId")] City city)
+        public ActionResult Edit(City city)
         {
             if (ModelState.IsValid)
             {
@@ -123,8 +114,7 @@ namespace ECommerce.Controllers
             ViewBag.DepartmentId = new SelectList(CombosHelper.GetDepartments(), "DepartmentId", "Name", city.DepartmentId);
             return View(city);
         }
-
-        // GET: Cities/Delete/5
+        
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -138,8 +128,7 @@ namespace ECommerce.Controllers
             }
             return View(city);
         }
-
-        // POST: Cities/Delete/5
+        
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)

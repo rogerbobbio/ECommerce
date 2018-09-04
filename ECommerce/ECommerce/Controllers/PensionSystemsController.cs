@@ -12,20 +12,18 @@ namespace ECommerce.Controllers
     {
         private ECommerceContext db = new ECommerceContext();
 
-        // GET: PensionSystems
         public ActionResult Index()
         {
             return View(db.PensionSystems.ToList());
         }
 
-        // GET: PensionSystems/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            PensionSystem pensionSystem = db.PensionSystems.Find(id);
+            var pensionSystem = db.PensionSystems.Find(id);
             if (pensionSystem == null)
             {
                 return HttpNotFound();
@@ -33,18 +31,14 @@ namespace ECommerce.Controllers
             return View(pensionSystem);
         }
 
-        // GET: PensionSystems/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: PensionSystems/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "PensionSystemId,Name,Commission,Bonus,Input,Total,Top")] PensionSystem pensionSystem)
+        public ActionResult Create(PensionSystem pensionSystem)
         {
             if (ModelState.IsValid)
             {
@@ -71,14 +65,13 @@ namespace ECommerce.Controllers
             return View(pensionSystem);
         }
 
-        // GET: PensionSystems/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            PensionSystem pensionSystem = db.PensionSystems.Find(id);
+            var pensionSystem = db.PensionSystems.Find(id);
             if (pensionSystem == null)
             {
                 return HttpNotFound();
@@ -86,12 +79,9 @@ namespace ECommerce.Controllers
             return View(pensionSystem);
         }
 
-        // POST: PensionSystems/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "PensionSystemId,Name,Commission,Bonus,Input,Total,Top")] PensionSystem pensionSystem)
+        public ActionResult Edit(PensionSystem pensionSystem)
         {
             if (ModelState.IsValid)
             {
@@ -117,14 +107,13 @@ namespace ECommerce.Controllers
             return View(pensionSystem);
         }
 
-        // GET: PensionSystems/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            PensionSystem pensionSystem = db.PensionSystems.Find(id);
+            var pensionSystem = db.PensionSystems.Find(id);
             if (pensionSystem == null)
             {
                 return HttpNotFound();
@@ -132,7 +121,6 @@ namespace ECommerce.Controllers
             return View(pensionSystem);
         }
 
-        // POST: PensionSystems/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)

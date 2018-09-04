@@ -12,15 +12,13 @@ namespace ECommerce.Controllers
     public class CompaniesController : Controller
     {
         private ECommerceContext db = new ECommerceContext();
-
-        // GET: Companies
+        
         public ActionResult Index()
         {
             var companies = db.Companies.Include(c => c.City).Include(c => c.Department);
             return View(companies.ToList());
         }
 
-        // GET: Companies/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -35,17 +33,17 @@ namespace ECommerce.Controllers
             return View(company);
         }
 
-        // GET: Companies/Create
         public ActionResult Create()
         {
             ViewBag.CityId = new SelectList(CombosHelper.GetCities(), "CityId", "Name");
             ViewBag.DepartmentId = new SelectList(CombosHelper.GetDepartments(), "DepartmentId", "Name");
-            return View();
+            var companyModel = new Company
+            {
+                State = true,
+            };
+            return View(companyModel);
         }
 
-        // POST: Companies/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(Company company)
@@ -92,8 +90,7 @@ namespace ECommerce.Controllers
             ViewBag.DepartmentId = new SelectList(CombosHelper.GetDepartments(), "DepartmentId", "Name", company.DepartmentId);
             return View(company);
         }
-
-        // GET: Companies/Edit/5
+        
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -110,9 +107,6 @@ namespace ECommerce.Controllers
             return View(company);
         }
 
-        // POST: Companies/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(Company company)
@@ -155,8 +149,7 @@ namespace ECommerce.Controllers
             ViewBag.DepartmentId = new SelectList(CombosHelper.GetDepartments(), "DepartmentId", "Name", company.DepartmentId);
             return View(company);
         }
-
-        // GET: Companies/Delete/5
+        
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -170,8 +163,7 @@ namespace ECommerce.Controllers
             }
             return View(company);
         }
-
-        // POST: Companies/Delete/5
+        
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)

@@ -68,7 +68,10 @@ namespace ECommerce.Controllers
             if (user == null)
                 return RedirectToAction("Index", "Home");
             
-            var customer = new Customer { CompanyId = user.CompanyId };
+            var customer = new Customer
+            {
+                CompanyId = user.CompanyId
+            };
             return View(customer);
         }
         
@@ -100,8 +103,8 @@ namespace ECommerce.Controllers
             }
 
             ViewBag.CityId = new SelectList(CombosHelper.GetCities(), "CityId", "Name", customer.CityId);
-            ViewBag.CompanyId = new SelectList(CombosHelper.GetCompanies(), "CompanyId", "Name", customer.CompanyId);
             ViewBag.DepartmentId = new SelectList(CombosHelper.GetDepartments(), "DepartmentId", "Name", customer.DepartmentId);
+            ViewBag.CompanyId = new SelectList(CombosHelper.GetCompanies(), "CompanyId", "Name", customer.CompanyId);
             return View(customer);
         }
         

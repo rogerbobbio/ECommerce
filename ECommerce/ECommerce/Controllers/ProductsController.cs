@@ -71,7 +71,10 @@ namespace ECommerce.Controllers
 
             ViewBag.ProductCategoryId = new SelectList(CombosHelper.GetProductCategories(user.CompanyId), "ProductCategoryId", "Description");
             ViewBag.TaxId = new SelectList(CombosHelper.GetTaxes(user.CompanyId), "TaxId", "Description");
-            var product = new Product { CompanyId = user.CompanyId };
+            var product = new Product
+            {
+                CompanyId = user.CompanyId
+            };
             return View(product);
         }
 
@@ -116,11 +119,22 @@ namespace ECommerce.Controllers
                         ModelState.AddModelError(string.Empty, ex.Message);
                     }
                 }
-            }
+            }            
+            
+            var adminUser = WebConfigurationManager.AppSettings["AdminUser"];
+            if (adminUser == User.Identity.Name)
+            {
+                ViewBag.CompanyId = new SelectList(CombosHelper.GetCompanies(), "CompanyId", "Name", product.CompanyId);
 
-            ViewBag.CompanyId = new SelectList(CombosHelper.GetCompanies(), "CompanyId", "Name", product.CompanyId);
-            ViewBag.ProductCategoryId = new SelectList(CombosHelper.GetProductCategories(), "ProductCategoryId", "Description", product.ProductCategoryId);
-            ViewBag.TaxId = new SelectList(CombosHelper.GetTaxes(), "TaxId", "Description", product.TaxId);
+                ViewBag.ProductCategoryId = new SelectList(CombosHelper.GetProductCategories(), "ProductCategoryId", "Description", product.ProductCategoryId);
+                ViewBag.TaxId = new SelectList(CombosHelper.GetTaxes(), "TaxId", "Description", product.TaxId);
+            }
+            else
+            {
+                var user = db.Users.FirstOrDefault(u => u.UserName == User.Identity.Name);
+                ViewBag.ProductCategoryId = new SelectList(CombosHelper.GetProductCategories(user.CompanyId), "ProductCategoryId", "Description", product.ProductCategoryId);
+                ViewBag.TaxId = new SelectList(CombosHelper.GetTaxes(user.CompanyId), "TaxId", "Description", product.TaxId);
+            }
             return View(product);
         }
         
@@ -190,9 +204,20 @@ namespace ECommerce.Controllers
                     }
                 }
             }
-            ViewBag.CompanyId = new SelectList(CombosHelper.GetCompanies(), "CompanyId", "Name", product.CompanyId);
-            ViewBag.ProductCategoryId = new SelectList(CombosHelper.GetProductCategories(), "ProductCategoryId", "Description", product.ProductCategoryId);
-            ViewBag.TaxId = new SelectList(CombosHelper.GetTaxes(), "TaxId", "Description", product.TaxId);
+            var adminUser = WebConfigurationManager.AppSettings["AdminUser"];
+            if (adminUser == User.Identity.Name)
+            {
+                ViewBag.CompanyId = new SelectList(CombosHelper.GetCompanies(), "CompanyId", "Name", product.CompanyId);
+
+                ViewBag.ProductCategoryId = new SelectList(CombosHelper.GetProductCategories(), "ProductCategoryId", "Description", product.ProductCategoryId);
+                ViewBag.TaxId = new SelectList(CombosHelper.GetTaxes(), "TaxId", "Description", product.TaxId);
+            }
+            else
+            {
+                var user = db.Users.FirstOrDefault(u => u.UserName == User.Identity.Name);
+                ViewBag.ProductCategoryId = new SelectList(CombosHelper.GetProductCategories(user.CompanyId), "ProductCategoryId", "Description", product.ProductCategoryId);
+                ViewBag.TaxId = new SelectList(CombosHelper.GetTaxes(user.CompanyId), "TaxId", "Description", product.TaxId);
+            }            
             return View(product);
         }
         
