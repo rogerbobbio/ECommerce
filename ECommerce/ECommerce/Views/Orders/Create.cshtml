@@ -57,22 +57,22 @@
                                 <span class="glyphicon glyphicon-calendar"></span>
                             </span>
                         </div>
-                        @Html.ValidationMessageFor(model => model.Date, "", new {@class = "text-danger"})
+                        @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })
                     </div>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="form-group">
                     @Html.LabelFor(model => model.Remarks, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">                        
-                        @Html.EditorFor(model => model.Remarks, new {htmlAttributes = new {@class = "form-control"}})
-                        @Html.ValidationMessageFor(model => model.Remarks, "", new {@class = "text-danger"})
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Remarks, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Remarks, "", new { @class = "text-danger" })
                     </div>
                 </div>
 
                 <div class="form-group">
                     <div class="col-md-offset-2 col-md-10">
-                        <input type="submit" value="Save Order" class="btn btn-primary" />                        
+                        <input type="submit" value="Save Order" class="btn btn-primary" />
                         @Html.ActionLink("Back to List", "Index", new { }, new { @class = "btn btn-success" })
                     </div>
                 </div>
@@ -83,9 +83,9 @@
 
 <h4>Details</h4>
 <hr />
-    <div>
-        @Html.ActionLink("Add Product", "AddProduct", new {  }, new { @class = "btn btn-warning" })
-    </div>
+<div>    
+    @Html.ActionLink("Add Product", "AddProduct", "Orders", new { }, new { @class = "dialog-window btn btn-info" })
+</div>
 <hr />
 @if (Model.Details.Count == 0)
 {
@@ -112,7 +112,7 @@ else
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Details[0].Value)
-            </th>            
+            </th>
             <th></th>
         </tr>
 
@@ -122,12 +122,12 @@ else
                 <td>
                     @if (!string.IsNullOrEmpty(item.Product.Image))
                     {
-                         <img src="@Url.Content(item.Product.Image)" alt="Image" style="width: 100px; height: 150px; max-width: 100%; height: auto;" />
+                        <img src="@Url.Content(item.Product.Image)" alt="Image" style="width: 100px; height: 150px; max-width: 100%; height: auto;" />
                     }
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Description)
-                </td>                
+                </td>
                 <td align="right">
                     @Html.DisplayFor(modelItem => item.TaxRate)
                 </td>
@@ -139,9 +139,9 @@ else
                 </td>
                 <td align="right">
                     @Html.DisplayFor(modelItem => item.Value)
-                </td>                
+                </td>
                 <td>
-                    @Html.ActionLink("Delete", "DeleteProducts", new {id = item.ProductId}, new {@class = "btn btn-danger", onclick = "return confirm('Are you sure to delete this record?')"})
+                    @Html.ActionLink("Delete", "DeleteProducts", new { id = item.ProductId }, new { @class = "btn btn-danger", onclick = "return confirm('Are you sure to delete this record?')" })
                 </td>
             </tr>
         }
@@ -150,14 +150,28 @@ else
                 <strong>Total</strong>
             </td>
             <td align="right">
-                <strong>@Html.DisplayFor(modelItem => Model.TotalQuantity)</strong>                
+                <strong>@Html.DisplayFor(modelItem => Model.TotalQuantity)</strong>
             </td>
             <td align="right">
-                <strong>@Html.DisplayFor(modelItem => Model.TotalValue)</strong>                
+                <strong>@Html.DisplayFor(modelItem => Model.TotalValue)</strong>
             </td>
         </tr>
     </table>
 }
+
+<div class="modal fade" id="AddProduct" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h2 class="modal-title"></h2>
+            </div>
+            <div class="modal-body"><div class="te">Please wait...</div></div>
+        </div>
+    </div>
+</div>
+
+
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
@@ -186,5 +200,26 @@ else
             });
             return false;
         });
+
+        $(document).ready(function () {
+            $("body").on("click", "a.dialog-window", null, function (e) {
+                e.preventDefault();
+                var $link = $(this);
+                var title = $link.text();
+                $('#AddProduct .modal-title').html(title);
+                var url = $(this).attr('href');
+                if (url.indexOf('#') == 0) {
+                    $('#AddProduct').modal('show');
+                }
+                else {
+                    $.get(url, function (data) {
+                        $('#AddProduct .te').html(data);
+                        $('#AddProduct').modal();
+                    }).success(function () { $('input:text:visible:first').focus(); });
+
+                }
+            });
+        });
+
     </script>
 }

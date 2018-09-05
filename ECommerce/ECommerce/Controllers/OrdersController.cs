@@ -36,7 +36,7 @@ namespace ECommerce.Controllers
             if (adminUser == User.Identity.Name)
             {
                 ViewBag.ProductId = new SelectList(CombosHelper.GetProducts(), "ProductId", "Description");
-                return View();
+                return PartialView();
             }
             //verifica el usuario logeado y envia su compania a la vista
             var user = db.Users.FirstOrDefault(u => u.UserName == User.Identity.Name);
@@ -44,7 +44,7 @@ namespace ECommerce.Controllers
                 return RedirectToAction("Index", "Home");
 
             ViewBag.ProductId = new SelectList(CombosHelper.GetProducts(user.CompanyId), "ProductId", "Description");
-            return View();
+            return PartialView();
         }
 
         [HttpPost]
@@ -87,7 +87,7 @@ namespace ECommerce.Controllers
             {                
                 ViewBag.ProductId = new SelectList(CombosHelper.GetProducts(user.CompanyId), "ProductId", "Description");
             }
-            return View(newProduct);
+            return PartialView(newProduct);
         }
 
 
