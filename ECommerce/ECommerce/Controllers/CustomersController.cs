@@ -80,26 +80,15 @@ namespace ECommerce.Controllers
         public ActionResult Create(Customer customer)
         {
             if (ModelState.IsValid)
-            {                
-                try
+            {
+                db.Customers.Add(customer);
+                var response = DBHelper.SaveChanges(db);
+                if (response.Succeeded)
                 {
-                    db.Customers.Add(customer);
-                    db.SaveChanges();
-
+                    //UsersHelper.CreateUserASP(customer.UserName, "Customer");
                     return RedirectToAction("Index");
                 }
-                catch (Exception ex)
-                {
-                    if (ex.InnerException != null && ex.InnerException.InnerException != null &&
-                        ex.InnerException.InnerException.Message.Contains("_Index"))
-                    {
-                        ModelState.AddModelError(string.Empty, "There are a record with the same value.");
-                    }
-                    else
-                    {
-                        ModelState.AddModelError(string.Empty, ex.Message);
-                    }
-                }
+                ModelState.AddModelError(string.Empty, response.Message);
             }
 
             ViewBag.CityId = new SelectList(CombosHelper.GetCities(customer.DepartmentId), "CityId", "Name", customer.CityId);
@@ -135,24 +124,14 @@ namespace ECommerce.Controllers
         {
             if (ModelState.IsValid)
             {                
-                try
+                db.Entry(customer).State = EntityState.Modified;
+                var response = DBHelper.SaveChanges(db);
+                if (response.Succeeded)
                 {
-                    db.Entry(customer).State = EntityState.Modified;
-                    db.SaveChanges();
+                    //TODO: Validate when the customer email change
                     return RedirectToAction("Index");
                 }
-                catch (Exception ex)
-                {
-                    if (ex.InnerException != null && ex.InnerException.InnerException != null &&
-                        ex.InnerException.InnerException.Message.Contains("_Index"))
-                    {
-                        ModelState.AddModelError(string.Empty, "There are a record with the same value.");
-                    }
-                    else
-                    {
-                        ModelState.AddModelError(string.Empty, ex.Message);
-                    }
-                }
+                ModelState.AddModelError(string.Empty, response.Message);
             }
             ViewBag.CityId = new SelectList(CombosHelper.GetCities(customer.DepartmentId), "CityId", "Name", customer.CityId);
             ViewBag.CompanyId = new SelectList(CombosHelper.GetCompanies(), "CompanyId", "Name", customer.CompanyId);
@@ -180,23 +159,13 @@ namespace ECommerce.Controllers
         {
             var customer = db.Customers.Find(id);
             db.Customers.Remove(customer);
-            try
+            var response = DBHelper.SaveChanges(db);
+            if (response.Succeeded)
             {
-                db.SaveChanges();                
+                //UsersHelper.DeleteUser(customer.UserName);
                 return RedirectToAction("Index");
             }
-            catch (Exception ex)
-            {
-                if (ex.InnerException != null && ex.InnerException.InnerException != null &&
-                    ex.InnerException.InnerException.Message.Contains("REFERENCE"))
-                {
-                    ModelState.AddModelError(string.Empty, "The record can't be delete because it has related records.");
-                }
-                else
-                {
-                    ModelState.AddModelError(string.Empty, ex.Message);
-                }
-            }
+            ModelState.AddModelError(string.Empty, response.Message);
             return View(customer);
         }        
 

@@ -13,8 +13,7 @@ namespace ECommerce.Controllers
     public class WarehousesController : Controller
     {
         private ECommerceContext db = new ECommerceContext();
-
-        // GET: Warehouses
+        
         public ActionResult Index()
         {
             IQueryable<Warehouse> warehouses;
@@ -77,25 +76,14 @@ namespace ECommerce.Controllers
         public ActionResult Create(Warehouse warehouse)
         {
             if (ModelState.IsValid)
-            {                
-                try
-                {
-                    db.Warehouses.Add(warehouse);
-                    db.SaveChanges();
+            {
+                db.Warehouses.Add(warehouse);
+                var responseSave = DBHelper.SaveChanges(db);
+                if (responseSave.Succeeded)
+                {                    
                     return RedirectToAction("Index");
                 }
-                catch (Exception ex)
-                {
-                    if (ex.InnerException != null && ex.InnerException.InnerException != null &&
-                        ex.InnerException.InnerException.Message.Contains("_Index"))
-                    {
-                        ModelState.AddModelError(string.Empty, "There are a record with the same value.");
-                    }
-                    else
-                    {
-                        ModelState.AddModelError(string.Empty, ex.Message);
-                    }
-                }
+                ModelState.AddModelError(string.Empty, responseSave.Message);
             }
 
             ViewBag.CityId = new SelectList(CombosHelper.GetCities(warehouse.DepartmentId), "CityId", "Name", warehouse.CityId);
@@ -131,24 +119,13 @@ namespace ECommerce.Controllers
         {
             if (ModelState.IsValid)
             {
-                try
+                db.Entry(warehouse).State = EntityState.Modified;
+                var responseSave = DBHelper.SaveChanges(db);
+                if (responseSave.Succeeded)
                 {
-                    db.Entry(warehouse).State = EntityState.Modified;
-                    db.SaveChanges();
                     return RedirectToAction("Index");
                 }
-                catch (Exception ex)
-                {
-                    if (ex.InnerException != null && ex.InnerException.InnerException != null &&
-                        ex.InnerException.InnerException.Message.Contains("_Index"))
-                    {
-                        ModelState.AddModelError(string.Empty, "There are a record with the same value.");
-                    }
-                    else
-                    {
-                        ModelState.AddModelError(string.Empty, ex.Message);
-                    }
-                }
+                ModelState.AddModelError(string.Empty, responseSave.Message);
             }
             ViewBag.CityId = new SelectList(CombosHelper.GetCities(warehouse.DepartmentId), "CityId", "Name", warehouse.CityId);
             ViewBag.CompanyId = new SelectList(CombosHelper.GetCompanies(), "CompanyId", "Name", warehouse.CompanyId);
@@ -176,23 +153,12 @@ namespace ECommerce.Controllers
         {
             var warehouse = db.Warehouses.Find(id);
             db.Warehouses.Remove(warehouse);
-            try
+            var responseSave = DBHelper.SaveChanges(db);
+            if (responseSave.Succeeded)
             {
-                db.SaveChanges();                
                 return RedirectToAction("Index");
             }
-            catch (Exception ex)
-            {
-                if (ex.InnerException != null && ex.InnerException.InnerException != null &&
-                    ex.InnerException.InnerException.Message.Contains("REFERENCE"))
-                {
-                    ModelState.AddModelError(string.Empty, "The record can't be delete because it has related records.");
-                }
-                else
-                {
-                    ModelState.AddModelError(string.Empty, ex.Message);
-                }
-            }
+            ModelState.AddModelError(string.Empty, responseSave.Message);
             return View(warehouse);
         }
 

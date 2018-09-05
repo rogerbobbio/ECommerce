@@ -84,12 +84,11 @@ namespace ECommerce.Controllers
         public ActionResult Create(Product product)
         {
             if (ModelState.IsValid)
-            {                    
-                try
+            {
+                db.Products.Add(product);
+                var responseSave = DBHelper.SaveChanges(db);
+                if (responseSave.Succeeded)
                 {
-                    db.Products.Add(product);
-                    db.SaveChanges();
-                    
                     if (product.ImageFile != null)
                     {
                         const string folder = "~/Content/Products";
@@ -107,18 +106,7 @@ namespace ECommerce.Controllers
 
                     return RedirectToAction("Index");
                 }
-                catch (Exception ex)
-                {
-                    if (ex.InnerException != null && ex.InnerException.InnerException != null &&
-                        ex.InnerException.InnerException.Message.Contains("_Index"))
-                    {
-                        ModelState.AddModelError(string.Empty, "There are a record with the same value.");
-                    }
-                    else
-                    {
-                        ModelState.AddModelError(string.Empty, ex.Message);
-                    }
-                }
+                ModelState.AddModelError(string.Empty, responseSave.Message);
             }            
             
             var adminUser = WebConfigurationManager.AppSettings["AdminUser"];
@@ -172,37 +160,26 @@ namespace ECommerce.Controllers
         {
             if (ModelState.IsValid)
             {
-                try
+                if (product.ImageFile != null)
                 {
-                    if (product.ImageFile != null)
+                    var pic = string.Empty;
+                    const string folder = "~/Content/Products";
+                    var file = string.Format("{0}.jpg", product.ProductId);
+                    var response = FilesHelper.UploadPhoto(product.ImageFile, folder, file);
+                    if (response)
                     {
-                        var pic = string.Empty;
-                        const string folder = "~/Content/Products";
-                        var file = string.Format("{0}.jpg", product.ProductId);
-                        var response = FilesHelper.UploadPhoto(product.ImageFile, folder, file);
-                        if (response)
-                        {
-                            pic = string.Format("{0}/{1}.", folder, file);
-                            product.Image = pic;
-                        }
-                    }                    
+                        pic = string.Format("{0}/{1}.", folder, file);
+                        product.Image = pic;
+                    }
+                }
 
-                    db.Entry(product).State = EntityState.Modified;
-                    db.SaveChanges();
+                db.Entry(product).State = EntityState.Modified;
+                var responseSave = DBHelper.SaveChanges(db);
+                if (responseSave.Succeeded)
+                {
                     return RedirectToAction("Index");
                 }
-                catch (Exception ex)
-                {
-                    if (ex.InnerException != null && ex.InnerException.InnerException != null &&
-                        ex.InnerException.InnerException.Message.Contains("_Index"))
-                    {
-                        ModelState.AddModelError(string.Empty, "There are a record with the same value.");
-                    }
-                    else
-                    {
-                        ModelState.AddModelError(string.Empty, ex.Message);
-                    }
-                }
+                ModelState.AddModelError(string.Empty, responseSave.Message);
             }
             var adminUser = WebConfigurationManager.AppSettings["AdminUser"];
             if (adminUser == User.Identity.Name)
@@ -241,23 +218,12 @@ namespace ECommerce.Controllers
         {
             var product = db.Products.Find(id);
             db.Products.Remove(product);
-            try
+            var responseSave = DBHelper.SaveChanges(db);
+            if (responseSave.Succeeded)
             {
-                db.SaveChanges();                
                 return RedirectToAction("Index");
             }
-            catch (Exception ex)
-            {
-                if (ex.InnerException != null && ex.InnerException.InnerException != null &&
-                    ex.InnerException.InnerException.Message.Contains("REFERENCE"))
-                {
-                    ModelState.AddModelError(string.Empty, "The record can't be delete because it has related records.");
-                }
-                else
-                {
-                    ModelState.AddModelError(string.Empty, ex.Message);
-                }
-            }
+            ModelState.AddModelError(string.Empty, responseSave.Message);
             return View(product);
         }
 

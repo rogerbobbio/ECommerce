@@ -73,23 +73,12 @@ namespace ECommerce.Controllers
             if (ModelState.IsValid)
             {
                 db.Taxes.Add(tax);
-                try
+                var responseSave = DBHelper.SaveChanges(db);
+                if (responseSave.Succeeded)
                 {
-                    db.SaveChanges();
                     return RedirectToAction("Index");
                 }
-                catch (Exception ex)
-                {
-                    if (ex.InnerException != null && ex.InnerException.InnerException != null &&
-                        ex.InnerException.InnerException.Message.Contains("_Index"))
-                    {
-                        ModelState.AddModelError(string.Empty, "There are a record with the same value.");
-                    }
-                    else
-                    {
-                        ModelState.AddModelError(string.Empty, ex.Message);
-                    }
-                }
+                ModelState.AddModelError(string.Empty, responseSave.Message);
             }
 
             ViewBag.CompanyId = new SelectList(CombosHelper.GetCompanies(), "CompanyId", "Name", tax.CompanyId);
@@ -122,23 +111,12 @@ namespace ECommerce.Controllers
             if (ModelState.IsValid)
             {
                 db.Entry(tax).State = EntityState.Modified;
-                try
+                var responseSave = DBHelper.SaveChanges(db);
+                if (responseSave.Succeeded)
                 {
-                    db.SaveChanges();
                     return RedirectToAction("Index");
                 }
-                catch (Exception ex)
-                {
-                    if (ex.InnerException != null && ex.InnerException.InnerException != null &&
-                        ex.InnerException.InnerException.Message.Contains("_Index"))
-                    {
-                        ModelState.AddModelError(string.Empty, "There are a record with the same value.");
-                    }
-                    else
-                    {
-                        ModelState.AddModelError(string.Empty, ex.Message);
-                    }
-                }
+                ModelState.AddModelError(string.Empty, responseSave.Message);
             }
             ViewBag.CompanyId = new SelectList(CombosHelper.GetCompanies(), "CompanyId", "Name", tax.CompanyId);
             return View(tax);
@@ -164,23 +142,12 @@ namespace ECommerce.Controllers
         {
             var tax = db.Taxes.Find(id);
             db.Taxes.Remove(tax);
-            try
+            var responseSave = DBHelper.SaveChanges(db);
+            if (responseSave.Succeeded)
             {
-                db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            catch (Exception ex)
-            {
-                if (ex.InnerException != null && ex.InnerException.InnerException != null &&
-                    ex.InnerException.InnerException.Message.Contains("REFERENCE"))
-                {
-                    ModelState.AddModelError(string.Empty, "The record can't be delete because it has related records.");
-                }
-                else
-                {
-                    ModelState.AddModelError(string.Empty, ex.Message);
-                }
-            }
+            ModelState.AddModelError(string.Empty, responseSave.Message);
             return View(tax);
         }
 

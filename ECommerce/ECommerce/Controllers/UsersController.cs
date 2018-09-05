@@ -97,10 +97,10 @@ namespace ECommerce.Controllers
         {
             if (ModelState.IsValid)
             {
-                try
+                db.Users.Add(user);
+                var responseSave = DBHelper.SaveChanges(db);
+                if (responseSave.Succeeded)
                 {
-                    db.Users.Add(user);
-                    db.SaveChanges();
                     UsersHelper.CreateUserASP(user.UserName, "User");
 
                     if (user.PhotoFile != null)
@@ -120,18 +120,7 @@ namespace ECommerce.Controllers
 
                     return RedirectToAction("Index");
                 }
-                catch (Exception ex)
-                {
-                    if (ex.InnerException != null && ex.InnerException.InnerException != null &&
-                        ex.InnerException.InnerException.Message.Contains("_Index"))
-                    {
-                        ModelState.AddModelError(string.Empty, "There are a record with the same value.");
-                    }
-                    else
-                    {
-                        ModelState.AddModelError(string.Empty, ex.Message);
-                    }
-                }
+                ModelState.AddModelError(string.Empty, responseSave.Message);                
             }
 
             ViewBag.CityId = new SelectList(CombosHelper.GetCities(user.DepartmentId), "CityId", "Name", user.CityId);            
@@ -193,45 +182,34 @@ namespace ECommerce.Controllers
         {
             if (ModelState.IsValid)
             {
-                try
+                if (user.PhotoFile != null)
                 {
-                    if (user.PhotoFile != null)
+                    var pic = string.Empty;
+                    const string folder = "~/Content/Users";
+                    var file = string.Format("{0}.jpg", user.UserId);
+                    var response = FilesHelper.UploadPhoto(user.PhotoFile, folder, file);
+                    if (response)
                     {
-                        var pic = string.Empty;
-                        const string folder = "~/Content/Users";
-                        var file = string.Format("{0}.jpg", user.UserId);
-                        var response = FilesHelper.UploadPhoto(user.PhotoFile, folder, file);
-                        if (response)
-                        {
-                            pic = string.Format("{0}/{1}.", folder, file);
-                            user.Photo = pic;
-                        }
+                        pic = string.Format("{0}/{1}.", folder, file);
+                        user.Photo = pic;
                     }
+                }
 
-                    var db2 = new ECommerceContext();
-                    var currentUser = db2.Users.Find(user.UserId);
-                    if (currentUser.UserName != user.UserName)
-                    {
-                        UsersHelper.UpdateUserName(currentUser.UserName, user.UserName);
-                    }
-                    db2.Dispose();
+                var db2 = new ECommerceContext();
+                var currentUser = db2.Users.Find(user.UserId);
+                if (currentUser.UserName != user.UserName)
+                {
+                    UsersHelper.UpdateUserName(currentUser.UserName, user.UserName);
+                }
+                db2.Dispose();
 
-                    db.Entry(user).State = EntityState.Modified;
-                    db.SaveChanges();
+                db.Entry(user).State = EntityState.Modified;
+                var responseSave = DBHelper.SaveChanges(db);
+                if (responseSave.Succeeded)
+                {
                     return RedirectToAction("Index");
                 }
-                catch (Exception ex)
-                {
-                    if (ex.InnerException != null && ex.InnerException.InnerException != null &&
-                        ex.InnerException.InnerException.Message.Contains("_Index"))
-                    {
-                        ModelState.AddModelError(string.Empty, "There are a record with the same value.");
-                    }
-                    else
-                    {
-                        ModelState.AddModelError(string.Empty, ex.Message);
-                    }
-                }
+                ModelState.AddModelError(string.Empty, responseSave.Message);
             }
             ViewBag.CityId = new SelectList(CombosHelper.GetCities(user.DepartmentId), "CityId", "Name", user.CityId);
             ViewBag.DepartmentId = new SelectList(CombosHelper.GetDepartments(), "DepartmentId", "Name", user.DepartmentId);
@@ -274,24 +252,13 @@ namespace ECommerce.Controllers
         {
             var user = db.Users.Find(id);
             db.Users.Remove(user);
-            try
+            var responseSave = DBHelper.SaveChanges(db);
+            if (responseSave.Succeeded)
             {
-                db.SaveChanges();
                 UsersHelper.DeleteUser(user.UserName);
                 return RedirectToAction("Index");
             }
-            catch (Exception ex)
-            {
-                if (ex.InnerException != null && ex.InnerException.InnerException != null &&
-                    ex.InnerException.InnerException.Message.Contains("REFERENCE"))
-                {
-                    ModelState.AddModelError(string.Empty, "The record can't be delete because it has related records.");
-                }
-                else
-                {
-                    ModelState.AddModelError(string.Empty, ex.Message);
-                }
-            }
+            ModelState.AddModelError(string.Empty, responseSave.Message);
             return View(user);
         }
 

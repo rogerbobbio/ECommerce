@@ -74,9 +74,13 @@ namespace ECommerce.Controllers
                 {
                     orderDetailTmp.Quantity += newProduct.Quantity;
                     db.Entry(orderDetailTmp).State = EntityState.Modified;
-                }                               
-                db.SaveChanges();
-                return RedirectToAction("Create");
+                }
+                var responseSave = DBHelper.SaveChanges(db);
+                if (responseSave.Succeeded)
+                {
+                    return RedirectToAction("Create");
+                }
+                ModelState.AddModelError(string.Empty, responseSave.Message);                                
             }
             var adminUser = WebConfigurationManager.AppSettings["AdminUser"];
             if (adminUser == User.Identity.Name)
@@ -220,8 +224,12 @@ namespace ECommerce.Controllers
             if (ModelState.IsValid)
             {
                 db.Entry(order).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                var responseSave = DBHelper.SaveChanges(db);
+                if (responseSave.Succeeded)
+                {
+                    return RedirectToAction("Index");
+                }
+                ModelState.AddModelError(string.Empty, responseSave.Message);
             }
             var adminUser = WebConfigurationManager.AppSettings["AdminUser"];
             if (adminUser == User.Identity.Name)
@@ -259,8 +267,13 @@ namespace ECommerce.Controllers
         {
             var order = db.Orders.Find(id);
             db.Orders.Remove(order);
-            db.SaveChanges();
-            return RedirectToAction("Index");
+            var responseSave = DBHelper.SaveChanges(db);
+            if (responseSave.Succeeded)
+            {
+                return RedirectToAction("Index");
+            }
+            ModelState.AddModelError(string.Empty, responseSave.Message);
+            return View(order);
         }        
 
         protected override void Dispose(bool disposing)
