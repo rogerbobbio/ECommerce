@@ -12,13 +12,16 @@
 <table class="table">
     <tr>
         <th>
+            @Html.DisplayNameFor(model => model.OrderId)
+        </th>
+        <th>
             @if (User.IsInRole("Admin"))
             {
                 @Html.DisplayNameFor(model => model.Company.Name)
             }
-        </th>
+        </th>        
         <th>
-            @Html.DisplayNameFor(model => model.Customer.UserName)
+            @Html.DisplayNameFor(model => model.Customer.FullName)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.OrderState.Description)
@@ -38,13 +41,16 @@
 @foreach (var item in Model) {
     <tr>
         <td>
+            @Html.DisplayFor(modelItem => item.OrderId)
+        </td>
+        <td>
             @if (User.IsInRole("Admin"))
             {
                 @Html.DisplayFor(modelItem => item.Company.Name)
             }
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Customer.UserName)
+            @Html.DisplayFor(modelItem => item.Customer.FullName)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.OrderState.Description)
@@ -59,9 +65,9 @@
             @Html.DisplayFor(modelItem => item.Remarks)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new {id = item.OrderId}, new { @class = "btn btn-warning" })
-            @Html.ActionLink("Details", "Details", new {id = item.OrderId}, new { @class = "btn btn-info" })
-            @Html.ActionLink("Delete", "Delete", new {id = item.OrderId}, new { @class = "btn btn-danger" })
+            @Html.ActionLink("Edit", "Edit", new {id = item.OrderId}, new {@class = "btn btn-warning"})
+            @Html.ActionLink("Details", "Details", new {id = item.OrderId}, new {@class = "btn btn-info"})
+            @Html.ActionLink("Delete", "Delete", new {id = item.OrderId}, new {@class = "btn btn-danger"})
         </td>
     </tr>
 }

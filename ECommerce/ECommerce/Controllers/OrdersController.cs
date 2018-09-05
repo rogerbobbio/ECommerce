@@ -14,6 +14,22 @@ namespace ECommerce.Controllers
     {
         private ECommerceContext db = new ECommerceContext();
 
+        public ActionResult DeleteProducts(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            var orderDetailTmp = db.OrderDetailTmps.FirstOrDefault(odt => odt.UserName == User.Identity.Name && odt.ProductId == id);
+            if (orderDetailTmp == null)
+            {
+                return HttpNotFound();
+            }
+            db.OrderDetailTmps.Remove(orderDetailTmp);
+            db.SaveChanges();
+            return RedirectToAction("Create");
+        }
+
         public ActionResult AddProduct()
         {
             var adminUser = WebConfigurationManager.AppSettings["AdminUser"];
@@ -34,20 +50,31 @@ namespace ECommerce.Controllers
         [HttpPost]
         public ActionResult AddProduct(AddProductView newProduct)
         {
+            var user = db.Users.FirstOrDefault(u => u.UserName == User.Identity.Name);
+
             if (ModelState.IsValid)
             {
-                var product = db.Products.Find(newProduct.ProductId);
-                var orderDetailTmp = new OrderDetailTmp
+                var orderDetailTmp = db.OrderDetailTmps.FirstOrDefault(odt => odt.UserName == User.Identity.Name && odt.ProductId == newProduct.ProductId);
+                if (orderDetailTmp == null)
                 {
-                    Description = product.Description,
-                    Price = product.Price,
-                    ProductId = product.ProductId,
-                    Quantity = newProduct.Quantity,
-                    TaxRate = product.Tax.Rate,
-                    UserName = User.Identity.Name,
-                };
+                    var product = db.Products.Find(newProduct.ProductId);
+                    orderDetailTmp = new OrderDetailTmp
+                    {
+                        Description = product.Description,
+                        Price = product.Price,
+                        ProductId = product.ProductId,
+                        Quantity = newProduct.Quantity,
+                        TaxRate = product.Tax.Rate,
+                        UserName = User.Identity.Name,
+                    };
 
-                db.OrderDetailTmps.Add(orderDetailTmp);
+                    db.OrderDetailTmps.Add(orderDetailTmp);
+                }
+                else
+                {
+                    orderDetailTmp.Quantity += newProduct.Quantity;
+                    db.Entry(orderDetailTmp).State = EntityState.Modified;
+                }                               
                 db.SaveChanges();
                 return RedirectToAction("Create");
             }
@@ -57,12 +84,13 @@ namespace ECommerce.Controllers
                 ViewBag.ProductId = new SelectList(CombosHelper.GetProducts(), "ProductId", "Description");
             }
             else
-            {
-                var user = db.Users.FirstOrDefault(u => u.UserName == User.Identity.Name);
+            {                
                 ViewBag.ProductId = new SelectList(CombosHelper.GetProducts(user.CompanyId), "ProductId", "Description");
             }
             return View(newProduct);
         }
+
+
 
 
         public ActionResult Index()
@@ -139,35 +167,24 @@ namespace ECommerce.Controllers
         
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(Order order)
+        public ActionResult Create(NewOrderView order)
         {
             if (ModelState.IsValid)
             {
-                db.Orders.Add(order);
-                try
+                var response = MovementsHelper.NewOrder(order, User.Identity.Name);
+                if (response.Succeeded)
                 {
-                    db.SaveChanges();
                     return RedirectToAction("Index");
                 }
-                catch (Exception ex)
-                {
-                    if (ex.InnerException != null && ex.InnerException.InnerException != null &&
-                        ex.InnerException.InnerException.Message.Contains("_Index"))
-                    {
-                        ModelState.AddModelError(string.Empty, "There are a record with the same value.");
-                    }
-                    else
-                    {
-                        ModelState.AddModelError(string.Empty, ex.Message);
-                    }
-                }
+
+                ModelState.AddModelError(string.Empty, response.Message);                
             }
             var adminUser = WebConfigurationManager.AppSettings["AdminUser"];
             if (adminUser == User.Identity.Name)
             {
                 ViewBag.CustomerId = new SelectList(CombosHelper.GetCustomers(), "CustomerId", "UserName", order.CustomerId);
                 ViewBag.ProjectId = new SelectList(CombosHelper.GetProjects(), "ProjectId", "Name", order.ProjectId);
-                ViewBag.CompanyId = new SelectList(CombosHelper.GetCompanies(), "ProjectId", "Name", order.CompanyId);
+                ViewBag.CompanyId = new SelectList(CombosHelper.GetCompanies(), "CompanyId", "Name", order.CompanyId);
             }
             else
             {
@@ -175,17 +192,17 @@ namespace ECommerce.Controllers
                 ViewBag.CustomerId = new SelectList(CombosHelper.GetCustomers(user.CompanyId), "CustomerId", "UserName", order.CustomerId);
                 ViewBag.ProjectId = new SelectList(CombosHelper.GetProjects(user.CompanyId), "ProjectId", "Name", order.ProjectId);
             }
+            order.Details = db.OrderDetailTmps.Where(odt => odt.UserName == User.Identity.Name).ToList();
             return View(order);
         }
-
-        // GET: Orders/Edit/5
+        
         public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Order order = db.Orders.Find(id);
+            var order = db.Orders.Find(id);
             if (order == null)
             {
                 return HttpNotFound();
@@ -195,10 +212,7 @@ namespace ECommerce.Controllers
             ViewBag.ProjectId = new SelectList(db.Projects, "ProjectId", "Name", order.ProjectId);
             return View(order);
         }
-
-        // POST: Orders/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "OrderId,CustomerId,ProjectId,OrderStateId,Date,Remarks")] Order order)
@@ -224,31 +238,36 @@ namespace ECommerce.Controllers
             }            
             return View(order);
         }
-
-        // GET: Orders/Delete/5
+        
         public ActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Order order = db.Orders.Find(id);
+            var order = db.Orders.Find(id);
             if (order == null)
             {
                 return HttpNotFound();
             }
             return View(order);
         }
-
-        // POST: Orders/Delete/5
+        
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Order order = db.Orders.Find(id);
+            var order = db.Orders.Find(id);
             db.Orders.Remove(order);
             db.SaveChanges();
             return RedirectToAction("Index");
+        }
+
+        public JsonResult GetProjects(int companyId)
+        {
+            db.Configuration.ProxyCreationEnabled = false;
+            var projects = db.Projects.Where(c => c.CompanyId == companyId);
+            return Json(projects);
         }
 
         protected override void Dispose(bool disposing)

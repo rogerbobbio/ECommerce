@@ -1,10 +1,10 @@
 ﻿@model ECommerce.Models.NewOrderView
 
 @{
-    ViewBag.Title = "Create";
+    ViewBag.Title = "New Order";
 }
 
-<h2>Create</h2>
+<h2>New Order</h2>
 
 
 @using (Html.BeginForm())
@@ -67,8 +67,7 @@
 
                 <div class="form-group">
                     <div class="col-md-offset-2 col-md-10">
-                        <input type="submit" value="Create" class="btn btn-primary" />
-                        @Html.ActionLink("Add Product", "AddProduct", new { }, new { @class = "btn btn-warning" })
+                        <input type="submit" value="Save Order" class="btn btn-primary" />                        
                         @Html.ActionLink("Back to List", "Index", new { }, new { @class = "btn btn-success" })
                     </div>
                 </div>
@@ -78,6 +77,10 @@
 }
 
 <h4>Details</h4>
+<hr />
+    <div>
+        @Html.ActionLink("Add Product", "AddProduct", new {  }, new { @class = "btn btn-warning" })
+    </div>
 <hr />
 @if (Model.Details.Count == 0)
 {
@@ -153,4 +156,30 @@ else
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript">
+            $("#CompanyId").change(function ()
+            {
+                $("#ProjectId").empty();
+                $("#ProjectId").append('<option value="0">[Select a Project...]</option>');
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("GetProjects")',
+                    dataType: 'json',
+                    data: { companyId: $("#CompanyId").val() },
+                    success: function (data)
+                    {
+                        $.each(data,
+                            function (i, data)
+                            {
+                                $("#ProjectId").append('<option value="' + data.ProjectId + '">' + data.Name + '</option>');
+                            });
+                    },
+                    error: function (ex)
+                    {
+                        alert('Faile to retrive projects.' + ex);
+                    }
+                });
+                return false;
+            });
+    </script>
 }
