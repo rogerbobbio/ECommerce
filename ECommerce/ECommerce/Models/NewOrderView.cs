@@ -22,8 +22,7 @@ namespace ECommerce.Models
         [Display(Name = "Project")]
         public int ProjectId { get; set; }
 
-        [Required(ErrorMessage = "The field {0} is required")]
-        [DataType(DataType.Date)]
+        [Required(ErrorMessage = "The field {0} is required")]        
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime Date { get; set; }
 

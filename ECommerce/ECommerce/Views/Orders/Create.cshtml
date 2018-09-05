@@ -51,17 +51,22 @@
                 <div class="form-group">
                     @Html.LabelFor(model => model.Date, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
-                        @Html.EditorFor(model => model.Date, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })
+                        <div class="input-group date" id="datepicker" style="width: 280px">
+                            @Html.EditorFor(model => model.Date, new { htmlAttributes = new { @class = "form-control" } })
+                            <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-calendar"></span>
+                            </span>
+                        </div>
+                        @Html.ValidationMessageFor(model => model.Date, "", new {@class = "text-danger"})
                     </div>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="form-group">
                     @Html.LabelFor(model => model.Remarks, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model.Remarks, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.Remarks, "", new { @class = "text-danger" })
+                    <div class="col-md-10">                        
+                        @Html.EditorFor(model => model.Remarks, new {htmlAttributes = new {@class = "form-control"}})
+                        @Html.ValidationMessageFor(model => model.Remarks, "", new {@class = "text-danger"})
                     </div>
                 </div>
 
@@ -157,29 +162,29 @@ else
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
     <script type="text/javascript">
-            $("#CompanyId").change(function ()
-            {
-                $("#ProjectId").empty();
-                $("#ProjectId").append('<option value="0">[Select a Project...]</option>');
-                $.ajax({
-                    type: 'POST',
-                    url: '@Url.Action("GetProjects")',
-                    dataType: 'json',
-                    data: { companyId: $("#CompanyId").val() },
-                    success: function (data)
-                    {
-                        $.each(data,
-                            function (i, data)
-                            {
-                                $("#ProjectId").append('<option value="' + data.ProjectId + '">' + data.Name + '</option>');
-                            });
-                    },
-                    error: function (ex)
-                    {
-                        alert('Faile to retrive projects.' + ex);
-                    }
-                });
-                return false;
+        $(function() {
+            $('#datepicker').datetimepicker({ format: 'YYYY/MM/DD'});
+        });
+
+        $("#CompanyId").change(function() {
+            $("#ProjectId").empty();
+            $("#ProjectId").append('<option value="0">[Select a Project...]</option>');
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("GetProjects")',
+                dataType: 'json',
+                data: { companyId: $("#CompanyId").val() },
+                success: function(data) {
+                    $.each(data,
+                        function(i, data) {
+                            $("#ProjectId").append('<option value="' + data.ProjectId + '">' + data.Name + '</option>');
+                        });
+                },
+                error: function(ex) {
+                    alert('Faile to retrive projects.' + ex);
+                }
             });
+            return false;
+        });
     </script>
 }

@@ -37,13 +37,11 @@ namespace ECommerce.Models
         public int CompanyId { get; set; }
 
         [Required(ErrorMessage = "The field {0} is required")]
-        [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         [Display(Name = "Project Begin")]
         public DateTime ProjectBegin { get; set; }
 
         [Required(ErrorMessage = "The field {0} is required")]
-        [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         [Display(Name = "Project End")]
         public DateTime ProjectEnd { get; set; }

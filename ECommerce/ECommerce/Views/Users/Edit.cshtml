@@ -133,7 +133,12 @@
     <div class="form-group">
         @Html.LabelFor(model => model.BirthDate, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.EditorFor(model => model.BirthDate, new { htmlAttributes = new { @class = "form-control" } })
+            <div class="input-group date" id="datepickerBirth" style="width: 280px">
+                @Html.EditorFor(model => model.BirthDate, new { htmlAttributes = new { @class = "form-control" } })
+                <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-calendar"></span>
+                </span>
+            </div>
             @Html.ValidationMessageFor(model => model.BirthDate, "", new { @class = "text-danger" })
         </div>
     </div>
@@ -141,7 +146,12 @@
     <div class="form-group">
         @Html.LabelFor(model => model.AdmissionDate, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.EditorFor(model => model.AdmissionDate, new { htmlAttributes = new { @class = "form-control" } })
+            <div class="input-group date" id="datepickerAdmission" style="width: 280px">
+                @Html.EditorFor(model => model.AdmissionDate, new { htmlAttributes = new { @class = "form-control" } })
+                <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-calendar"></span>
+                </span>
+            </div>
             @Html.ValidationMessageFor(model => model.AdmissionDate, "", new { @class = "text-danger" })
         </div>
     </div>
@@ -191,7 +201,12 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
-<script type="text/javascript">
+    <script type="text/javascript">
+        $(function () {
+            $('#datepickerBirth').datetimepicker({ format: 'YYYY/MM/DD' });
+            $('#datepickerAdmission').datetimepicker({ format: 'YYYY/MM/DD' });
+        });
+
         $(document).ready(function () {
             $("#DepartmentId").change(function() {
                 $("#CityId").empty();
@@ -239,5 +254,5 @@
                 return false;
             });
         });
-</script>
+    </script>
 }

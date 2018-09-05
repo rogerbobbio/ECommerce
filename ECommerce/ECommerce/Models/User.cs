@@ -78,14 +78,12 @@ namespace ECommerce.Models
         [MaxLength(10, ErrorMessage = "The field {0} must be at least {1} characteres length.")]
         public string Dni { get; set; }
 
-        [Required(ErrorMessage = "The field {0} is required")]
-        [DataType(DataType.Date)]
+        [Required(ErrorMessage = "The field {0} is required")]        
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         [Display(Name = "Fecha de Nacimiento")]
         public DateTime BirthDate { get; set; }
 
-        [Required(ErrorMessage = "The field {0} is required")]
-        [DataType(DataType.Date)]
+        [Required(ErrorMessage = "The field {0} is required")]        
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         [Display(Name = "Fecha de Ingreso")]
         public DateTime AdmissionDate { get; set; }
