@@ -35,7 +35,7 @@ namespace ECommerce.Controllers
             var adminUser = WebConfigurationManager.AppSettings["AdminUser"];
             if (adminUser == User.Identity.Name)
             {
-                ViewBag.ProductId = new SelectList(CombosHelper.GetProducts(), "ProductId", "Description");
+                ViewBag.ProductId = new SelectList(CombosHelper.GetProducts(true), "ProductId", "Description");
                 return PartialView();
             }
             //verifica el usuario logeado y envia su compania a la vista
@@ -43,7 +43,7 @@ namespace ECommerce.Controllers
             if (user == null)
                 return RedirectToAction("Index", "Home");
 
-            ViewBag.ProductId = new SelectList(CombosHelper.GetProducts(user.CompanyId), "ProductId", "Description");
+            ViewBag.ProductId = new SelectList(CombosHelper.GetProducts(user.CompanyId, true), "ProductId", "Description");
             return PartialView();
         }
 

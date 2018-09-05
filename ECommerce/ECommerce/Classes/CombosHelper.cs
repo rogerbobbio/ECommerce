@@ -116,12 +116,25 @@ namespace ECommerce.Classes
             return product.OrderBy(d => d.Description).ToList();
         }
 
+        public static List<Product> GetProducts(bool popup)
+        {
+            var product = db.Products.ToList();            
+            return product.OrderBy(d => d.Description).ToList();
+        }
+
         public static List<Product> GetProducts(int companyId)
         {
             var product = db.Products.Where(c => c.CompanyId == companyId).ToList();
             product.Add(new Product { ProductId = 0, Description = "[Select a Product...]" });
             return product.OrderBy(c => c.Description).ToList();
         }
+
+        public static List<Product> GetProducts(int companyId, bool popup)
+        {
+            var products = db.Products.Where(p => p.CompanyId == companyId).ToList();
+            return products.OrderBy(p => p.Description).ToList();
+        }
+
 
         public void Dispose()
         {
