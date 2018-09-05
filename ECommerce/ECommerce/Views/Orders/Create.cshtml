@@ -175,31 +175,12 @@ else
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
-    <script type="text/javascript">
+<script type="text/javascript">
         $(function() {
             $('#datepicker').datetimepicker({ format: 'YYYY/MM/DD'});
         });
 
-        $("#CompanyId").change(function() {
-            $("#ProjectId").empty();
-            $("#ProjectId").append('<option value="0">[Select a Project...]</option>');
-            $.ajax({
-                type: 'POST',
-                url: '@Url.Action("GetProjects")',
-                dataType: 'json',
-                data: { companyId: $("#CompanyId").val() },
-                success: function(data) {
-                    $.each(data,
-                        function(i, data) {
-                            $("#ProjectId").append('<option value="' + data.ProjectId + '">' + data.Name + '</option>');
-                        });
-                },
-                error: function(ex) {
-                    alert('Faile to retrive projects.' + ex);
-                }
-            });
-            return false;
-        });
+        var UrlProject = '@Url.Action("GetProjects", "Generic")';
 
         $(document).ready(function () {
             $("body").on("click", "a.dialog-window", null, function (e) {
@@ -221,5 +202,5 @@ else
             });
         });
 
-    </script>
+</script>
 }

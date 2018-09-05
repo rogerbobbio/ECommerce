@@ -57,7 +57,7 @@ namespace ECommerce.Controllers
 
         public ActionResult Create()
         {
-            ViewBag.CityId = new SelectList(CombosHelper.GetCities(), "CityId", "Name");            
+            ViewBag.CityId = new SelectList(CombosHelper.GetCities(0), "CityId", "Name");            
             ViewBag.DepartmentId = new SelectList(CombosHelper.GetDepartments(), "DepartmentId", "Name");
             ViewBag.PensionSystemId = new SelectList(CombosHelper.GetPensionSystems(), "PensionSystemId", "Name");            
 
@@ -65,7 +65,7 @@ namespace ECommerce.Controllers
             if (adminUser == User.Identity.Name)
             {                
                 ViewBag.CompanyId = new SelectList(CombosHelper.GetCompanies(), "CompanyId", "Name");
-                ViewBag.ProjectId = new SelectList(CombosHelper.GetProjects(), "ProjectId", "Name");
+                ViewBag.ProjectId = new SelectList(CombosHelper.GetProjects(0), "ProjectId", "Name");
                 ViewBag.UserRolId = new SelectList(CombosHelper.GetUserRols(), "UserRolId", "Name");
                 var adminUserModel = new User
                 {
@@ -134,7 +134,7 @@ namespace ECommerce.Controllers
                 }
             }
 
-            ViewBag.CityId = new SelectList(CombosHelper.GetCities(), "CityId", "Name", user.CityId);            
+            ViewBag.CityId = new SelectList(CombosHelper.GetCities(user.DepartmentId), "CityId", "Name", user.CityId);            
             ViewBag.DepartmentId = new SelectList(CombosHelper.GetDepartments(), "DepartmentId", "Name", user.DepartmentId);
             ViewBag.PensionSystemId = new SelectList(CombosHelper.GetPensionSystems(), "PensionSystemId", "Name", user.PensionSystemId);
 
@@ -143,7 +143,7 @@ namespace ECommerce.Controllers
             {
                 ViewBag.CompanyId = new SelectList(CombosHelper.GetCompanies(), "CompanyId", "Name", user.CompanyId);
 
-                ViewBag.ProjectId = new SelectList(CombosHelper.GetProjects(), "ProjectId", "Name", user.ProjectId);
+                ViewBag.ProjectId = new SelectList(CombosHelper.GetProjects(user.CompanyId), "ProjectId", "Name", user.ProjectId);
                 ViewBag.UserRolId = new SelectList(CombosHelper.GetUserRols(), "UserRolId", "Name", user.UserRolId);
             }
             else
@@ -166,7 +166,7 @@ namespace ECommerce.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.CityId = new SelectList(CombosHelper.GetCities(), "CityId", "Name", user.CityId);            
+            ViewBag.CityId = new SelectList(CombosHelper.GetCities(user.DepartmentId), "CityId", "Name", user.CityId);            
             ViewBag.DepartmentId = new SelectList(CombosHelper.GetDepartments(), "DepartmentId", "Name", user.DepartmentId);
             ViewBag.PensionSystemId = new SelectList(CombosHelper.GetPensionSystems(), "PensionSystemId", "Name", user.PensionSystemId);            
 
@@ -174,7 +174,7 @@ namespace ECommerce.Controllers
             if (adminUser == User.Identity.Name)
             {
                 ViewBag.CompanyId = new SelectList(CombosHelper.GetCompanies(), "CompanyId", "Name", user.CompanyId);
-                ViewBag.ProjectId = new SelectList(CombosHelper.GetProjects(), "ProjectId", "Name", user.ProjectId);
+                ViewBag.ProjectId = new SelectList(CombosHelper.GetProjects(user.CompanyId), "ProjectId", "Name", user.ProjectId);
                 ViewBag.UserRolId = new SelectList(CombosHelper.GetUserRols(), "UserRolId", "Name", user.UserRolId);
             }
             else
@@ -233,7 +233,7 @@ namespace ECommerce.Controllers
                     }
                 }
             }
-            ViewBag.CityId = new SelectList(CombosHelper.GetCities(), "CityId", "Name", user.CityId);
+            ViewBag.CityId = new SelectList(CombosHelper.GetCities(user.DepartmentId), "CityId", "Name", user.CityId);
             ViewBag.DepartmentId = new SelectList(CombosHelper.GetDepartments(), "DepartmentId", "Name", user.DepartmentId);
             ViewBag.PensionSystemId = new SelectList(CombosHelper.GetPensionSystems(), "PensionSystemId", "Name", user.PensionSystemId);
 
@@ -242,7 +242,7 @@ namespace ECommerce.Controllers
             {
                 ViewBag.CompanyId = new SelectList(CombosHelper.GetCompanies(), "CompanyId", "Name", user.CompanyId);
 
-                ViewBag.ProjectId = new SelectList(CombosHelper.GetProjects(), "ProjectId", "Name", user.ProjectId);
+                ViewBag.ProjectId = new SelectList(CombosHelper.GetProjects(user.CompanyId), "ProjectId", "Name", user.ProjectId);
                 ViewBag.UserRolId = new SelectList(CombosHelper.GetUserRols(), "UserRolId", "Name", user.UserRolId);
             }
             else
@@ -293,20 +293,6 @@ namespace ECommerce.Controllers
                 }
             }
             return View(user);
-        }
-
-        public JsonResult GetCities(int departmentId)
-        {
-            db.Configuration.ProxyCreationEnabled = false;
-            var cities = db.Cities.Where(c => c.DepartmentId == departmentId);
-            return Json(cities);
-        }
-
-        public JsonResult GetProjects(int companyId)
-        {
-            db.Configuration.ProxyCreationEnabled = false;
-            var projects = db.Projects.Where(c => c.CompanyId == companyId);
-            return Json(projects);
         }
 
         protected override void Dispose(bool disposing)

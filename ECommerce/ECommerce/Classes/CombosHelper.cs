@@ -17,9 +17,9 @@ namespace ECommerce.Classes
             return department.OrderBy(d => d.Name).ToList();
         }
 
-        public static List<City> GetCities()
+        public static List<City> GetCities(int departmentId)
         {
-            var city = db.Cities.ToList();
+            var city = db.Cities.Where(c => c.DepartmentId == departmentId).ToList();
             city.Add(new City { CityId = 0, Name = "[Select a city...]" });
             return city.OrderBy(d => d.Name).ToList();
         }
@@ -43,14 +43,7 @@ namespace ECommerce.Classes
             var pensionSystem = db.PensionSystems.ToList();
             pensionSystem.Add(new PensionSystem { PensionSystemId = 0, Name = "[Select a Pension System...]" });
             return pensionSystem.OrderBy(d => d.Name).ToList();
-        }
-
-        public static List<Project> GetProjects()
-        {
-            var project = db.Projects.ToList();
-            project.Add(new Project { ProjectId = 0, Name = "[Select a Project...]" });
-            return project.OrderBy(d => d.Name).ToList();
-        }
+        }        
 
         public static List<Project> GetProjects(int companyId)
         {

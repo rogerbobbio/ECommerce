@@ -140,7 +140,7 @@ namespace ECommerce.Controllers
             if (adminUser == User.Identity.Name)
             {
                 ViewBag.CustomerId = new SelectList(CombosHelper.GetCustomers(), "CustomerId", "FullName");
-                ViewBag.ProjectId = new SelectList(CombosHelper.GetProjects(), "ProjectId", "Name");
+                ViewBag.ProjectId = new SelectList(CombosHelper.GetProjects(0), "ProjectId", "Name");
                 ViewBag.CompanyId = new SelectList(CombosHelper.GetCompanies(), "CompanyId", "Name");
                 var adminView = new NewOrderView
                 {                    
@@ -154,7 +154,7 @@ namespace ECommerce.Controllers
             if (user == null)
                 return RedirectToAction("Index", "Home");
 
-            ViewBag.CustomerId = new SelectList(CombosHelper.GetCustomers(user.CompanyId), "CustomerId", "FullName");            
+            ViewBag.CustomerId = new SelectList(CombosHelper.GetCustomers(), "CustomerId", "FullName");            
             ViewBag.ProjectId = new SelectList(CombosHelper.GetProjects(user.CompanyId), "ProjectId", "Name");
             var view = new NewOrderView
             {
@@ -183,7 +183,7 @@ namespace ECommerce.Controllers
             if (adminUser == User.Identity.Name)
             {
                 ViewBag.CustomerId = new SelectList(CombosHelper.GetCustomers(), "CustomerId", "UserName", order.CustomerId);
-                ViewBag.ProjectId = new SelectList(CombosHelper.GetProjects(), "ProjectId", "Name", order.ProjectId);
+                ViewBag.ProjectId = new SelectList(CombosHelper.GetProjects(order.CompanyId), "ProjectId", "Name", order.ProjectId);
                 ViewBag.CompanyId = new SelectList(CombosHelper.GetCompanies(), "CompanyId", "Name", order.CompanyId);
             }
             else
@@ -226,8 +226,8 @@ namespace ECommerce.Controllers
             var adminUser = WebConfigurationManager.AppSettings["AdminUser"];
             if (adminUser == User.Identity.Name)
             {
-                ViewBag.CustomerId = new SelectList(CombosHelper.GetCustomers(), "CustomerId", "UserName", order.CustomerId);
-                ViewBag.ProjectId = new SelectList(CombosHelper.GetProjects(), "ProjectId", "Name", order.ProjectId);
+                ViewBag.CustomerId = new SelectList(CombosHelper.GetCustomers(order.CompanyId), "CustomerId", "UserName", order.CustomerId);
+                ViewBag.ProjectId = new SelectList(CombosHelper.GetProjects(order.CompanyId), "ProjectId", "Name", order.ProjectId);
                 ViewBag.CompanyId = new SelectList(CombosHelper.GetCompanies(), "ProjectId", "Name", order.CompanyId);
             }
             else
@@ -261,14 +261,7 @@ namespace ECommerce.Controllers
             db.Orders.Remove(order);
             db.SaveChanges();
             return RedirectToAction("Index");
-        }
-
-        public JsonResult GetProjects(int companyId)
-        {
-            db.Configuration.ProxyCreationEnabled = false;
-            var projects = db.Projects.Where(c => c.CompanyId == companyId);
-            return Json(projects);
-        }
+        }        
 
         protected override void Dispose(bool disposing)
         {

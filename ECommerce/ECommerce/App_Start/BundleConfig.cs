@@ -24,7 +24,8 @@ namespace ECommerce
                       "~/Scripts/bootstrap.js",
                       "~/Scripts/respond.js",
                       "~/Scripts/bootstrap-datetimepicker.js",
-                      "~/Scripts/fileupload.js"));
+                      "~/Scripts/fileupload.js",
+                      "~/Scripts/ecommerce.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
