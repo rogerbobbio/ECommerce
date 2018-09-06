@@ -6,6 +6,7 @@ using System.Web.Configuration;
 using System.Web.Mvc;
 using ECommerce.Classes;
 using ECommerce.Models;
+using PagedList;
 
 namespace ECommerce.Controllers
 {
@@ -14,12 +15,13 @@ namespace ECommerce.Controllers
     {
         private ECommerceContext db = new ECommerceContext();
 
-        public ActionResult Index()
+        public ActionResult Index(int? page = null)
         {
+            page = (page ?? 1);
             IQueryable<ProductCategory> productCategories;
             var adminUser = WebConfigurationManager.AppSettings["AdminUser"];
             if (adminUser == User.Identity.Name)
-                productCategories = db.ProductCategories.Include(p => p.Company);
+                productCategories = db.ProductCategories.Include(p => p.Company).OrderBy(c => c.Description);
             else
             {
                 //verifica el usuario logeado y filtra por su compania
@@ -27,11 +29,11 @@ namespace ECommerce.Controllers
                 if (user == null)
                     return RedirectToAction("Index", "Home");
 
-                productCategories = db.ProductCategories.Where(c => c.CompanyId == user.CompanyId);
+                productCategories = db.ProductCategories.Where(c => c.CompanyId == user.CompanyId).OrderBy(c => c.Description);
                 //==================================================
             }
             
-            return View(productCategories.ToList());
+            return View(productCategories.ToPagedList((int)page, 5));
         }
 
         public ActionResult Details(int? id)

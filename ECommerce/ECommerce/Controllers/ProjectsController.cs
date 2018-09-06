@@ -6,6 +6,7 @@ using System.Web.Configuration;
 using System.Web.Mvc;
 using ECommerce.Classes;
 using ECommerce.Models;
+using PagedList;
 
 namespace ECommerce.Controllers
 {
@@ -14,12 +15,17 @@ namespace ECommerce.Controllers
     {
         private ECommerceContext db = new ECommerceContext();
         
-        public ActionResult Index()
+        public ActionResult Index(int? page = null)
         {
+            page = (page ?? 1);
             IQueryable<Project> projects;
             var adminUser = WebConfigurationManager.AppSettings["AdminUser"];
             if (adminUser == User.Identity.Name)
-                projects = db.Projects.Include(p => p.City).Include(p => p.Companies).Include(p => p.Department).Include(p => p.ProjectState);
+                projects = db.Projects
+                    .Include(p => p.City)
+                    .Include(p => p.Companies)
+                    .Include(p => p.Department)
+                    .Include(p => p.ProjectState).OrderBy(c => c.Name);
             else
             {
                 //verifica el usuario logeado y filtra por su compania
@@ -27,11 +33,11 @@ namespace ECommerce.Controllers
                 if (user == null)
                     return RedirectToAction("Index", "Home");
 
-                projects = db.Projects.Where(c => c.CompanyId == user.CompanyId);
+                projects = db.Projects.Where(c => c.CompanyId == user.CompanyId).OrderBy(c => c.Name);
                 //==================================================
             }
             
-            return View(projects.ToList());
+            return View(projects.ToPagedList((int)page, 5));
         }
         
         public ActionResult Details(int? id)

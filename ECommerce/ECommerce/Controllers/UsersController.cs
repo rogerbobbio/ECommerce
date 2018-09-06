@@ -6,6 +6,7 @@ using System.Web.Configuration;
 using System.Web.Mvc;
 using ECommerce.Classes;
 using ECommerce.Models;
+using PagedList;
 
 namespace ECommerce.Controllers
 {
@@ -14,8 +15,9 @@ namespace ECommerce.Controllers
     {
         private ECommerceContext db = new ECommerceContext();
 
-        public ActionResult Index()
+        public ActionResult Index(int? page = null)
         {
+            page = (page ?? 1);
             IQueryable<User> users;
             var adminUser = WebConfigurationManager.AppSettings["AdminUser"];
             //Note: Include es un INNER JOIN
@@ -26,7 +28,7 @@ namespace ECommerce.Controllers
                     .Include(u => u.Department)
                     .Include(u => u.PensionSystem)
                     .Include(u => u.Project)
-                    .Include(u => u.UserRol);
+                    .Include(u => u.UserRol).OrderBy(c => c.FirstName).ThenBy(c => c.LastName);
             else
             {
                 //verifica el usuario logeado y filtra por su compania
@@ -34,11 +36,11 @@ namespace ECommerce.Controllers
                 if (user == null)
                     return RedirectToAction("Index", "Home");
 
-                users = db.Users.Where(c => c.CompanyId == user.CompanyId);
+                users = db.Users.Where(c => c.CompanyId == user.CompanyId).OrderBy(c => c.FirstName).ThenBy(c => c.LastName);
                 //==================================================
             }
             
-            return View(users.ToList());
+            return View(users.ToPagedList((int)page, 5));
         }
 
         public ActionResult Details(int? id)

@@ -6,6 +6,7 @@ using System.Web.Configuration;
 using System.Web.Mvc;
 using ECommerce.Classes;
 using ECommerce.Models;
+using PagedList;
 
 namespace ECommerce.Controllers
 {
@@ -97,8 +98,9 @@ namespace ECommerce.Controllers
 
 
 
-        public ActionResult Index()
+        public ActionResult Index(int? page = null)
         {
+            page = (page ?? 1);
             IQueryable<Order> orders;
             var adminUser = WebConfigurationManager.AppSettings["AdminUser"];
             if (adminUser == User.Identity.Name)
@@ -106,7 +108,7 @@ namespace ECommerce.Controllers
                     .Include(o => o.Customer)
                     .Include(o => o.OrderState)
                     .Include(o => o.Project)
-                    .Include(p => p.Company);
+                    .Include(p => p.Company).OrderByDescending(c => c.Date);
             else
             {
                 //verifica el usuario logeado y filtra por su compania
@@ -118,10 +120,11 @@ namespace ECommerce.Controllers
                     .Where(c => c.CompanyId == user.CompanyId)
                     .Include(o => o.Customer)
                     .Include(o => o.OrderState)
-                    .Include(o => o.Project);
+                    .Include(o => o.Project).OrderByDescending(c => c.Date);
                 //==================================================
-            }            
-            return View(orders.ToList());
+            }
+            
+            return View(orders.ToPagedList((int)page, 5));
         }
         
         public ActionResult Details(int? id)

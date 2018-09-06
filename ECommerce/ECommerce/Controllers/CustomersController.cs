@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Web.Configuration;
 using System.Web.Mvc;
 using ECommerce.Classes;
 using ECommerce.Models;
+using PagedList;
 
 namespace ECommerce.Controllers
 {
@@ -15,8 +15,9 @@ namespace ECommerce.Controllers
     {
         private ECommerceContext db = new ECommerceContext();
 
-        public ActionResult Index()
+        public ActionResult Index(int? page = null)
         {
+            page = (page ?? 1);
             var customers = new List<Customer>();
 
             //verifica el usuario logeado y filtra por su compania
@@ -35,7 +36,8 @@ namespace ECommerce.Controllers
                 customers.Add(item.cu);
             }
 
-            return View(customers.ToList());
+            customers.OrderBy(c => c.FirstName).ThenBy(c => c.LastName);
+            return View(customers.ToPagedList((int)page, 5));
         }
 
         public ActionResult Details(int? id)

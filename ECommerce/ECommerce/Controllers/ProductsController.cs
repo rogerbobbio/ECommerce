@@ -1,11 +1,11 @@
-﻿using System;
-using System.Data.Entity;
+﻿using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Web.Configuration;
 using System.Web.Mvc;
 using ECommerce.Classes;
 using ECommerce.Models;
+using PagedList;
 
 namespace ECommerce.Controllers
 {
@@ -14,15 +14,16 @@ namespace ECommerce.Controllers
     {
         private ECommerceContext db = new ECommerceContext();
         
-        public ActionResult Index()
+        public ActionResult Index(int? page = null)
         {
+            page = (page ?? 1);
             IQueryable<Product> products;
             var adminUser = WebConfigurationManager.AppSettings["AdminUser"];
             if (adminUser == User.Identity.Name)
                 products = db.Products
                     .Include(p => p.Company)
                     .Include(p => p.ProductCategory)
-                    .Include(p => p.Tax);
+                    .Include(p => p.Tax).OrderBy(c => c.Description);
             else
             {
                 //verifica el usuario logeado y filtra por su compania
@@ -33,11 +34,11 @@ namespace ECommerce.Controllers
                 products = db.Products
                     .Include(p => p.ProductCategory)
                     .Include(p => p.Tax)
-                    .Where(p => p.CompanyId == user.CompanyId);
+                    .Where(p => p.CompanyId == user.CompanyId).OrderBy(c => c.Description);
                 //==================================================
             }
             
-            return View(products.ToList());
+            return View(products.ToPagedList((int)page, 5));
         }
         
         public ActionResult Details(int? id)
