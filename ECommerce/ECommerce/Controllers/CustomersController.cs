@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
@@ -9,35 +10,34 @@ using ECommerce.Models;
 
 namespace ECommerce.Controllers
 {
-    [Authorize(Roles = "User, Admin")]
+    [Authorize(Roles = "User")]
     public class CustomersController : Controller
     {
         private ECommerceContext db = new ECommerceContext();
-        
+
         public ActionResult Index()
         {
-            IQueryable<Customer> customers;
-            var adminUser = WebConfigurationManager.AppSettings["AdminUser"];
-            //Note: Include es un INNER JOIN
-            if (adminUser == User.Identity.Name)
-                customers = db.Customers
-                    .Include(c => c.City)
-                    .Include(c => c.Company)
-                    .Include(c => c.Department);
-            else
-            {
-                //verifica el usuario logeado y filtra por su compania
-                var user = db.Users.FirstOrDefault(u => u.UserName == User.Identity.Name);
-                if (user == null)
-                    return RedirectToAction("Index", "Home");
+            var customers = new List<Customer>();
 
-                customers = db.Customers.Where(c => c.CompanyId == user.CompanyId);
-                //==================================================
+            //verifica el usuario logeado y filtra por su compania
+            var user = db.Users.FirstOrDefault(u => u.UserName == User.Identity.Name);
+            if (user == null)
+                return RedirectToAction("Index", "Home");
+
+            var qry = (from cu in db.Customers
+                join cc in db.CompanyCustomers on cu.CustomerId equals cc.CustomerId
+                join co in db.Companies on cc.CompanyId equals co.CompanyId
+                where co.CompanyId == user.CompanyId
+                select new {cu}).ToList();
+
+            foreach (var item in qry)
+            {
+                customers.Add(item.cu);
             }
-            
+
             return View(customers.ToList());
         }
-        
+
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -56,23 +56,13 @@ namespace ECommerce.Controllers
         {
             ViewBag.CityId = new SelectList(CombosHelper.GetCities(0), "CityId", "Name");
             ViewBag.DepartmentId = new SelectList(CombosHelper.GetDepartments(), "DepartmentId", "Name");
-
-            var adminUser = WebConfigurationManager.AppSettings["AdminUser"];
-            if (adminUser == User.Identity.Name)
-            {                
-                ViewBag.CompanyId = new SelectList(CombosHelper.GetCompanies(), "CompanyId", "Name");                
-                return View();
-            }
+            
             //verifica el usuario logeado y envia su compania a la vista
             var user = db.Users.FirstOrDefault(u => u.UserName == User.Identity.Name);
             if (user == null)
                 return RedirectToAction("Index", "Home");
             
-            var customer = new Customer
-            {
-                CompanyId = user.CompanyId
-            };
-            return View(customer);
+            return View();
         }
         
         [HttpPost]
@@ -81,19 +71,45 @@ namespace ECommerce.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Customers.Add(customer);
-                var response = DBHelper.SaveChanges(db);
-                if (response.Succeeded)
+                using (var transacction = db.Database.BeginTransaction())
                 {
-                    //UsersHelper.CreateUserASP(customer.UserName, "Customer");
-                    return RedirectToAction("Index");
-                }
-                ModelState.AddModelError(string.Empty, response.Message);
+                    try
+                    {
+                        db.Customers.Add(customer);
+                        var response = DBHelper.SaveChanges(db);
+                        if (!response.Succeeded)
+                        {
+                            ModelState.AddModelError(string.Empty, response.Message);
+                            transacction.Rollback();
+                            ViewBag.CityId = new SelectList(CombosHelper.GetCities(customer.DepartmentId), "CityId","Name", customer.CityId);
+                            ViewBag.DepartmentId = new SelectList(CombosHelper.GetDepartments(), "DepartmentId", "Name", customer.DepartmentId);
+                            //ViewBag.CompanyId = new SelectList(CombosHelper.GetCompanies(), "CompanyId", "Name", customer.CompanyId);
+                            return View(customer);
+                        }
+
+                        //UsersHelper.CreateUserASP(customer.UserName, "Customer");
+                        var user = db.Users.FirstOrDefault(u => u.UserName == User.Identity.Name);
+                        var companyCustomer = new CompanyCustomer
+                        {
+                            CompanyId = user.CompanyId,
+                            CustomerId = customer.CustomerId,
+                        };
+                        db.CompanyCustomers.Add(companyCustomer);
+                        db.SaveChanges();
+                        transacction.Commit();
+                        return RedirectToAction("Index");                        
+                    }
+                    catch (Exception ex)
+                    {
+                        transacction.Rollback();
+                        ModelState.AddModelError(string.Empty, ex.Message);
+                    }
+                }                
             }
 
             ViewBag.CityId = new SelectList(CombosHelper.GetCities(customer.DepartmentId), "CityId", "Name", customer.CityId);
             ViewBag.DepartmentId = new SelectList(CombosHelper.GetDepartments(), "DepartmentId", "Name", customer.DepartmentId);
-            ViewBag.CompanyId = new SelectList(CombosHelper.GetCompanies(), "CompanyId", "Name", customer.CompanyId);
+            //ViewBag.CompanyId = new SelectList(CombosHelper.GetCompanies(), "CompanyId", "Name", customer.CompanyId);
             return View(customer);
         }
         
@@ -110,11 +126,7 @@ namespace ECommerce.Controllers
             }
             ViewBag.CityId = new SelectList(CombosHelper.GetCities(customer.DepartmentId), "CityId", "Name", customer.CityId);            
             ViewBag.DepartmentId = new SelectList(CombosHelper.GetDepartments(), "DepartmentId", "Name", customer.DepartmentId);
-
-            var adminUser = WebConfigurationManager.AppSettings["AdminUser"];
-            if (adminUser == User.Identity.Name)
-                ViewBag.CompanyId = new SelectList(CombosHelper.GetCompanies(), "CompanyId", "Name", customer.CompanyId);
-
+            
             return View(customer);
         }
         
@@ -133,9 +145,9 @@ namespace ECommerce.Controllers
                 }
                 ModelState.AddModelError(string.Empty, response.Message);
             }
-            ViewBag.CityId = new SelectList(CombosHelper.GetCities(customer.DepartmentId), "CityId", "Name", customer.CityId);
-            ViewBag.CompanyId = new SelectList(CombosHelper.GetCompanies(), "CompanyId", "Name", customer.CompanyId);
+            ViewBag.CityId = new SelectList(CombosHelper.GetCities(customer.DepartmentId), "CityId", "Name", customer.CityId);            
             ViewBag.DepartmentId = new SelectList(CombosHelper.GetDepartments(), "DepartmentId", "Name", customer.DepartmentId);
+            //ViewBag.CompanyId = new SelectList(CombosHelper.GetCompanies(), "CompanyId", "Name", customer.CompanyId);
             return View(customer);
         }
         
@@ -158,15 +170,24 @@ namespace ECommerce.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             var customer = db.Customers.Find(id);
-            db.Customers.Remove(customer);
-            var response = DBHelper.SaveChanges(db);
-            if (response.Succeeded)
+            var user = db.Users.FirstOrDefault(u => u.UserName == User.Identity.Name);
+            var companyCustomer = db.CompanyCustomers.FirstOrDefault(cc => cc.CompanyId == user.CompanyId && cc.CustomerId == customer.CustomerId);
+
+            using (var transacction = db.Database.BeginTransaction())
             {
-                //UsersHelper.DeleteUser(customer.UserName);
-                return RedirectToAction("Index");
+                db.CompanyCustomers.Remove(companyCustomer);
+                db.Customers.Remove(customer);
+                var response = DBHelper.SaveChanges(db);
+                if (response.Succeeded)
+                {
+                    //UsersHelper.DeleteUser(customer.UserName, "Customer");
+                    transacction.Commit();
+                    return RedirectToAction("Index");
+                }
+                ModelState.AddModelError(string.Empty, response.Message);
+                transacction.Rollback();
+                return View(customer);
             }
-            ModelState.AddModelError(string.Empty, response.Message);
-            return View(customer);
         }        
 
         protected override void Dispose(bool disposing)
