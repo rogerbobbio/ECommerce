@@ -1,20 +1,28 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Web;
 
 namespace ECommerce.Models
 {
-    public class Company
+    public class Supplier
     {
         [Key]
-        public int CompanyId { get; set; }
+        public int SupplierId { get; set; }
+
+        [Required(ErrorMessage = "The field {0} is required")]
+        [MaxLength(256, ErrorMessage = "The  field {0} must be at least {1} characteres length.")]
+        [Display(Name = "E-Mail")]
+        [DataType(DataType.EmailAddress)]
+        public string UserName { get; set; }
 
         [Required(ErrorMessage = "The field {0} is required")]
         [MaxLength(50, ErrorMessage = "The field {0} must be at least {1} characteres length.")]
-        [Display(Name = "Company")]
-        [Index("Company_Name_Index", IsUnique = true)]
-        public string Name { get; set; }
+        [Display(Name = "First Name")]
+        public string FirstName { get; set; }
+
+        [Required(ErrorMessage = "The field {0} is required")]
+        [MaxLength(50, ErrorMessage = "The field {0} must be at least {1} characteres length.")]
+        [Display(Name = "Last Name")]
+        public string LastName { get; set; }
 
         [Required(ErrorMessage = "The field {0} is required")]
         [MaxLength(20, ErrorMessage = "The field {0} must be at least {1} characteres length.")]
@@ -24,13 +32,6 @@ namespace ECommerce.Models
         [Required(ErrorMessage = "The field {0} is required")]
         [MaxLength(100, ErrorMessage = "The field {0} must be at least {1} characteres length.")]
         public string Address { get; set; }
-
-        [DataType(DataType.ImageUrl)]
-        public string Logo { get; set; }
-
-        [NotMapped]
-        [Display(Name = "Logo")]
-        public HttpPostedFileBase LogoFile { get; set; }
 
         [Required(ErrorMessage = "The field {0} is required")]
         [Range(1, double.MaxValue, ErrorMessage = "You must select a {0}")]
@@ -42,24 +43,12 @@ namespace ECommerce.Models
         [Display(Name = "City")]
         public int CityId { get; set; }
 
-        [Required(ErrorMessage = "The field {0} is required")]
-        [MaxLength(11, ErrorMessage = "The field {0} must be at least {1} characteres length.")]
-        public string Ruc { get; set; }
-
-        public bool State { get; set; }        
+        [Display(Name = "Supplier")]
+        public string FullName { get { return string.Format("{0} {1}", FirstName, LastName); } }
 
         public virtual City City { get; set; }
         public virtual Department Department { get; set; }
 
-        public virtual ICollection<Project> Projects { get; set; }
-        public virtual ICollection<UserRol> UserRols { get; set; }
-        public virtual ICollection<User> Users { get; set; }
-        public virtual ICollection<ProductCategory> ProductCategories { get; set; }
-        public virtual ICollection<Tax> Taxes { get; set; }
-        public virtual ICollection<Product> Products { get; set; }
-        public virtual ICollection<Warehouse> Warehouses { get; set; }        
-        public virtual ICollection<Order> Orders { get; set; }
-        public virtual ICollection<CompanyCustomer> CompanyCustomers { get; set; }
         public virtual ICollection<CompanySupplier> CompanySuppliers { get; set; }
     }
 }

@@ -11,33 +11,34 @@ using PagedList;
 namespace ECommerce.Controllers
 {
     [Authorize(Roles = "User")]
-    public class CustomersController : Controller
+    public class SuppliersController : Controller
     {
         private ECommerceContext db = new ECommerceContext();
-
+        
         public ActionResult Index(int? page = null)
         {
             page = (page ?? 1);
-            var customers = new List<Customer>();
+            var suppliers = new List<Supplier>();
 
             //verifica el usuario logeado y filtra por su compania
             var user = db.Users.FirstOrDefault(u => u.UserName == User.Identity.Name);
             if (user == null)
                 return RedirectToAction("Index", "Home");
 
-            var qry = (from cu in db.Customers
-                join cc in db.CompanyCustomers on cu.CustomerId equals cc.CustomerId
+            var qry = (from cu in db.Suppliers
+                join cc in db.CompanySuppliers on cu.SupplierId equals cc.SupplierId
                 join co in db.Companies on cc.CompanyId equals co.CompanyId
                 where co.CompanyId == user.CompanyId
-                select new {cu}).ToList();
+                select new { cu }).ToList();
 
             foreach (var item in qry)
             {
-                customers.Add(item.cu);
+                suppliers.Add(item.cu);
             }
 
-            customers.OrderBy(c => c.FirstName).ThenBy(c => c.LastName);
-            return View(customers.ToPagedList((int)page, 5));
+            
+            suppliers.OrderBy(c => c.FirstName).ThenBy(c => c.LastName);
+            return View(suppliers.ToPagedList((int)page, 5));
         }
 
         public ActionResult Details(int? id)
@@ -46,30 +47,30 @@ namespace ECommerce.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var customer = db.Customers.Find(id);
-            if (customer == null)
+            var supplier = db.Suppliers.Find(id);
+            if (supplier == null)
             {
                 return HttpNotFound();
             }
-            return View(customer);
+            return View(supplier);
         }
         
         public ActionResult Create()
         {
             ViewBag.CityId = new SelectList(CombosHelper.GetCities(0), "CityId", "Name");
             ViewBag.DepartmentId = new SelectList(CombosHelper.GetDepartments(), "DepartmentId", "Name");
-            
+
             //verifica el usuario logeado y envia su compania a la vista
             var user = db.Users.FirstOrDefault(u => u.UserName == User.Identity.Name);
             if (user == null)
                 return RedirectToAction("Index", "Home");
-            
+
             return View();
         }
         
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(Customer customer)
+        public ActionResult Create(Supplier supplier)
         {
             if (ModelState.IsValid)
             {
@@ -77,29 +78,29 @@ namespace ECommerce.Controllers
                 {
                     try
                     {
-                        db.Customers.Add(customer);
+                        db.Suppliers.Add(supplier);
                         var response = DBHelper.SaveChanges(db);
                         if (!response.Succeeded)
                         {
                             ModelState.AddModelError(string.Empty, response.Message);
                             transacction.Rollback();
-                            ViewBag.CityId = new SelectList(CombosHelper.GetCities(customer.DepartmentId), "CityId","Name", customer.CityId);
-                            ViewBag.DepartmentId = new SelectList(CombosHelper.GetDepartments(), "DepartmentId", "Name", customer.DepartmentId);
+                            ViewBag.CityId = new SelectList(CombosHelper.GetCities(supplier.DepartmentId), "CityId", "Name", supplier.CityId);
+                            ViewBag.DepartmentId = new SelectList(CombosHelper.GetDepartments(), "DepartmentId", "Name", supplier.DepartmentId);
                             //ViewBag.CompanyId = new SelectList(CombosHelper.GetCompanies(), "CompanyId", "Name", customer.CompanyId);
-                            return View(customer);
+                            return View(supplier);
                         }
 
                         //UsersHelper.CreateUserASP(customer.UserName, "Customer");
                         var user = db.Users.FirstOrDefault(u => u.UserName == User.Identity.Name);
-                        var companyCustomer = new CompanyCustomer
+                        var companySupplier = new CompanySupplier
                         {
                             CompanyId = user.CompanyId,
-                            CustomerId = customer.CustomerId,
+                            SupplierId = supplier.SupplierId,
                         };
-                        db.CompanyCustomers.Add(companyCustomer);
+                        db.CompanySuppliers.Add(companySupplier);
                         db.SaveChanges();
                         transacction.Commit();
-                        return RedirectToAction("Index");                        
+                        return RedirectToAction("Index");
                     }
                     catch (Exception ex)
                     {
@@ -109,36 +110,34 @@ namespace ECommerce.Controllers
                 }
             }
 
-            ViewBag.CityId = new SelectList(CombosHelper.GetCities(customer.DepartmentId), "CityId", "Name", customer.CityId);
-            ViewBag.DepartmentId = new SelectList(CombosHelper.GetDepartments(), "DepartmentId", "Name", customer.DepartmentId);
-            //ViewBag.CompanyId = new SelectList(CombosHelper.GetCompanies(), "CompanyId", "Name", customer.CompanyId);
-            return View(customer);
+            ViewBag.CityId = new SelectList(CombosHelper.GetCities(supplier.DepartmentId), "CityId", "Name", supplier.CityId);
+            ViewBag.DepartmentId = new SelectList(CombosHelper.GetDepartments(), "DepartmentId", "Name", supplier.DepartmentId);
+            return View(supplier);
         }
-        
+
         public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var customer = db.Customers.Find(id);
-            if (customer == null)
+            var supplier = db.Suppliers.Find(id);
+            if (supplier == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.CityId = new SelectList(CombosHelper.GetCities(customer.DepartmentId), "CityId", "Name", customer.CityId);            
-            ViewBag.DepartmentId = new SelectList(CombosHelper.GetDepartments(), "DepartmentId", "Name", customer.DepartmentId);
-            
-            return View(customer);
+            ViewBag.CityId = new SelectList(CombosHelper.GetCities(supplier.DepartmentId), "CityId", "Name", supplier.CityId);
+            ViewBag.DepartmentId = new SelectList(CombosHelper.GetDepartments(), "DepartmentId", "Name", supplier.DepartmentId);
+            return View(supplier);
         }
-        
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(Customer customer)
+        public ActionResult Edit(Supplier supplier)
         {
             if (ModelState.IsValid)
-            {                
-                db.Entry(customer).State = EntityState.Modified;
+            {
+                db.Entry(supplier).State = EntityState.Modified;
                 var response = DBHelper.SaveChanges(db);
                 if (response.Succeeded)
                 {
@@ -147,38 +146,37 @@ namespace ECommerce.Controllers
                 }
                 ModelState.AddModelError(string.Empty, response.Message);
             }
-            ViewBag.CityId = new SelectList(CombosHelper.GetCities(customer.DepartmentId), "CityId", "Name", customer.CityId);            
-            ViewBag.DepartmentId = new SelectList(CombosHelper.GetDepartments(), "DepartmentId", "Name", customer.DepartmentId);
-            //ViewBag.CompanyId = new SelectList(CombosHelper.GetCompanies(), "CompanyId", "Name", customer.CompanyId);
-            return View(customer);
+            ViewBag.CityId = new SelectList(CombosHelper.GetCities(supplier.DepartmentId), "CityId", "Name", supplier.CityId);
+            ViewBag.DepartmentId = new SelectList(CombosHelper.GetDepartments(), "DepartmentId", "Name", supplier.DepartmentId);
+            return View(supplier);
         }
-        
+
         public ActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var customer = db.Customers.Find(id);
-            if (customer == null)
+            var supplier = db.Suppliers.Find(id);
+            if (supplier == null)
             {
                 return HttpNotFound();
             }
-            return View(customer);
+            return View(supplier);
         }
-        
+
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            var customer = db.Customers.Find(id);
+            var supplier = db.Suppliers.Find(id);            
             var user = db.Users.FirstOrDefault(u => u.UserName == User.Identity.Name);
-            var companyCustomer = db.CompanyCustomers.FirstOrDefault(cc => cc.CompanyId == user.CompanyId && cc.CustomerId == customer.CustomerId);
+            var companySupplier = db.CompanySuppliers.FirstOrDefault(cc => cc.CompanyId == user.CompanyId && cc.SupplierId == supplier.SupplierId);
 
             using (var transacction = db.Database.BeginTransaction())
             {
-                db.CompanyCustomers.Remove(companyCustomer);
-                db.Customers.Remove(customer);
+                db.CompanySuppliers.Remove(companySupplier);
+                db.Suppliers.Remove(supplier);
                 var response = DBHelper.SaveChanges(db);
                 if (response.Succeeded)
                 {
@@ -188,9 +186,9 @@ namespace ECommerce.Controllers
                 }
                 ModelState.AddModelError(string.Empty, response.Message);
                 transacction.Rollback();
-                return View(customer);
+                return View(supplier);
             }
-        }        
+        }
 
         protected override void Dispose(bool disposing)
         {
