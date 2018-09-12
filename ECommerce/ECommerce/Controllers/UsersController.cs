@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
@@ -6,6 +7,7 @@ using System.Web.Configuration;
 using System.Web.Mvc;
 using ECommerce.Classes;
 using ECommerce.Models;
+using OfficeOpenXml;
 using PagedList;
 
 namespace ECommerce.Controllers
@@ -41,6 +43,64 @@ namespace ECommerce.Controllers
             }
             
             return View(users.ToPagedList((int)page, 5));
+        }
+
+        public void ExportToExcel()
+        {
+            List<User> users;
+            var adminUser = WebConfigurationManager.AppSettings["AdminUser"];
+            if (adminUser == User.Identity.Name)
+                users = db.Users.ToList();
+            else
+            {
+                var user = db.Users.FirstOrDefault(u => u.UserName == User.Identity.Name);
+                users = db.Users.Where(c => c.CompanyId == user.CompanyId).ToList();
+            }
+            
+            var pck = new ExcelPackage();
+            var ws = pck.Workbook.Worksheets.Add("Report");
+
+            ws.Cells["A1"].Value = "Lista de Usuarios";
+            ws.Cells["A1"].Style.Font.Size = 20;
+            ws.Cells["A1"].Style.Font.Bold = true;
+
+            
+            ws.Cells["A6"].Value = "User Name";
+            ws.Cells["A6"].Style.Font.Bold = true;
+
+            ws.Cells["B6"].Value = "Full Name";
+            ws.Cells["B6"].Style.Font.Bold = true;
+
+            ws.Cells["C6"].Value = "Proyecto";
+            ws.Cells["C6"].Style.Font.Bold = true;
+
+            ws.Cells["D6"].Value = "Rol";
+            ws.Cells["D6"].Style.Font.Bold = true;
+
+            ws.Cells["E6"].Value = "Phone";
+            ws.Cells["E6"].Style.Font.Bold = true;
+
+            ws.Cells["F6"].Value = "DNI";
+            ws.Cells["F6"].Style.Font.Bold = true;
+
+            var rowStart = 7;
+            foreach (var item in users)
+            {
+                ws.Cells[string.Format("A{0}", rowStart)].Value = item.UserName;
+                ws.Cells[string.Format("B{0}", rowStart)].Value = item.FullName;
+                ws.Cells[string.Format("C{0}", rowStart)].Value = item.Project.Name;
+                ws.Cells[string.Format("D{0}", rowStart)].Value = item.UserRol.Name;
+                ws.Cells[string.Format("E{0}", rowStart)].Value = item.Phone;
+                ws.Cells[string.Format("F{0}", rowStart)].Value = item.Dni;
+                rowStart++;
+            }
+
+            ws.Cells["A:AZ"].AutoFitColumns();
+            Response.Clear();
+            Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+            Response.AddHeader("content-disposition", "attachment; filename=" + "ExcelReport.xlsx");
+            Response.BinaryWrite(pck.GetAsByteArray());
+            Response.End();
         }
 
         public ActionResult Details(int? id)

@@ -6,6 +6,7 @@ using System.Net;
 using System.Web.Mvc;
 using ECommerce.Classes;
 using ECommerce.Models;
+using OfficeOpenXml;
 using PagedList;
 
 namespace ECommerce.Controllers
@@ -38,6 +39,57 @@ namespace ECommerce.Controllers
 
             customers.OrderBy(c => c.FirstName).ThenBy(c => c.LastName);
             return View(customers.ToPagedList((int)page, 5));
+        }
+
+        public void ExportToExcel()
+        {
+            var user = db.Users.FirstOrDefault(u => u.UserName == User.Identity.Name);
+            var customerList = (from cu in db.Customers
+                join cc in db.CompanyCustomers on cu.CustomerId equals cc.CustomerId
+                join co in db.Companies on cc.CompanyId equals co.CompanyId
+                where co.CompanyId == user.CompanyId
+                select new { cu }).ToList();
+
+            var pck = new ExcelPackage();
+            var ws = pck.Workbook.Worksheets.Add("Report");
+
+            ws.Cells["A1"].Value = "Lista de Clientes";
+            ws.Cells["A1"].Style.Font.Size = 20;
+            ws.Cells["A1"].Style.Font.Bold = true;
+
+
+            ws.Cells["A6"].Value = "User Name";
+            ws.Cells["A6"].Style.Font.Bold = true;
+
+            ws.Cells["B6"].Value = "Full Name";
+            ws.Cells["B6"].Style.Font.Bold = true;
+
+            ws.Cells["C6"].Value = "City";
+            ws.Cells["C6"].Style.Font.Bold = true;
+
+            ws.Cells["D6"].Value = "Department";
+            ws.Cells["D6"].Style.Font.Bold = true;
+
+            ws.Cells["E6"].Value = "Phone";
+            ws.Cells["E6"].Style.Font.Bold = true;            
+
+            var rowStart = 7;
+            foreach (var item in customerList)
+            {
+                ws.Cells[string.Format("A{0}", rowStart)].Value = item.cu.UserName;
+                ws.Cells[string.Format("B{0}", rowStart)].Value = item.cu.FullName;
+                ws.Cells[string.Format("C{0}", rowStart)].Value = item.cu.City.Name;
+                ws.Cells[string.Format("D{0}", rowStart)].Value = item.cu.Department.Name;
+                ws.Cells[string.Format("E{0}", rowStart)].Value = item.cu.Phone;                
+                rowStart++;
+            }
+
+            ws.Cells["A:AZ"].AutoFitColumns();
+            Response.Clear();
+            Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+            Response.AddHeader("content-disposition", "attachment; filename=" + "ExcelReport.xlsx");
+            Response.BinaryWrite(pck.GetAsByteArray());
+            Response.End();
         }
 
         public ActionResult Details(int? id)
