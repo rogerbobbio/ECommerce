@@ -59,5 +59,9 @@ namespace ECommerce.Models
         public DbSet<Supplier> Suppliers { get; set; }
 
         public DbSet<CompanySupplier> CompanySuppliers { get; set; }
+
+        public DbSet<Budget> Budgets { get; set; }
+
+        public DbSet<BudgetDetail> BudgetDetails { get; set; }
     }
 }

@@ -1,0 +1,3700 @@
+﻿@model ECommerce.Models.NewBudgetView
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Create</h2>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <h4>Presupuesto</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @if (User.IsInRole("User"))
+        {
+            @Html.HiddenFor(model => model.CompanyId)
+        }
+        
+    <div class="row">
+        <div class="col-md-6">
+            @if (User.IsInRole("Admin"))
+            {
+                <div class="form-group">
+                    @Html.LabelFor(model => model.CompanyId, "Company", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DropDownList("CompanyId", null, htmlAttributes: new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.CompanyId, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            }
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.CustomerId, "Customer", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownList("CustomerId", null, htmlAttributes: new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.CustomerId, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.ProjectId, "Project", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownList("ProjectId", null, htmlAttributes: new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.ProjectId, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Date, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    <div class="input-group date" id="datepicker" style="width: 280px">
+                        @Html.EditorFor(model => model.Date, new { htmlAttributes = new { @class = "form-control" } })
+                        <span class="input-group-addon">
+                            <span class="glyphicon glyphicon-calendar"></span>
+                        </span>
+                    </div>
+                    @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                @Html.LabelFor(model => model.Remarks, htmlAttributes: new {@class = "control-label col-md-2"})
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Remarks, new {htmlAttributes = new {@class = "form-control"}})
+                    @Html.ValidationMessageFor(model => model.Remarks, "", new {@class = "text-danger"})
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.TotalButget, htmlAttributes: new {@class = "control-label col-md-2"})
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.TotalButget, new {htmlAttributes = new {@class = "form-control"}})
+                    @Html.ValidationMessageFor(model => model.TotalButget, "", new {@class = "text-danger"})
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">                    
+                    <input type="submit" value="Create" class="btn btn-primary"/>
+                    @Html.ActionLink("Back to List", "Index", new {}, new {@class = "btn btn-success"})
+                </div>
+            </div>
+        </div>
+    </div>               
+    </div>
+}
+
+<h2>Detalles de Presupuesto</h2>
+<hr />
+<hr />
+<h4 style="color:#F00">@Html.DisplayFor(model => model.DetailsSc01[0].Category)</h4>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc01[0].Subcategory)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc01[0].Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc01[0].Unity)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc01[0].Metered)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc01[0].UnitPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc01[0].PartialPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc01[0].Remarks)
+        </th>
+        <th></th>
+    </tr>
+    @foreach (var item in Model.DetailsSc01)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Subcategory)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Unity)
+            </td>
+            <td align="right">
+                @Html.EditorFor(model => item.Metered, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => item.Metered, "", new { @class = "text-danger" })
+            </td>
+            <td align="right">
+                @Html.EditorFor(model => item.UnitPrice, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => item.UnitPrice, "", new { @class = "text-danger" })
+            </td>
+            <td align="right">
+                @Html.DisplayFor(modelItem => item.PartialPrice)
+            </td>
+            <td>
+                @Html.EditorFor(model => item.Remarks, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => item.Remarks, "", new { @class = "text-danger" })
+            </td>
+        </tr>
+    }
+    <tr>
+        <td colspan="5" align="right">
+            <strong>Total</strong>
+        </td>
+        <td align="right">
+            <strong>@Html.DisplayFor(modelItem => Model.SubTotal01)</strong>
+        </td>
+    </tr>
+</table>
+
+<h4 style="color:#F00">@Html.DisplayFor(model => model.DetailsSc02[0].Category)</h4>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc02[0].Subcategory)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc02[0].Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc02[0].Unity)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc02[0].Metered)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc02[0].UnitPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc02[0].PartialPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc02[0].Remarks)
+        </th>
+        <th></th>
+    </tr>
+    @foreach (var item in Model.DetailsSc02)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Subcategory)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Unity)
+            </td>
+            <td align="right">
+                @Html.EditorFor(model => item.Metered, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => item.Metered, "", new { @class = "text-danger" })
+            </td>
+            <td align="right">
+                @Html.EditorFor(model => item.UnitPrice, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => item.UnitPrice, "", new { @class = "text-danger" })
+            </td>
+            <td align="right">
+                @Html.DisplayFor(modelItem => item.PartialPrice)
+            </td>
+            <td>
+                @Html.EditorFor(model => item.Remarks, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => item.Remarks, "", new { @class = "text-danger" })
+            </td>
+        </tr>
+    }
+    <tr>
+        <td colspan="5" align="right">
+            <strong>Total</strong>
+        </td>
+        <td align="right">
+            <strong>@Html.DisplayFor(modelItem => Model.SubTotal02)</strong>
+        </td>
+    </tr>
+</table>
+
+<h4 style="color:#F00">@Html.DisplayFor(model => model.DetailsSc03[0].Category)</h4>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc03[0].Subcategory)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc03[0].Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc03[0].Unity)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc03[0].Metered)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc03[0].UnitPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc03[0].PartialPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc03[0].Remarks)
+        </th>
+        <th></th>
+    </tr>
+    @foreach (var item in Model.DetailsSc03)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Subcategory)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Unity)
+            </td>
+            <td align="right">
+                @Html.EditorFor(model => item.Metered, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => item.Metered, "", new { @class = "text-danger" })
+            </td>
+            <td align="right">
+                @Html.EditorFor(model => item.UnitPrice, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => item.UnitPrice, "", new { @class = "text-danger" })
+            </td>
+            <td align="right">
+                @Html.DisplayFor(modelItem => item.PartialPrice)
+            </td>
+            <td>
+                @Html.EditorFor(model => item.Remarks, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => item.Remarks, "", new { @class = "text-danger" })
+            </td>
+        </tr>
+    }
+    <tr>
+        <td colspan="5" align="right">
+            <strong>Total</strong>
+        </td>
+        <td align="right">
+            <strong>@Html.DisplayFor(modelItem => Model.SubTotal03)</strong>
+        </td>
+    </tr>
+</table>
+
+<h4 style="color:#F00">@Html.DisplayFor(model => model.DetailsSc04[0].Category)</h4>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc04[0].Subcategory)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc04[0].Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc04[0].Unity)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc04[0].Metered)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc04[0].UnitPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc04[0].PartialPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc04[0].Remarks)
+        </th>
+        <th></th>
+    </tr>
+    @foreach (var item in Model.DetailsSc04)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Subcategory)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Unity)
+            </td>
+            <td align="right">
+                @Html.EditorFor(model => item.Metered, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => item.Metered, "", new { @class = "text-danger" })
+            </td>
+            <td align="right">
+                @Html.EditorFor(model => item.UnitPrice, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => item.UnitPrice, "", new { @class = "text-danger" })
+            </td>
+            <td align="right">
+                @Html.DisplayFor(modelItem => item.PartialPrice)
+            </td>
+            <td>
+                @Html.EditorFor(model => item.Remarks, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => item.Remarks, "", new { @class = "text-danger" })
+            </td>
+        </tr>
+    }
+    <tr>
+        <td colspan="5" align="right">
+            <strong>Total</strong>
+        </td>
+        <td align="right">
+            <strong>@Html.DisplayFor(modelItem => Model.SubTotal04)</strong>
+        </td>
+    </tr>
+</table>
+
+
+<h4 style="color:#F00">@Html.DisplayFor(model => model.DetailsSc05[0].Category)</h4>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc05[0].Subcategory)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc05[0].Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc05[0].Unity)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc05[0].Metered)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc05[0].UnitPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc05[0].PartialPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc05[0].Remarks)
+        </th>
+        <th></th>
+    </tr>
+    @foreach (var item in Model.DetailsSc05)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Subcategory)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Unity)
+            </td>
+            <td align="right">
+                @Html.EditorFor(model => item.Metered, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => item.Metered, "", new { @class = "text-danger" })
+            </td>
+            <td align="right">
+                @Html.EditorFor(model => item.UnitPrice, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => item.UnitPrice, "", new { @class = "text-danger" })
+            </td>
+            <td align="right">
+                @Html.DisplayFor(modelItem => item.PartialPrice)
+            </td>
+            <td>
+                @Html.EditorFor(model => item.Remarks, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => item.Remarks, "", new { @class = "text-danger" })
+            </td>
+        </tr>
+    }
+    <tr>
+        <td colspan="5" align="right">
+            <strong>Total</strong>
+        </td>
+        <td align="right">
+            <strong>@Html.DisplayFor(modelItem => Model.SubTotal05)</strong>
+        </td>
+    </tr>
+</table>
+
+
+<h4 style="color:#F00">@Html.DisplayFor(model => model.DetailsSc06[0].Category)</h4>
+
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc06[0].Subcategory)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc06[0].Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc06[0].Unity)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc06[0].Metered)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc06[0].UnitPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc06[0].PartialPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc06[0].Remarks)
+        </th>
+        <th></th>
+    </tr>
+    @foreach (var item in Model.DetailsSc06)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Subcategory)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Unity)
+            </td>
+            <td align="right">
+                @Html.EditorFor(model => item.Metered, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => item.Metered, "", new { @class = "text-danger" })
+            </td>
+            <td align="right">
+                @Html.EditorFor(model => item.UnitPrice, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => item.UnitPrice, "", new { @class = "text-danger" })
+            </td>
+            <td align="right">
+                @Html.DisplayFor(modelItem => item.PartialPrice)
+            </td>
+            <td>
+                @Html.EditorFor(model => item.Remarks, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => item.Remarks, "", new { @class = "text-danger" })
+            </td>
+        </tr>
+    }
+    <tr>
+        <td colspan="5" align="right">
+            <strong>Total</strong>
+        </td>
+        <td align="right">
+            <strong>@Html.DisplayFor(modelItem => Model.SubTotal06)</strong>
+        </td>
+    </tr>
+</table>
+
+<h4 style="color:#F00">@Html.DisplayFor(model => model.DetailsSc07[0].Category)</h4>
+
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc07[0].Subcategory)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc07[0].Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc07[0].Unity)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc07[0].Metered)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc07[0].UnitPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc07[0].PartialPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc07[0].Remarks)
+        </th>
+        <th></th>
+    </tr>
+    @foreach (var item in Model.DetailsSc07)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Subcategory)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Unity)
+            </td>
+            <td align="right">
+                @Html.EditorFor(model => item.Metered, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => item.Metered, "", new { @class = "text-danger" })
+            </td>
+            <td align="right">
+                @Html.EditorFor(model => item.UnitPrice, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => item.UnitPrice, "", new { @class = "text-danger" })
+            </td>
+            <td align="right">
+                @Html.DisplayFor(modelItem => item.PartialPrice)
+            </td>
+            <td>
+                @Html.EditorFor(model => item.Remarks, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => item.Remarks, "", new { @class = "text-danger" })
+            </td>
+        </tr>
+    }
+    <tr>
+        <td colspan="5" align="right">
+            <strong>Total</strong>
+        </td>
+        <td align="right">
+            <strong>@Html.DisplayFor(modelItem => Model.SubTotal07)</strong>
+        </td>
+    </tr>
+</table>
+
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc08[0].Subcategory)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc08[0].Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc08[0].Unity)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc08[0].Metered)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc08[0].UnitPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc08[0].PartialPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc08[0].Remarks)
+        </th>
+        <th></th>
+    </tr>
+    @foreach (var item in Model.DetailsSc08)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Subcategory)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Unity)
+            </td>
+            <td align="right">
+                @Html.EditorFor(model => item.Metered, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => item.Metered, "", new { @class = "text-danger" })
+            </td>
+            <td align="right">
+                @Html.EditorFor(model => item.UnitPrice, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => item.UnitPrice, "", new { @class = "text-danger" })
+            </td>
+            <td align="right">
+                @Html.DisplayFor(modelItem => item.PartialPrice)
+            </td>
+            <td>
+                @Html.EditorFor(model => item.Remarks, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => item.Remarks, "", new { @class = "text-danger" })
+            </td>
+        </tr>
+    }
+    <tr>
+        <td colspan="5" align="right">
+            <strong>Total</strong>
+        </td>
+        <td align="right">
+            <strong>@Html.DisplayFor(modelItem => Model.SubTotal08)</strong>
+        </td>
+    </tr>
+</table>
+
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc09[0].Subcategory)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc09[0].Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc09[0].Unity)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc09[0].Metered)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc09[0].UnitPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc09[0].PartialPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc09[0].Remarks)
+        </th>
+        <th></th>
+    </tr>
+    @foreach (var item in Model.DetailsSc09)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Subcategory)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Unity)
+            </td>
+            <td align="right">
+                @Html.EditorFor(model => item.Metered, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => item.Metered, "", new { @class = "text-danger" })
+            </td>
+            <td align="right">
+                @Html.EditorFor(model => item.UnitPrice, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => item.UnitPrice, "", new { @class = "text-danger" })
+            </td>
+            <td align="right">
+                @Html.DisplayFor(modelItem => item.PartialPrice)
+            </td>
+            <td>
+                @Html.EditorFor(model => item.Remarks, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => item.Remarks, "", new { @class = "text-danger" })
+            </td>
+        </tr>
+    }
+    <tr>
+        <td colspan="5" align="right">
+            <strong>Total</strong>
+        </td>
+        <td align="right">
+            <strong>@Html.DisplayFor(modelItem => Model.SubTotal09)</strong>
+        </td>
+    </tr>
+</table>
+
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc10[0].Subcategory)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc10[0].Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc10[0].Unity)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc10[0].Metered)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc10[0].UnitPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc10[0].PartialPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc10[0].Remarks)
+        </th>
+        <th></th>
+    </tr>
+    @foreach (var item in Model.DetailsSc10)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Subcategory)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Unity)
+            </td>
+            <td align="right">
+                @Html.EditorFor(model => item.Metered, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => item.Metered, "", new { @class = "text-danger" })
+            </td>
+            <td align="right">
+                @Html.EditorFor(model => item.UnitPrice, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => item.UnitPrice, "", new { @class = "text-danger" })
+            </td>
+            <td align="right">
+                @Html.DisplayFor(modelItem => item.PartialPrice)
+            </td>
+            <td>
+                @Html.EditorFor(model => item.Remarks, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => item.Remarks, "", new { @class = "text-danger" })
+            </td>
+        </tr>
+    }
+    <tr>
+        <td colspan="5" align="right">
+            <strong>Total</strong>
+        </td>
+        <td align="right">
+            <strong>@Html.DisplayFor(modelItem => Model.SubTotal10)</strong>
+        </td>
+    </tr>
+</table>
+
+
+<h4 style="color:#F00">@Html.DisplayFor(model => model.DetailsSc11[0].Category)</h4>
+
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc11[0].Subcategory)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc11[0].Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc11[0].Unity)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc11[0].Metered)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc11[0].UnitPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc11[0].PartialPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc11[0].Remarks)
+        </th>
+        <th></th>
+    </tr>
+    @foreach (var item in Model.DetailsSc11)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Subcategory)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Unity)
+            </td>
+            <td align="right">
+                @Html.EditorFor(model => item.Metered, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => item.Metered, "", new { @class = "text-danger" })
+            </td>
+            <td align="right">
+                @Html.EditorFor(model => item.UnitPrice, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => item.UnitPrice, "", new { @class = "text-danger" })
+            </td>
+            <td align="right">
+                @Html.DisplayFor(modelItem => item.PartialPrice)
+            </td>
+            <td>
+                @Html.EditorFor(model => item.Remarks, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => item.Remarks, "", new { @class = "text-danger" })
+            </td>
+        </tr>
+    }
+    <tr>
+        <td colspan="5" align="right">
+            <strong>Total</strong>
+        </td>
+        <td align="right">
+            <strong>@Html.DisplayFor(modelItem => Model.SubTotal11)</strong>
+        </td>
+    </tr>
+</table>
+
+
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc12[0].Subcategory)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc12[0].Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc12[0].Unity)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc12[0].Metered)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc12[0].UnitPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc12[0].PartialPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc12[0].Remarks)
+        </th>
+        <th></th>
+    </tr>
+    @foreach (var item in Model.DetailsSc12)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Subcategory)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Unity)
+            </td>
+            <td align="right">
+                @Html.EditorFor(model => item.Metered, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => item.Metered, "", new { @class = "text-danger" })
+            </td>
+            <td align="right">
+                @Html.EditorFor(model => item.UnitPrice, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => item.UnitPrice, "", new { @class = "text-danger" })
+            </td>
+            <td align="right">
+                @Html.DisplayFor(modelItem => item.PartialPrice)
+            </td>
+            <td>
+                @Html.EditorFor(model => item.Remarks, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => item.Remarks, "", new { @class = "text-danger" })
+            </td>
+        </tr>
+    }
+    <tr>
+        <td colspan="5" align="right">
+            <strong>Total</strong>
+        </td>
+        <td align="right">
+            <strong>@Html.DisplayFor(modelItem => Model.SubTotal12)</strong>
+        </td>
+    </tr>
+</table>
+
+
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc13[0].Subcategory)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc13[0].Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc13[0].Unity)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc13[0].Metered)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc13[0].UnitPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc13[0].PartialPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc13[0].Remarks)
+        </th>
+        <th></th>
+    </tr>
+    @foreach (var item in Model.DetailsSc13)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Subcategory)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Unity)
+            </td>
+            <td align="right">
+                @Html.EditorFor(model => item.Metered, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => item.Metered, "", new { @class = "text-danger" })
+            </td>
+            <td align="right">
+                @Html.EditorFor(model => item.UnitPrice, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => item.UnitPrice, "", new { @class = "text-danger" })
+            </td>
+            <td align="right">
+                @Html.DisplayFor(modelItem => item.PartialPrice)
+            </td>
+            <td>
+                @Html.EditorFor(model => item.Remarks, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => item.Remarks, "", new { @class = "text-danger" })
+            </td>
+        </tr>
+    }
+    <tr>
+        <td colspan="5" align="right">
+            <strong>Total</strong>
+        </td>
+        <td align="right">
+            <strong>@Html.DisplayFor(modelItem => Model.SubTotal13)</strong>
+        </td>
+    </tr>
+</table>
+
+
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc14[0].Subcategory)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc14[0].Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc14[0].Unity)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc14[0].Metered)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc14[0].UnitPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc14[0].PartialPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc14[0].Remarks)
+        </th>
+        <th></th>
+    </tr>
+    @foreach (var item in Model.DetailsSc14)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Subcategory)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Unity)
+            </td>
+            <td align="right">
+                @Html.EditorFor(model => item.Metered, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => item.Metered, "", new { @class = "text-danger" })
+            </td>
+            <td align="right">
+                @Html.EditorFor(model => item.UnitPrice, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => item.UnitPrice, "", new { @class = "text-danger" })
+            </td>
+            <td align="right">
+                @Html.DisplayFor(modelItem => item.PartialPrice)
+            </td>
+            <td>
+                @Html.EditorFor(model => item.Remarks, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => item.Remarks, "", new { @class = "text-danger" })
+            </td>
+        </tr>
+    }
+    <tr>
+        <td colspan="5" align="right">
+            <strong>Total</strong>
+        </td>
+        <td align="right">
+            <strong>@Html.DisplayFor(modelItem => Model.SubTotal14)</strong>
+        </td>
+    </tr>
+</table>
+
+
+
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc15[0].Subcategory)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc15[0].Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc15[0].Unity)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc15[0].Metered)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc15[0].UnitPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc15[0].PartialPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc15[0].Remarks)
+        </th>
+        <th></th>
+    </tr>
+    @foreach (var item in Model.DetailsSc15)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Subcategory)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Unity)
+            </td>
+            <td align="right">
+                @Html.EditorFor(model => item.Metered, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => item.Metered, "", new { @class = "text-danger" })
+            </td>
+            <td align="right">
+                @Html.EditorFor(model => item.UnitPrice, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => item.UnitPrice, "", new { @class = "text-danger" })
+            </td>
+            <td align="right">
+                @Html.DisplayFor(modelItem => item.PartialPrice)
+            </td>
+            <td>
+                @Html.EditorFor(model => item.Remarks, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => item.Remarks, "", new { @class = "text-danger" })
+            </td>
+        </tr>
+    }
+    <tr>
+        <td colspan="5" align="right">
+            <strong>Total</strong>
+        </td>
+        <td align="right">
+            <strong>@Html.DisplayFor(modelItem => Model.SubTotal15)</strong>
+        </td>
+    </tr>
+</table>
+
+
+
+
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc16[0].Subcategory)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc16[0].Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc16[0].Unity)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc16[0].Metered)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc16[0].UnitPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc16[0].PartialPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc16[0].Remarks)
+        </th>
+        <th></th>
+    </tr>
+    @foreach (var item in Model.DetailsSc16)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Subcategory)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Unity)
+            </td>
+            <td align="right">
+                @Html.EditorFor(model => item.Metered, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => item.Metered, "", new { @class = "text-danger" })
+            </td>
+            <td align="right">
+                @Html.EditorFor(model => item.UnitPrice, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => item.UnitPrice, "", new { @class = "text-danger" })
+            </td>
+            <td align="right">
+                @Html.DisplayFor(modelItem => item.PartialPrice)
+            </td>
+            <td>
+                @Html.EditorFor(model => item.Remarks, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => item.Remarks, "", new { @class = "text-danger" })
+            </td>
+        </tr>
+    }
+    <tr>
+        <td colspan="5" align="right">
+            <strong>Total</strong>
+        </td>
+        <td align="right">
+            <strong>@Html.DisplayFor(modelItem => Model.SubTotal16)</strong>
+        </td>
+    </tr>
+</table>
+
+
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc17[0].Subcategory)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc17[0].Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc17[0].Unity)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc17[0].Metered)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc17[0].UnitPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc17[0].PartialPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc17[0].Remarks)
+        </th>
+        <th></th>
+    </tr>
+    @foreach (var item in Model.DetailsSc17)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Subcategory)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Unity)
+            </td>
+            <td align="right">
+                @Html.EditorFor(model => item.Metered, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => item.Metered, "", new { @class = "text-danger" })
+            </td>
+            <td align="right">
+                @Html.EditorFor(model => item.UnitPrice, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => item.UnitPrice, "", new { @class = "text-danger" })
+            </td>
+            <td align="right">
+                @Html.DisplayFor(modelItem => item.PartialPrice)
+            </td>
+            <td>
+                @Html.EditorFor(model => item.Remarks, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => item.Remarks, "", new { @class = "text-danger" })
+            </td>
+        </tr>
+    }
+    <tr>
+        <td colspan="5" align="right">
+            <strong>Total</strong>
+        </td>
+        <td align="right">
+            <strong>@Html.DisplayFor(modelItem => Model.SubTotal17)</strong>
+        </td>
+    </tr>
+</table>
+
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc18[0].Subcategory)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc18[0].Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc18[0].Unity)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc18[0].Metered)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc18[0].UnitPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc18[0].PartialPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc18[0].Remarks)
+        </th>
+        <th></th>
+    </tr>
+    @foreach (var item in Model.DetailsSc18)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Subcategory)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Unity)
+            </td>
+            <td align="right">
+                @Html.EditorFor(model => item.Metered, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => item.Metered, "", new { @class = "text-danger" })
+            </td>
+            <td align="right">
+                @Html.EditorFor(model => item.UnitPrice, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => item.UnitPrice, "", new { @class = "text-danger" })
+            </td>
+            <td align="right">
+                @Html.DisplayFor(modelItem => item.PartialPrice)
+            </td>
+            <td>
+                @Html.EditorFor(model => item.Remarks, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => item.Remarks, "", new { @class = "text-danger" })
+            </td>
+        </tr>
+    }
+    <tr>
+        <td colspan="5" align="right">
+            <strong>Total</strong>
+        </td>
+        <td align="right">
+            <strong>@Html.DisplayFor(modelItem => Model.SubTotal18)</strong>
+        </td>
+    </tr>
+</table>
+
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc19[0].Subcategory)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc19[0].Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc19[0].Unity)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc19[0].Metered)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc19[0].UnitPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc19[0].PartialPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc19[0].Remarks)
+        </th>
+        <th></th>
+    </tr>
+    @foreach (var item in Model.DetailsSc19)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Subcategory)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Unity)
+            </td>
+            <td align="right">
+                @Html.EditorFor(model => item.Metered, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => item.Metered, "", new { @class = "text-danger" })
+            </td>
+            <td align="right">
+                @Html.EditorFor(model => item.UnitPrice, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => item.UnitPrice, "", new { @class = "text-danger" })
+            </td>
+            <td align="right">
+                @Html.DisplayFor(modelItem => item.PartialPrice)
+            </td>
+            <td>
+                @Html.EditorFor(model => item.Remarks, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => item.Remarks, "", new { @class = "text-danger" })
+            </td>
+        </tr>
+    }
+    <tr>
+        <td colspan="5" align="right">
+            <strong>Total</strong>
+        </td>
+        <td align="right">
+            <strong>@Html.DisplayFor(modelItem => Model.SubTotal19)</strong>
+        </td>
+    </tr>
+</table>
+
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc20[0].Subcategory)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc20[0].Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc20[0].Unity)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc20[0].Metered)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc20[0].UnitPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc20[0].PartialPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc20[0].Remarks)
+        </th>
+        <th></th>
+    </tr>
+    @foreach (var item in Model.DetailsSc20)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Subcategory)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Unity)
+            </td>
+            <td align="right">
+                @Html.EditorFor(model => item.Metered, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => item.Metered, "", new { @class = "text-danger" })
+            </td>
+            <td align="right">
+                @Html.EditorFor(model => item.UnitPrice, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => item.UnitPrice, "", new { @class = "text-danger" })
+            </td>
+            <td align="right">
+                @Html.DisplayFor(modelItem => item.PartialPrice)
+            </td>
+            <td>
+                @Html.EditorFor(model => item.Remarks, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => item.Remarks, "", new { @class = "text-danger" })
+            </td>
+        </tr>
+    }
+    <tr>
+        <td colspan="5" align="right">
+            <strong>Total</strong>
+        </td>
+        <td align="right">
+            <strong>@Html.DisplayFor(modelItem => Model.SubTotal20)</strong>
+        </td>
+    </tr>
+</table>
+
+
+
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc21[0].Subcategory)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc21[0].Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc21[0].Unity)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc21[0].Metered)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc21[0].UnitPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc21[0].PartialPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc21[0].Remarks)
+        </th>
+        <th></th>
+    </tr>
+    @foreach (var item in Model.DetailsSc21)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Subcategory)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Unity)
+            </td>
+            <td align="right">
+                @Html.EditorFor(model => item.Metered, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => item.Metered, "", new { @class = "text-danger" })
+            </td>
+            <td align="right">
+                @Html.EditorFor(model => item.UnitPrice, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => item.UnitPrice, "", new { @class = "text-danger" })
+            </td>
+            <td align="right">
+                @Html.DisplayFor(modelItem => item.PartialPrice)
+            </td>
+            <td>
+                @Html.EditorFor(model => item.Remarks, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => item.Remarks, "", new { @class = "text-danger" })
+            </td>
+        </tr>
+    }
+    <tr>
+        <td colspan="5" align="right">
+            <strong>Total</strong>
+        </td>
+        <td align="right">
+            <strong>@Html.DisplayFor(modelItem => Model.SubTotal21)</strong>
+        </td>
+    </tr>
+</table>
+
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc22[0].Subcategory)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc22[0].Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc22[0].Unity)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc22[0].Metered)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc22[0].UnitPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc22[0].PartialPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc22[0].Remarks)
+        </th>
+        <th></th>
+    </tr>
+    @foreach (var item in Model.DetailsSc22)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Subcategory)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Unity)
+            </td>
+            <td align="right">
+                @Html.EditorFor(model => item.Metered, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => item.Metered, "", new { @class = "text-danger" })
+            </td>
+            <td align="right">
+                @Html.EditorFor(model => item.UnitPrice, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => item.UnitPrice, "", new { @class = "text-danger" })
+            </td>
+            <td align="right">
+                @Html.DisplayFor(modelItem => item.PartialPrice)
+            </td>
+            <td>
+                @Html.EditorFor(model => item.Remarks, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => item.Remarks, "", new { @class = "text-danger" })
+            </td>
+        </tr>
+    }
+    <tr>
+        <td colspan="5" align="right">
+            <strong>Total</strong>
+        </td>
+        <td align="right">
+            <strong>@Html.DisplayFor(modelItem => Model.SubTotal22)</strong>
+        </td>
+    </tr>
+</table>
+
+
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc23[0].Subcategory)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc23[0].Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc23[0].Unity)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc23[0].Metered)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc23[0].UnitPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc23[0].PartialPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc23[0].Remarks)
+        </th>
+        <th></th>
+    </tr>
+    @foreach (var item in Model.DetailsSc23)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Subcategory)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Unity)
+            </td>
+            <td align="right">
+                @Html.EditorFor(model => item.Metered, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => item.Metered, "", new { @class = "text-danger" })
+            </td>
+            <td align="right">
+                @Html.EditorFor(model => item.UnitPrice, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => item.UnitPrice, "", new { @class = "text-danger" })
+            </td>
+            <td align="right">
+                @Html.DisplayFor(modelItem => item.PartialPrice)
+            </td>
+            <td>
+                @Html.EditorFor(model => item.Remarks, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => item.Remarks, "", new { @class = "text-danger" })
+            </td>
+        </tr>
+    }
+    <tr>
+        <td colspan="5" align="right">
+            <strong>Total</strong>
+        </td>
+        <td align="right">
+            <strong>@Html.DisplayFor(modelItem => Model.SubTotal23)</strong>
+        </td>
+    </tr>
+</table>
+
+
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc24[0].Subcategory)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc24[0].Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc24[0].Unity)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc24[0].Metered)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc24[0].UnitPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc24[0].PartialPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc24[0].Remarks)
+        </th>
+        <th></th>
+    </tr>
+    @foreach (var item in Model.DetailsSc24)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Subcategory)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Unity)
+            </td>
+            <td align="right">
+                @Html.EditorFor(model => item.Metered, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => item.Metered, "", new { @class = "text-danger" })
+            </td>
+            <td align="right">
+                @Html.EditorFor(model => item.UnitPrice, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => item.UnitPrice, "", new { @class = "text-danger" })
+            </td>
+            <td align="right">
+                @Html.DisplayFor(modelItem => item.PartialPrice)
+            </td>
+            <td>
+                @Html.EditorFor(model => item.Remarks, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => item.Remarks, "", new { @class = "text-danger" })
+            </td>
+        </tr>
+    }
+    <tr>
+        <td colspan="5" align="right">
+            <strong>Total</strong>
+        </td>
+        <td align="right">
+            <strong>@Html.DisplayFor(modelItem => Model.SubTotal24)</strong>
+        </td>
+    </tr>
+</table>
+
+
+
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc25[0].Subcategory)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc25[0].Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc25[0].Unity)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc25[0].Metered)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc25[0].UnitPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc25[0].PartialPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc25[0].Remarks)
+        </th>
+        <th></th>
+    </tr>
+    @foreach (var item in Model.DetailsSc25)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Subcategory)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Unity)
+            </td>
+            <td align="right">
+                @Html.EditorFor(model => item.Metered, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => item.Metered, "", new { @class = "text-danger" })
+            </td>
+            <td align="right">
+                @Html.EditorFor(model => item.UnitPrice, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => item.UnitPrice, "", new { @class = "text-danger" })
+            </td>
+            <td align="right">
+                @Html.DisplayFor(modelItem => item.PartialPrice)
+            </td>
+            <td>
+                @Html.EditorFor(model => item.Remarks, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => item.Remarks, "", new { @class = "text-danger" })
+            </td>
+        </tr>
+    }
+    <tr>
+        <td colspan="5" align="right">
+            <strong>Total</strong>
+        </td>
+        <td align="right">
+            <strong>@Html.DisplayFor(modelItem => Model.SubTotal25)</strong>
+        </td>
+    </tr>
+</table>
+
+
+
+
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc26[0].Subcategory)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc26[0].Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc26[0].Unity)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc26[0].Metered)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc26[0].UnitPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc26[0].PartialPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc26[0].Remarks)
+        </th>
+        <th></th>
+    </tr>
+    @foreach (var item in Model.DetailsSc26)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Subcategory)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Unity)
+            </td>
+            <td align="right">
+                @Html.EditorFor(model => item.Metered, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => item.Metered, "", new { @class = "text-danger" })
+            </td>
+            <td align="right">
+                @Html.EditorFor(model => item.UnitPrice, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => item.UnitPrice, "", new { @class = "text-danger" })
+            </td>
+            <td align="right">
+                @Html.DisplayFor(modelItem => item.PartialPrice)
+            </td>
+            <td>
+                @Html.EditorFor(model => item.Remarks, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => item.Remarks, "", new { @class = "text-danger" })
+            </td>
+        </tr>
+    }
+    <tr>
+        <td colspan="5" align="right">
+            <strong>Total</strong>
+        </td>
+        <td align="right">
+            <strong>@Html.DisplayFor(modelItem => Model.SubTotal26)</strong>
+        </td>
+    </tr>
+</table>
+
+
+
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc27[0].Subcategory)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc27[0].Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc27[0].Unity)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc27[0].Metered)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc27[0].UnitPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc27[0].PartialPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc27[0].Remarks)
+        </th>
+        <th></th>
+    </tr>
+    @foreach (var item in Model.DetailsSc27)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Subcategory)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Unity)
+            </td>
+            <td align="right">
+                @Html.EditorFor(model => item.Metered, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => item.Metered, "", new { @class = "text-danger" })
+            </td>
+            <td align="right">
+                @Html.EditorFor(model => item.UnitPrice, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => item.UnitPrice, "", new { @class = "text-danger" })
+            </td>
+            <td align="right">
+                @Html.DisplayFor(modelItem => item.PartialPrice)
+            </td>
+            <td>
+                @Html.EditorFor(model => item.Remarks, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => item.Remarks, "", new { @class = "text-danger" })
+            </td>
+        </tr>
+    }
+    <tr>
+        <td colspan="5" align="right">
+            <strong>Total</strong>
+        </td>
+        <td align="right">
+            <strong>@Html.DisplayFor(modelItem => Model.SubTotal27)</strong>
+        </td>
+    </tr>
+</table>
+
+<h4 style="color:#F00">@Html.DisplayFor(model => model.DetailsSc28[0].Category)</h4>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc28[0].Subcategory)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc28[0].Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc28[0].Unity)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc28[0].Metered)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc28[0].UnitPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc28[0].PartialPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc28[0].Remarks)
+        </th>
+        <th></th>
+    </tr>
+    @foreach (var item in Model.DetailsSc28)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Subcategory)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Unity)
+            </td>
+            <td align="right">
+                @Html.EditorFor(model => item.Metered, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => item.Metered, "", new { @class = "text-danger" })
+            </td>
+            <td align="right">
+                @Html.EditorFor(model => item.UnitPrice, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => item.UnitPrice, "", new { @class = "text-danger" })
+            </td>
+            <td align="right">
+                @Html.DisplayFor(modelItem => item.PartialPrice)
+            </td>
+            <td>
+                @Html.EditorFor(model => item.Remarks, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => item.Remarks, "", new { @class = "text-danger" })
+            </td>
+        </tr>
+    }
+    <tr>
+        <td colspan="5" align="right">
+            <strong>Total</strong>
+        </td>
+        <td align="right">
+            <strong>@Html.DisplayFor(modelItem => Model.SubTotal28)</strong>
+        </td>
+    </tr>
+</table>
+
+<h4 style="color:#F00">@Html.DisplayFor(model => model.DetailsSc29[0].Category)</h4>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc29[0].Subcategory)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc29[0].Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc29[0].Unity)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc29[0].Metered)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc29[0].UnitPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc29[0].PartialPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc29[0].Remarks)
+        </th>
+        <th></th>
+    </tr>
+    @foreach (var item in Model.DetailsSc29)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Subcategory)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Unity)
+            </td>
+            <td align="right">
+                @Html.EditorFor(model => item.Metered, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => item.Metered, "", new { @class = "text-danger" })
+            </td>
+            <td align="right">
+                @Html.EditorFor(model => item.UnitPrice, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => item.UnitPrice, "", new { @class = "text-danger" })
+            </td>
+            <td align="right">
+                @Html.DisplayFor(modelItem => item.PartialPrice)
+            </td>
+            <td>
+                @Html.EditorFor(model => item.Remarks, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => item.Remarks, "", new { @class = "text-danger" })
+            </td>
+        </tr>
+    }
+    <tr>
+        <td colspan="5" align="right">
+            <strong>Total</strong>
+        </td>
+        <td align="right">
+            <strong>@Html.DisplayFor(modelItem => Model.SubTotal29)</strong>
+        </td>
+    </tr>
+</table>
+
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc30[0].Subcategory)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc30[0].Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc30[0].Unity)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc30[0].Metered)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc30[0].UnitPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc30[0].PartialPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc30[0].Remarks)
+        </th>
+        <th></th>
+    </tr>
+    @foreach (var item in Model.DetailsSc30)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Subcategory)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Unity)
+            </td>
+            <td align="right">
+                @Html.EditorFor(model => item.Metered, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => item.Metered, "", new { @class = "text-danger" })
+            </td>
+            <td align="right">
+                @Html.EditorFor(model => item.UnitPrice, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => item.UnitPrice, "", new { @class = "text-danger" })
+            </td>
+            <td align="right">
+                @Html.DisplayFor(modelItem => item.PartialPrice)
+            </td>
+            <td>
+                @Html.EditorFor(model => item.Remarks, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => item.Remarks, "", new { @class = "text-danger" })
+            </td>
+        </tr>
+    }
+    <tr>
+        <td colspan="5" align="right">
+            <strong>Total</strong>
+        </td>
+        <td align="right">
+            <strong>@Html.DisplayFor(modelItem => Model.SubTotal30)</strong>
+        </td>
+    </tr>
+</table>
+
+
+
+
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc31[0].Subcategory)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc31[0].Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc31[0].Unity)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc31[0].Metered)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc31[0].UnitPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc31[0].PartialPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc31[0].Remarks)
+        </th>
+        <th></th>
+    </tr>
+    @foreach (var item in Model.DetailsSc31)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Subcategory)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Unity)
+            </td>
+            <td align="right">
+                @Html.EditorFor(model => item.Metered, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => item.Metered, "", new { @class = "text-danger" })
+            </td>
+            <td align="right">
+                @Html.EditorFor(model => item.UnitPrice, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => item.UnitPrice, "", new { @class = "text-danger" })
+            </td>
+            <td align="right">
+                @Html.DisplayFor(modelItem => item.PartialPrice)
+            </td>
+            <td>
+                @Html.EditorFor(model => item.Remarks, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => item.Remarks, "", new { @class = "text-danger" })
+            </td>
+        </tr>
+    }
+    <tr>
+        <td colspan="5" align="right">
+            <strong>Total</strong>
+        </td>
+        <td align="right">
+            <strong>@Html.DisplayFor(modelItem => Model.SubTotal31)</strong>
+        </td>
+    </tr>
+</table>
+
+
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc32[0].Subcategory)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc32[0].Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc32[0].Unity)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc32[0].Metered)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc32[0].UnitPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc32[0].PartialPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc32[0].Remarks)
+        </th>
+        <th></th>
+    </tr>
+    @foreach (var item in Model.DetailsSc32)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Subcategory)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Unity)
+            </td>
+            <td align="right">
+                @Html.EditorFor(model => item.Metered, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => item.Metered, "", new { @class = "text-danger" })
+            </td>
+            <td align="right">
+                @Html.EditorFor(model => item.UnitPrice, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => item.UnitPrice, "", new { @class = "text-danger" })
+            </td>
+            <td align="right">
+                @Html.DisplayFor(modelItem => item.PartialPrice)
+            </td>
+            <td>
+                @Html.EditorFor(model => item.Remarks, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => item.Remarks, "", new { @class = "text-danger" })
+            </td>
+        </tr>
+    }
+    <tr>
+        <td colspan="5" align="right">
+            <strong>Total</strong>
+        </td>
+        <td align="right">
+            <strong>@Html.DisplayFor(modelItem => Model.SubTotal32)</strong>
+        </td>
+    </tr>
+</table>
+
+<h4 style="color:#F00">@Html.DisplayFor(model => model.DetailsSc33[0].Category)</h4>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc33[0].Subcategory)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc33[0].Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc33[0].Unity)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc33[0].Metered)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc33[0].UnitPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc33[0].PartialPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc33[0].Remarks)
+        </th>
+        <th></th>
+    </tr>
+    @foreach (var item in Model.DetailsSc33)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Subcategory)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Unity)
+            </td>
+            <td align="right">
+                @Html.EditorFor(model => item.Metered, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => item.Metered, "", new { @class = "text-danger" })
+            </td>
+            <td align="right">
+                @Html.EditorFor(model => item.UnitPrice, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => item.UnitPrice, "", new { @class = "text-danger" })
+            </td>
+            <td align="right">
+                @Html.DisplayFor(modelItem => item.PartialPrice)
+            </td>
+            <td>
+                @Html.EditorFor(model => item.Remarks, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => item.Remarks, "", new { @class = "text-danger" })
+            </td>
+        </tr>
+    }
+    <tr>
+        <td colspan="5" align="right">
+            <strong>Total</strong>
+        </td>
+        <td align="right">
+            <strong>@Html.DisplayFor(modelItem => Model.SubTotal33)</strong>
+        </td>
+    </tr>
+</table>
+
+<h4 style="color:#F00">@Html.DisplayFor(model => model.DetailsSc34[0].Category)</h4>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc34[0].Subcategory)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc34[0].Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc34[0].Unity)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc34[0].Metered)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc34[0].UnitPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc34[0].PartialPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc34[0].Remarks)
+        </th>
+        <th></th>
+    </tr>
+    @foreach (var item in Model.DetailsSc34)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Subcategory)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Unity)
+            </td>
+            <td align="right">
+                @Html.EditorFor(model => item.Metered, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => item.Metered, "", new { @class = "text-danger" })
+            </td>
+            <td align="right">
+                @Html.EditorFor(model => item.UnitPrice, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => item.UnitPrice, "", new { @class = "text-danger" })
+            </td>
+            <td align="right">
+                @Html.DisplayFor(modelItem => item.PartialPrice)
+            </td>
+            <td>
+                @Html.EditorFor(model => item.Remarks, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => item.Remarks, "", new { @class = "text-danger" })
+            </td>
+        </tr>
+    }
+    <tr>
+        <td colspan="5" align="right">
+            <strong>Total</strong>
+        </td>
+        <td align="right">
+            <strong>@Html.DisplayFor(modelItem => Model.SubTotal34)</strong>
+        </td>
+    </tr>
+</table>
+
+
+<h4 style="color:#F00">@Html.DisplayFor(model => model.DetailsSc35[0].Category)</h4>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc35[0].Subcategory)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc35[0].Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc35[0].Unity)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc35[0].Metered)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc35[0].UnitPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc35[0].PartialPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc35[0].Remarks)
+        </th>
+        <th></th>
+    </tr>
+    @foreach (var item in Model.DetailsSc35)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Subcategory)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Unity)
+            </td>
+            <td align="right">
+                @Html.EditorFor(model => item.Metered, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => item.Metered, "", new { @class = "text-danger" })
+            </td>
+            <td align="right">
+                @Html.EditorFor(model => item.UnitPrice, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => item.UnitPrice, "", new { @class = "text-danger" })
+            </td>
+            <td align="right">
+                @Html.DisplayFor(modelItem => item.PartialPrice)
+            </td>
+            <td>
+                @Html.EditorFor(model => item.Remarks, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => item.Remarks, "", new { @class = "text-danger" })
+            </td>
+        </tr>
+    }
+    <tr>
+        <td colspan="5" align="right">
+            <strong>Total</strong>
+        </td>
+        <td align="right">
+            <strong>@Html.DisplayFor(modelItem => Model.SubTotal35)</strong>
+        </td>
+    </tr>
+</table>
+
+<h4 style="color:#F00">@Html.DisplayFor(model => model.DetailsSc36[0].Category)</h4>
+
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc36[0].Subcategory)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc36[0].Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc36[0].Unity)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc36[0].Metered)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc36[0].UnitPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc36[0].PartialPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc36[0].Remarks)
+        </th>
+        <th></th>
+    </tr>
+    @foreach (var item in Model.DetailsSc36)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Subcategory)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Unity)
+            </td>
+            <td align="right">
+                @Html.EditorFor(model => item.Metered, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => item.Metered, "", new { @class = "text-danger" })
+            </td>
+            <td align="right">
+                @Html.EditorFor(model => item.UnitPrice, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => item.UnitPrice, "", new { @class = "text-danger" })
+            </td>
+            <td align="right">
+                @Html.DisplayFor(modelItem => item.PartialPrice)
+            </td>
+            <td>
+                @Html.EditorFor(model => item.Remarks, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => item.Remarks, "", new { @class = "text-danger" })
+            </td>
+        </tr>
+    }
+    <tr>
+        <td colspan="5" align="right">
+            <strong>Total</strong>
+        </td>
+        <td align="right">
+            <strong>@Html.DisplayFor(modelItem => Model.SubTotal36)</strong>
+        </td>
+    </tr>
+</table>
+
+
+
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc37[0].Subcategory)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc37[0].Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc37[0].Unity)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc37[0].Metered)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc37[0].UnitPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc37[0].PartialPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc37[0].Remarks)
+        </th>
+        <th></th>
+    </tr>
+    @foreach (var item in Model.DetailsSc37)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Subcategory)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Unity)
+            </td>
+            <td align="right">
+                @Html.EditorFor(model => item.Metered, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => item.Metered, "", new { @class = "text-danger" })
+            </td>
+            <td align="right">
+                @Html.EditorFor(model => item.UnitPrice, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => item.UnitPrice, "", new { @class = "text-danger" })
+            </td>
+            <td align="right">
+                @Html.DisplayFor(modelItem => item.PartialPrice)
+            </td>
+            <td>
+                @Html.EditorFor(model => item.Remarks, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => item.Remarks, "", new { @class = "text-danger" })
+            </td>
+        </tr>
+    }
+    <tr>
+        <td colspan="5" align="right">
+            <strong>Total</strong>
+        </td>
+        <td align="right">
+            <strong>@Html.DisplayFor(modelItem => Model.SubTotal37)</strong>
+        </td>
+    </tr>
+</table>
+
+<h4 style="color:#F00">@Html.DisplayFor(model => model.DetailsSc38[0].Category)</h4>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc38[0].Subcategory)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc38[0].Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc38[0].Unity)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc38[0].Metered)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc38[0].UnitPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc38[0].PartialPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc38[0].Remarks)
+        </th>
+        <th></th>
+    </tr>
+    @foreach (var item in Model.DetailsSc38)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Subcategory)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Unity)
+            </td>
+            <td align="right">
+                @Html.EditorFor(model => item.Metered, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => item.Metered, "", new { @class = "text-danger" })
+            </td>
+            <td align="right">
+                @Html.EditorFor(model => item.UnitPrice, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => item.UnitPrice, "", new { @class = "text-danger" })
+            </td>
+            <td align="right">
+                @Html.DisplayFor(modelItem => item.PartialPrice)
+            </td>
+            <td>
+                @Html.EditorFor(model => item.Remarks, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => item.Remarks, "", new { @class = "text-danger" })
+            </td>
+        </tr>
+    }
+    <tr>
+        <td colspan="5" align="right">
+            <strong>Total</strong>
+        </td>
+        <td align="right">
+            <strong>@Html.DisplayFor(modelItem => Model.SubTotal38)</strong>
+        </td>
+    </tr>
+</table>
+
+<h4 style="color:#F00">@Html.DisplayFor(model => model.DetailsSc39[0].Category)</h4>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc39[0].Subcategory)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc39[0].Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc39[0].Unity)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc39[0].Metered)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc39[0].UnitPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc39[0].PartialPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc39[0].Remarks)
+        </th>
+        <th></th>
+    </tr>
+    @foreach (var item in Model.DetailsSc39)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Subcategory)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Unity)
+            </td>
+            <td align="right">
+                @Html.EditorFor(model => item.Metered, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => item.Metered, "", new { @class = "text-danger" })
+            </td>
+            <td align="right">
+                @Html.EditorFor(model => item.UnitPrice, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => item.UnitPrice, "", new { @class = "text-danger" })
+            </td>
+            <td align="right">
+                @Html.DisplayFor(modelItem => item.PartialPrice)
+            </td>
+            <td>
+                @Html.EditorFor(model => item.Remarks, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => item.Remarks, "", new { @class = "text-danger" })
+            </td>
+        </tr>
+    }
+    <tr>
+        <td colspan="5" align="right">
+            <strong>Total</strong>
+        </td>
+        <td align="right">
+            <strong>@Html.DisplayFor(modelItem => Model.SubTotal39)</strong>
+        </td>
+    </tr>
+</table>
+
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc40[0].Subcategory)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc40[0].Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc40[0].Unity)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc40[0].Metered)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc40[0].UnitPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc40[0].PartialPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc40[0].Remarks)
+        </th>
+        <th></th>
+    </tr>
+    @foreach (var item in Model.DetailsSc40)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Subcategory)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Unity)
+            </td>
+            <td align="right">
+                @Html.EditorFor(model => item.Metered, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => item.Metered, "", new { @class = "text-danger" })
+            </td>
+            <td align="right">
+                @Html.EditorFor(model => item.UnitPrice, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => item.UnitPrice, "", new { @class = "text-danger" })
+            </td>
+            <td align="right">
+                @Html.DisplayFor(modelItem => item.PartialPrice)
+            </td>
+            <td>
+                @Html.EditorFor(model => item.Remarks, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => item.Remarks, "", new { @class = "text-danger" })
+            </td>
+        </tr>
+    }
+    <tr>
+        <td colspan="5" align="right">
+            <strong>Total</strong>
+        </td>
+        <td align="right">
+            <strong>@Html.DisplayFor(modelItem => Model.SubTotal40)</strong>
+        </td>
+    </tr>
+</table>
+
+
+<h4 style="color:#F00">@Html.DisplayFor(model => model.DetailsSc41[0].Category)</h4>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc41[0].Subcategory)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc41[0].Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc41[0].Unity)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc41[0].Metered)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc41[0].UnitPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc41[0].PartialPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc41[0].Remarks)
+        </th>
+        <th></th>
+    </tr>
+    @foreach (var item in Model.DetailsSc41)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Subcategory)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Unity)
+            </td>
+            <td align="right">
+                @Html.EditorFor(model => item.Metered, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => item.Metered, "", new { @class = "text-danger" })
+            </td>
+            <td align="right">
+                @Html.EditorFor(model => item.UnitPrice, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => item.UnitPrice, "", new { @class = "text-danger" })
+            </td>
+            <td align="right">
+                @Html.DisplayFor(modelItem => item.PartialPrice)
+            </td>
+            <td>
+                @Html.EditorFor(model => item.Remarks, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => item.Remarks, "", new { @class = "text-danger" })
+            </td>
+        </tr>
+    }
+    <tr>
+        <td colspan="5" align="right">
+            <strong>Total</strong>
+        </td>
+        <td align="right">
+            <strong>@Html.DisplayFor(modelItem => Model.SubTotal41)</strong>
+        </td>
+    </tr>
+</table>
+
+
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc42[0].Subcategory)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc42[0].Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc42[0].Unity)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc42[0].Metered)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc42[0].UnitPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc42[0].PartialPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc42[0].Remarks)
+        </th>
+        <th></th>
+    </tr>
+    @foreach (var item in Model.DetailsSc42)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Subcategory)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Unity)
+            </td>
+            <td align="right">
+                @Html.EditorFor(model => item.Metered, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => item.Metered, "", new { @class = "text-danger" })
+            </td>
+            <td align="right">
+                @Html.EditorFor(model => item.UnitPrice, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => item.UnitPrice, "", new { @class = "text-danger" })
+            </td>
+            <td align="right">
+                @Html.DisplayFor(modelItem => item.PartialPrice)
+            </td>
+            <td>
+                @Html.EditorFor(model => item.Remarks, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => item.Remarks, "", new { @class = "text-danger" })
+            </td>
+        </tr>
+    }
+    <tr>
+        <td colspan="5" align="right">
+            <strong>Total</strong>
+        </td>
+        <td align="right">
+            <strong>@Html.DisplayFor(modelItem => Model.SubTotal42)</strong>
+        </td>
+    </tr>
+</table>
+
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc43[0].Subcategory)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc43[0].Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc43[0].Unity)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc43[0].Metered)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc43[0].UnitPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc43[0].PartialPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc43[0].Remarks)
+        </th>
+        <th></th>
+    </tr>
+    @foreach (var item in Model.DetailsSc43)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Subcategory)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Unity)
+            </td>
+            <td align="right">
+                @Html.EditorFor(model => item.Metered, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => item.Metered, "", new { @class = "text-danger" })
+            </td>
+            <td align="right">
+                @Html.EditorFor(model => item.UnitPrice, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => item.UnitPrice, "", new { @class = "text-danger" })
+            </td>
+            <td align="right">
+                @Html.DisplayFor(modelItem => item.PartialPrice)
+            </td>
+            <td>
+                @Html.EditorFor(model => item.Remarks, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => item.Remarks, "", new { @class = "text-danger" })
+            </td>
+        </tr>
+    }
+    <tr>
+        <td colspan="5" align="right">
+            <strong>Total</strong>
+        </td>
+        <td align="right">
+            <strong>@Html.DisplayFor(modelItem => Model.SubTotal43)</strong>
+        </td>
+    </tr>
+</table>
+
+
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc44[0].Subcategory)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc44[0].Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc44[0].Unity)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc44[0].Metered)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc44[0].UnitPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc44[0].PartialPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc44[0].Remarks)
+        </th>
+        <th></th>
+    </tr>
+    @foreach (var item in Model.DetailsSc44)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Subcategory)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Unity)
+            </td>
+            <td align="right">
+                @Html.EditorFor(model => item.Metered, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => item.Metered, "", new { @class = "text-danger" })
+            </td>
+            <td align="right">
+                @Html.EditorFor(model => item.UnitPrice, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => item.UnitPrice, "", new { @class = "text-danger" })
+            </td>
+            <td align="right">
+                @Html.DisplayFor(modelItem => item.PartialPrice)
+            </td>
+            <td>
+                @Html.EditorFor(model => item.Remarks, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => item.Remarks, "", new { @class = "text-danger" })
+            </td>
+        </tr>
+    }
+    <tr>
+        <td colspan="5" align="right">
+            <strong>Total</strong>
+        </td>
+        <td align="right">
+            <strong>@Html.DisplayFor(modelItem => Model.SubTotal44)</strong>
+        </td>
+    </tr>
+</table>
+
+
+
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc45[0].Subcategory)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc45[0].Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc45[0].Unity)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc45[0].Metered)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc45[0].UnitPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc45[0].PartialPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc45[0].Remarks)
+        </th>
+        <th></th>
+    </tr>
+    @foreach (var item in Model.DetailsSc45)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Subcategory)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Unity)
+            </td>
+            <td align="right">
+                @Html.EditorFor(model => item.Metered, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => item.Metered, "", new { @class = "text-danger" })
+            </td>
+            <td align="right">
+                @Html.EditorFor(model => item.UnitPrice, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => item.UnitPrice, "", new { @class = "text-danger" })
+            </td>
+            <td align="right">
+                @Html.DisplayFor(modelItem => item.PartialPrice)
+            </td>
+            <td>
+                @Html.EditorFor(model => item.Remarks, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => item.Remarks, "", new { @class = "text-danger" })
+            </td>
+        </tr>
+    }
+    <tr>
+        <td colspan="5" align="right">
+            <strong>Total</strong>
+        </td>
+        <td align="right">
+            <strong>@Html.DisplayFor(modelItem => Model.SubTotal45)</strong>
+        </td>
+    </tr>
+</table>
+
+
+<h4 style="color:#F00">@Html.DisplayFor(model => model.DetailsSc46[0].Category)</h4>
+
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc46[0].Subcategory)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc46[0].Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc46[0].Unity)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc46[0].Metered)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc46[0].UnitPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc46[0].PartialPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc46[0].Remarks)
+        </th>
+        <th></th>
+    </tr>
+    @foreach (var item in Model.DetailsSc46)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Subcategory)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Unity)
+            </td>
+            <td align="right">
+                @Html.EditorFor(model => item.Metered, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => item.Metered, "", new { @class = "text-danger" })
+            </td>
+            <td align="right">
+                @Html.EditorFor(model => item.UnitPrice, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => item.UnitPrice, "", new { @class = "text-danger" })
+            </td>
+            <td align="right">
+                @Html.DisplayFor(modelItem => item.PartialPrice)
+            </td>
+            <td>
+                @Html.EditorFor(model => item.Remarks, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => item.Remarks, "", new { @class = "text-danger" })
+            </td>
+        </tr>
+    }
+    <tr>
+        <td colspan="5" align="right">
+            <strong>Total</strong>
+        </td>
+        <td align="right">
+            <strong>@Html.DisplayFor(modelItem => Model.SubTotal46)</strong>
+        </td>
+    </tr>
+</table>
+
+
+
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc47[0].Subcategory)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc47[0].Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc47[0].Unity)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc47[0].Metered)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc47[0].UnitPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc47[0].PartialPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc47[0].Remarks)
+        </th>
+        <th></th>
+    </tr>
+    @foreach (var item in Model.DetailsSc47)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Subcategory)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Unity)
+            </td>
+            <td align="right">
+                @Html.EditorFor(model => item.Metered, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => item.Metered, "", new { @class = "text-danger" })
+            </td>
+            <td align="right">
+                @Html.EditorFor(model => item.UnitPrice, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => item.UnitPrice, "", new { @class = "text-danger" })
+            </td>
+            <td align="right">
+                @Html.DisplayFor(modelItem => item.PartialPrice)
+            </td>
+            <td>
+                @Html.EditorFor(model => item.Remarks, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => item.Remarks, "", new { @class = "text-danger" })
+            </td>
+        </tr>
+    }
+    <tr>
+        <td colspan="5" align="right">
+            <strong>Total</strong>
+        </td>
+        <td align="right">
+            <strong>@Html.DisplayFor(modelItem => Model.SubTotal47)</strong>
+        </td>
+    </tr>
+</table>
+
+<h4 style="color:#F00">@Html.DisplayFor(model => model.DetailsSc48[0].Category)</h4>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc48[0].Subcategory)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc48[0].Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc48[0].Unity)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc48[0].Metered)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc48[0].UnitPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc48[0].PartialPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc48[0].Remarks)
+        </th>
+        <th></th>
+    </tr>
+    @foreach (var item in Model.DetailsSc48)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Subcategory)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Unity)
+            </td>
+            <td align="right">
+                @Html.EditorFor(model => item.Metered, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => item.Metered, "", new { @class = "text-danger" })
+            </td>
+            <td align="right">
+                @Html.EditorFor(model => item.UnitPrice, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => item.UnitPrice, "", new { @class = "text-danger" })
+            </td>
+            <td align="right">
+                @Html.DisplayFor(modelItem => item.PartialPrice)
+            </td>
+            <td>
+                @Html.EditorFor(model => item.Remarks, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => item.Remarks, "", new { @class = "text-danger" })
+            </td>
+        </tr>
+    }
+    <tr>
+        <td colspan="5" align="right">
+            <strong>Total</strong>
+        </td>
+        <td align="right">
+            <strong>@Html.DisplayFor(modelItem => Model.SubTotal48)</strong>
+        </td>
+    </tr>
+</table>
+
+<h4 style="color:#F00">@Html.DisplayFor(model => model.DetailsSc49[0].Category)</h4>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc49[0].Subcategory)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc49[0].Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc49[0].Unity)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc49[0].Metered)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc49[0].UnitPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc49[0].PartialPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc49[0].Remarks)
+        </th>
+        <th></th>
+    </tr>
+    @foreach (var item in Model.DetailsSc49)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Subcategory)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Unity)
+            </td>
+            <td align="right">
+                @Html.EditorFor(model => item.Metered, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => item.Metered, "", new { @class = "text-danger" })
+            </td>
+            <td align="right">
+                @Html.EditorFor(model => item.UnitPrice, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => item.UnitPrice, "", new { @class = "text-danger" })
+            </td>
+            <td align="right">
+                @Html.DisplayFor(modelItem => item.PartialPrice)
+            </td>
+            <td>
+                @Html.EditorFor(model => item.Remarks, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => item.Remarks, "", new { @class = "text-danger" })
+            </td>
+        </tr>
+    }
+    <tr>
+        <td colspan="5" align="right">
+            <strong>Total</strong>
+        </td>
+        <td align="right">
+            <strong>@Html.DisplayFor(modelItem => Model.SubTotal49)</strong>
+        </td>
+    </tr>
+</table>
+
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc50[0].Subcategory)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc50[0].Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc50[0].Unity)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc50[0].Metered)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc50[0].UnitPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc50[0].PartialPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc50[0].Remarks)
+        </th>
+        <th></th>
+    </tr>
+    @foreach (var item in Model.DetailsSc50)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Subcategory)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Unity)
+            </td>
+            <td align="right">
+                @Html.EditorFor(model => item.Metered, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => item.Metered, "", new { @class = "text-danger" })
+            </td>
+            <td align="right">
+                @Html.EditorFor(model => item.UnitPrice, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => item.UnitPrice, "", new { @class = "text-danger" })
+            </td>
+            <td align="right">
+                @Html.DisplayFor(modelItem => item.PartialPrice)
+            </td>
+            <td>
+                @Html.EditorFor(model => item.Remarks, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => item.Remarks, "", new { @class = "text-danger" })
+            </td>
+        </tr>
+    }
+    <tr>
+        <td colspan="5" align="right">
+            <strong>Total</strong>
+        </td>
+        <td align="right">
+            <strong>@Html.DisplayFor(modelItem => Model.SubTotal50)</strong>
+        </td>
+    </tr>
+</table>
+
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc51[0].Subcategory)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc51[0].Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc51[0].Unity)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc51[0].Metered)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc51[0].UnitPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc51[0].PartialPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc51[0].Remarks)
+        </th>
+        <th></th>
+    </tr>
+    @foreach (var item in Model.DetailsSc51)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Subcategory)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Unity)
+            </td>
+            <td align="right">
+                @Html.EditorFor(model => item.Metered, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => item.Metered, "", new { @class = "text-danger" })
+            </td>
+            <td align="right">
+                @Html.EditorFor(model => item.UnitPrice, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => item.UnitPrice, "", new { @class = "text-danger" })
+            </td>
+            <td align="right">
+                @Html.DisplayFor(modelItem => item.PartialPrice)
+            </td>
+            <td>
+                @Html.EditorFor(model => item.Remarks, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => item.Remarks, "", new { @class = "text-danger" })
+            </td>
+        </tr>
+    }
+    <tr>
+        <td colspan="5" align="right">
+            <strong>Total</strong>
+        </td>
+        <td align="right">
+            <strong>@Html.DisplayFor(modelItem => Model.SubTotal51)</strong>
+        </td>
+    </tr>
+</table>
+
+<h4 style="color:#F00">@Html.DisplayFor(model => model.DetailsSc52[0].Category)</h4>
+
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc52[0].Subcategory)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc52[0].Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc52[0].Unity)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc52[0].Metered)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc52[0].UnitPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc52[0].PartialPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc52[0].Remarks)
+        </th>
+        <th></th>
+    </tr>
+    @foreach (var item in Model.DetailsSc52)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Subcategory)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Unity)
+            </td>
+            <td align="right">
+                @Html.EditorFor(model => item.Metered, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => item.Metered, "", new { @class = "text-danger" })
+            </td>
+            <td align="right">
+                @Html.EditorFor(model => item.UnitPrice, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => item.UnitPrice, "", new { @class = "text-danger" })
+            </td>
+            <td align="right">
+                @Html.DisplayFor(modelItem => item.PartialPrice)
+            </td>
+            <td>
+                @Html.EditorFor(model => item.Remarks, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => item.Remarks, "", new { @class = "text-danger" })
+            </td>
+        </tr>
+    }
+    <tr>
+        <td colspan="5" align="right">
+            <strong>Total</strong>
+        </td>
+        <td align="right">
+            <strong>@Html.DisplayFor(modelItem => Model.SubTotal52)</strong>
+        </td>
+    </tr>
+</table>
+
+<h4 style="color:#F00">@Html.DisplayFor(model => model.DetailsSc53[0].Category)</h4>
+
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc53[0].Subcategory)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc53[0].Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc53[0].Unity)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc53[0].Metered)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc53[0].UnitPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc53[0].PartialPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc53[0].Remarks)
+        </th>
+        <th></th>
+    </tr>
+    @foreach (var item in Model.DetailsSc53)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Subcategory)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Unity)
+            </td>
+            <td align="right">
+                @Html.EditorFor(model => item.Metered, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => item.Metered, "", new { @class = "text-danger" })
+            </td>
+            <td align="right">
+                @Html.EditorFor(model => item.UnitPrice, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => item.UnitPrice, "", new { @class = "text-danger" })
+            </td>
+            <td align="right">
+                @Html.DisplayFor(modelItem => item.PartialPrice)
+            </td>
+            <td>
+                @Html.EditorFor(model => item.Remarks, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => item.Remarks, "", new { @class = "text-danger" })
+            </td>
+        </tr>
+    }
+    <tr>
+        <td colspan="5" align="right">
+            <strong>Total</strong>
+        </td>
+        <td align="right">
+            <strong>@Html.DisplayFor(modelItem => Model.SubTotal53)</strong>
+        </td>
+    </tr>
+</table>
+
+<h4 style="color:#F00">@Html.DisplayFor(model => model.DetailsSc54[0].Category)</h4>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc54[0].Subcategory)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc54[0].Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc54[0].Unity)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc54[0].Metered)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc54[0].UnitPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc54[0].PartialPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DetailsSc54[0].Remarks)
+        </th>
+        <th></th>
+    </tr>
+    @foreach (var item in Model.DetailsSc54)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Subcategory)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Unity)
+            </td>
+            <td align="right">
+                @Html.EditorFor(model => item.Metered, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => item.Metered, "", new { @class = "text-danger" })
+            </td>
+            <td align="right">
+                @Html.EditorFor(model => item.UnitPrice, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => item.UnitPrice, "", new { @class = "text-danger" })
+            </td>
+            <td align="right">
+                @Html.DisplayFor(modelItem => item.PartialPrice)
+            </td>
+            <td>
+                @Html.EditorFor(model => item.Remarks, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => item.Remarks, "", new { @class = "text-danger" })
+            </td>
+        </tr>
+    }
+    <tr>
+        <td colspan="5" align="right">
+            <strong>Total</strong>
+        </td>
+        <td align="right">
+            <strong>@Html.DisplayFor(modelItem => Model.SubTotal54)</strong>
+        </td>
+    </tr>
+</table>
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript">
+        $(function() {
+            $('#datepicker').datetimepicker({ format: 'YYYY/MM/DD'});
+        });
+        $(function() {
+            $('#id_1_textbox').change(function() {
+                var value1 = parseInt($('#id_1_textbox').val());
+                var value2 = parseInt($('#id_2_textbox').val());
+                if (!isNaN(value1) && !isNaN(value2))
+                {
+                    var newValue = value1 + value2;
+                    $(this).val(newValue);
+
+                } else
+                {
+                    alert('You have entered an invalid integer value');
+
+                }
+
+            });     
+
+        });
+    </script>
+}
