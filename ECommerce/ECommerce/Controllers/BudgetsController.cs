@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Configuration;
 using System.Web.Mvc;
 using ECommerce.Classes;
@@ -56,10 +53,17 @@ namespace ECommerce.Controllers
                 return HttpNotFound();
             }
             return View(budget);
-        }        
+        }
+
+        [HttpPost]
+        public void AddDetails()
+        {
+            BudgetHelper.AddBudgetDetails(User.Identity.Name);
+        }
 
         public ActionResult Create()
         {
+            AddDetails();
             var adminUser = WebConfigurationManager.AppSettings["AdminUser"];
             if (adminUser == User.Identity.Name)
             {
@@ -69,60 +73,60 @@ namespace ECommerce.Controllers
                 var adminView = new NewBudgetView
                 {
                     Date = DateTime.Now,
-                    DetailsSc01 = BudgetHelper.GetBudgetDetails("SC01"),
-                    DetailsSc02 = BudgetHelper.GetBudgetDetails("SC02"),
-                    DetailsSc03 = BudgetHelper.GetBudgetDetails("SC03"),
-                    DetailsSc04 = BudgetHelper.GetBudgetDetails("SC04"),
-                    DetailsSc05 = BudgetHelper.GetBudgetDetails("SC05"),
-                    DetailsSc06 = BudgetHelper.GetBudgetDetails("SC06"),
-                    DetailsSc07 = BudgetHelper.GetBudgetDetails("SC07"),
-                    DetailsSc08 = BudgetHelper.GetBudgetDetails("SC08"),
-                    DetailsSc09 = BudgetHelper.GetBudgetDetails("SC09"),
-                    DetailsSc10 = BudgetHelper.GetBudgetDetails("SC10"),
-                    DetailsSc11 = BudgetHelper.GetBudgetDetails("SC11"),
-                    DetailsSc12 = BudgetHelper.GetBudgetDetails("SC12"),
-                    DetailsSc13 = BudgetHelper.GetBudgetDetails("SC13"),
-                    DetailsSc14 = BudgetHelper.GetBudgetDetails("SC14"),
-                    DetailsSc15 = BudgetHelper.GetBudgetDetails("SC15"),
-                    DetailsSc16 = BudgetHelper.GetBudgetDetails("SC16"),
-                    DetailsSc17 = BudgetHelper.GetBudgetDetails("SC17"),
-                    DetailsSc18 = BudgetHelper.GetBudgetDetails("SC18"),
-                    DetailsSc19 = BudgetHelper.GetBudgetDetails("SC19"),
-                    DetailsSc20 = BudgetHelper.GetBudgetDetails("SC20"),
-                    DetailsSc21 = BudgetHelper.GetBudgetDetails("SC21"),
-                    DetailsSc22 = BudgetHelper.GetBudgetDetails("SC22"),
-                    DetailsSc23 = BudgetHelper.GetBudgetDetails("SC23"),
-                    DetailsSc24 = BudgetHelper.GetBudgetDetails("SC24"),
-                    DetailsSc25 = BudgetHelper.GetBudgetDetails("SC25"),
-                    DetailsSc26 = BudgetHelper.GetBudgetDetails("SC26"),
-                    DetailsSc27 = BudgetHelper.GetBudgetDetails("SC27"),
-                    DetailsSc28 = BudgetHelper.GetBudgetDetails("SC28"),
-                    DetailsSc29 = BudgetHelper.GetBudgetDetails("SC29"),
-                    DetailsSc30 = BudgetHelper.GetBudgetDetails("SC30"),
-                    DetailsSc31 = BudgetHelper.GetBudgetDetails("SC31"),
-                    DetailsSc32 = BudgetHelper.GetBudgetDetails("SC32"),
-                    DetailsSc33 = BudgetHelper.GetBudgetDetails("SC33"),
-                    DetailsSc34 = BudgetHelper.GetBudgetDetails("SC34"),
-                    DetailsSc35 = BudgetHelper.GetBudgetDetails("SC35"),
-                    DetailsSc36 = BudgetHelper.GetBudgetDetails("SC36"),
-                    DetailsSc37 = BudgetHelper.GetBudgetDetails("SC37"),
-                    DetailsSc38 = BudgetHelper.GetBudgetDetails("SC38"),
-                    DetailsSc39 = BudgetHelper.GetBudgetDetails("SC39"),
-                    DetailsSc40 = BudgetHelper.GetBudgetDetails("SC40"),
-                    DetailsSc41 = BudgetHelper.GetBudgetDetails("SC41"),
-                    DetailsSc42 = BudgetHelper.GetBudgetDetails("SC42"),
-                    DetailsSc43 = BudgetHelper.GetBudgetDetails("SC43"),
-                    DetailsSc44 = BudgetHelper.GetBudgetDetails("SC44"),
-                    DetailsSc45 = BudgetHelper.GetBudgetDetails("SC45"),
-                    DetailsSc46 = BudgetHelper.GetBudgetDetails("SC46"),
-                    DetailsSc47 = BudgetHelper.GetBudgetDetails("SC47"),
-                    DetailsSc48 = BudgetHelper.GetBudgetDetails("SC48"),
-                    DetailsSc49 = BudgetHelper.GetBudgetDetails("SC49"),
-                    DetailsSc50 = BudgetHelper.GetBudgetDetails("SC50"),
-                    DetailsSc51 = BudgetHelper.GetBudgetDetails("SC51"),
-                    DetailsSc52 = BudgetHelper.GetBudgetDetails("SC52"),
-                    DetailsSc53 = BudgetHelper.GetBudgetDetails("SC53"),
-                    DetailsSc54 = BudgetHelper.GetBudgetDetails("SC54"),
+                    DetailsSc01 = db.BudgetDetailTmps.Where(odt => odt.UserName == User.Identity.Name && odt.SubcategoryCode == "SC01").ToList(),
+                    DetailsSc02 = db.BudgetDetailTmps.Where(odt => odt.UserName == User.Identity.Name && odt.SubcategoryCode == "SC02").ToList(),
+                    DetailsSc03 = db.BudgetDetailTmps.Where(odt => odt.UserName == User.Identity.Name && odt.SubcategoryCode == "SC03").ToList(),
+                    DetailsSc04 = db.BudgetDetailTmps.Where(odt => odt.UserName == User.Identity.Name && odt.SubcategoryCode == "SC04").ToList(),
+                    DetailsSc05 = db.BudgetDetailTmps.Where(odt => odt.UserName == User.Identity.Name && odt.SubcategoryCode == "SC05").ToList(),
+                    DetailsSc06 = db.BudgetDetailTmps.Where(odt => odt.UserName == User.Identity.Name && odt.SubcategoryCode == "SC06").ToList(),
+                    DetailsSc07 = db.BudgetDetailTmps.Where(odt => odt.UserName == User.Identity.Name && odt.SubcategoryCode == "SC07").ToList(),
+                    DetailsSc08 = db.BudgetDetailTmps.Where(odt => odt.UserName == User.Identity.Name && odt.SubcategoryCode == "SC08").ToList(),
+                    DetailsSc09 = db.BudgetDetailTmps.Where(odt => odt.UserName == User.Identity.Name && odt.SubcategoryCode == "SC09").ToList(),
+                    DetailsSc10 = db.BudgetDetailTmps.Where(odt => odt.UserName == User.Identity.Name && odt.SubcategoryCode == "SC10").ToList(),
+                    DetailsSc11 = db.BudgetDetailTmps.Where(odt => odt.UserName == User.Identity.Name && odt.SubcategoryCode == "SC11").ToList(),
+                    DetailsSc12 = db.BudgetDetailTmps.Where(odt => odt.UserName == User.Identity.Name && odt.SubcategoryCode == "SC12").ToList(),
+                    DetailsSc13 = db.BudgetDetailTmps.Where(odt => odt.UserName == User.Identity.Name && odt.SubcategoryCode == "SC13").ToList(),
+                    DetailsSc14 = db.BudgetDetailTmps.Where(odt => odt.UserName == User.Identity.Name && odt.SubcategoryCode == "SC14").ToList(),
+                    DetailsSc15 = db.BudgetDetailTmps.Where(odt => odt.UserName == User.Identity.Name && odt.SubcategoryCode == "SC15").ToList(),
+                    DetailsSc16 = db.BudgetDetailTmps.Where(odt => odt.UserName == User.Identity.Name && odt.SubcategoryCode == "SC16").ToList(),
+                    DetailsSc17 = db.BudgetDetailTmps.Where(odt => odt.UserName == User.Identity.Name && odt.SubcategoryCode == "SC17").ToList(),
+                    DetailsSc18 = db.BudgetDetailTmps.Where(odt => odt.UserName == User.Identity.Name && odt.SubcategoryCode == "SC18").ToList(),
+                    DetailsSc19 = db.BudgetDetailTmps.Where(odt => odt.UserName == User.Identity.Name && odt.SubcategoryCode == "SC19").ToList(),
+                    DetailsSc20 = db.BudgetDetailTmps.Where(odt => odt.UserName == User.Identity.Name && odt.SubcategoryCode == "SC20").ToList(),
+                    DetailsSc21 = db.BudgetDetailTmps.Where(odt => odt.UserName == User.Identity.Name && odt.SubcategoryCode == "SC21").ToList(),
+                    DetailsSc22 = db.BudgetDetailTmps.Where(odt => odt.UserName == User.Identity.Name && odt.SubcategoryCode == "SC22").ToList(),
+                    DetailsSc23 = db.BudgetDetailTmps.Where(odt => odt.UserName == User.Identity.Name && odt.SubcategoryCode == "SC23").ToList(),
+                    DetailsSc24 = db.BudgetDetailTmps.Where(odt => odt.UserName == User.Identity.Name && odt.SubcategoryCode == "SC24").ToList(),
+                    DetailsSc25 = db.BudgetDetailTmps.Where(odt => odt.UserName == User.Identity.Name && odt.SubcategoryCode == "SC25").ToList(),
+                    DetailsSc26 = db.BudgetDetailTmps.Where(odt => odt.UserName == User.Identity.Name && odt.SubcategoryCode == "SC26").ToList(),
+                    DetailsSc27 = db.BudgetDetailTmps.Where(odt => odt.UserName == User.Identity.Name && odt.SubcategoryCode == "SC27").ToList(),
+                    DetailsSc28 = db.BudgetDetailTmps.Where(odt => odt.UserName == User.Identity.Name && odt.SubcategoryCode == "SC28").ToList(),
+                    DetailsSc29 = db.BudgetDetailTmps.Where(odt => odt.UserName == User.Identity.Name && odt.SubcategoryCode == "SC29").ToList(),
+                    DetailsSc30 = db.BudgetDetailTmps.Where(odt => odt.UserName == User.Identity.Name && odt.SubcategoryCode == "SC30").ToList(),
+                    DetailsSc31 = db.BudgetDetailTmps.Where(odt => odt.UserName == User.Identity.Name && odt.SubcategoryCode == "SC31").ToList(),
+                    DetailsSc32 = db.BudgetDetailTmps.Where(odt => odt.UserName == User.Identity.Name && odt.SubcategoryCode == "SC32").ToList(),
+                    DetailsSc33 = db.BudgetDetailTmps.Where(odt => odt.UserName == User.Identity.Name && odt.SubcategoryCode == "SC33").ToList(),
+                    DetailsSc34 = db.BudgetDetailTmps.Where(odt => odt.UserName == User.Identity.Name && odt.SubcategoryCode == "SC34").ToList(),
+                    DetailsSc35 = db.BudgetDetailTmps.Where(odt => odt.UserName == User.Identity.Name && odt.SubcategoryCode == "SC35").ToList(),
+                    DetailsSc36 = db.BudgetDetailTmps.Where(odt => odt.UserName == User.Identity.Name && odt.SubcategoryCode == "SC36").ToList(),
+                    DetailsSc37 = db.BudgetDetailTmps.Where(odt => odt.UserName == User.Identity.Name && odt.SubcategoryCode == "SC37").ToList(),
+                    DetailsSc38 = db.BudgetDetailTmps.Where(odt => odt.UserName == User.Identity.Name && odt.SubcategoryCode == "SC38").ToList(),
+                    DetailsSc39 = db.BudgetDetailTmps.Where(odt => odt.UserName == User.Identity.Name && odt.SubcategoryCode == "SC39").ToList(),
+                    DetailsSc40 = db.BudgetDetailTmps.Where(odt => odt.UserName == User.Identity.Name && odt.SubcategoryCode == "SC40").ToList(),
+                    DetailsSc41 = db.BudgetDetailTmps.Where(odt => odt.UserName == User.Identity.Name && odt.SubcategoryCode == "SC41").ToList(),
+                    DetailsSc42 = db.BudgetDetailTmps.Where(odt => odt.UserName == User.Identity.Name && odt.SubcategoryCode == "SC42").ToList(),
+                    DetailsSc43 = db.BudgetDetailTmps.Where(odt => odt.UserName == User.Identity.Name && odt.SubcategoryCode == "SC43").ToList(),
+                    DetailsSc44 = db.BudgetDetailTmps.Where(odt => odt.UserName == User.Identity.Name && odt.SubcategoryCode == "SC44").ToList(),
+                    DetailsSc45 = db.BudgetDetailTmps.Where(odt => odt.UserName == User.Identity.Name && odt.SubcategoryCode == "SC45").ToList(),
+                    DetailsSc46 = db.BudgetDetailTmps.Where(odt => odt.UserName == User.Identity.Name && odt.SubcategoryCode == "SC46").ToList(),
+                    DetailsSc47 = db.BudgetDetailTmps.Where(odt => odt.UserName == User.Identity.Name && odt.SubcategoryCode == "SC47").ToList(),
+                    DetailsSc48 = db.BudgetDetailTmps.Where(odt => odt.UserName == User.Identity.Name && odt.SubcategoryCode == "SC48").ToList(),
+                    DetailsSc49 = db.BudgetDetailTmps.Where(odt => odt.UserName == User.Identity.Name && odt.SubcategoryCode == "SC49").ToList(),
+                    DetailsSc50 = db.BudgetDetailTmps.Where(odt => odt.UserName == User.Identity.Name && odt.SubcategoryCode == "SC50").ToList(),
+                    DetailsSc51 = db.BudgetDetailTmps.Where(odt => odt.UserName == User.Identity.Name && odt.SubcategoryCode == "SC51").ToList(),
+                    DetailsSc52 = db.BudgetDetailTmps.Where(odt => odt.UserName == User.Identity.Name && odt.SubcategoryCode == "SC52").ToList(),
+                    DetailsSc53 = db.BudgetDetailTmps.Where(odt => odt.UserName == User.Identity.Name && odt.SubcategoryCode == "SC53").ToList(),
+                    DetailsSc54 = db.BudgetDetailTmps.Where(odt => odt.UserName == User.Identity.Name && odt.SubcategoryCode == "SC54").ToList(),
                 };
                 return View(adminView);
             }
@@ -137,88 +141,263 @@ namespace ECommerce.Controllers
             {
                 CompanyId = user.CompanyId,
                 Date = DateTime.Now,
-                DetailsSc01 = BudgetHelper.GetBudgetDetails("SC01"),
-                DetailsSc02 = BudgetHelper.GetBudgetDetails("SC02"),
-                DetailsSc03 = BudgetHelper.GetBudgetDetails("SC03"),
-                DetailsSc04 = BudgetHelper.GetBudgetDetails("SC04"),
-                DetailsSc05 = BudgetHelper.GetBudgetDetails("SC05"),
-                DetailsSc06 = BudgetHelper.GetBudgetDetails("SC06"),
-                DetailsSc07 = BudgetHelper.GetBudgetDetails("SC07"),
-                DetailsSc08 = BudgetHelper.GetBudgetDetails("SC08"),
-                DetailsSc09 = BudgetHelper.GetBudgetDetails("SC09"),
-                DetailsSc10 = BudgetHelper.GetBudgetDetails("SC10"),
-                DetailsSc11 = BudgetHelper.GetBudgetDetails("SC11"),
-                DetailsSc12 = BudgetHelper.GetBudgetDetails("SC12"),
-                DetailsSc13 = BudgetHelper.GetBudgetDetails("SC13"),
-                DetailsSc14 = BudgetHelper.GetBudgetDetails("SC14"),
-                DetailsSc15 = BudgetHelper.GetBudgetDetails("SC15"),
-                DetailsSc16 = BudgetHelper.GetBudgetDetails("SC16"),
-                DetailsSc17 = BudgetHelper.GetBudgetDetails("SC17"),
-                DetailsSc18 = BudgetHelper.GetBudgetDetails("SC18"),
-                DetailsSc19 = BudgetHelper.GetBudgetDetails("SC19"),
-                DetailsSc20 = BudgetHelper.GetBudgetDetails("SC20"),
-                DetailsSc21 = BudgetHelper.GetBudgetDetails("SC21"),
-                DetailsSc22 = BudgetHelper.GetBudgetDetails("SC22"),
-                DetailsSc23 = BudgetHelper.GetBudgetDetails("SC23"),
-                DetailsSc24 = BudgetHelper.GetBudgetDetails("SC24"),
-                DetailsSc25 = BudgetHelper.GetBudgetDetails("SC25"),
-                DetailsSc26 = BudgetHelper.GetBudgetDetails("SC26"),
-                DetailsSc27 = BudgetHelper.GetBudgetDetails("SC27"),
-                DetailsSc28 = BudgetHelper.GetBudgetDetails("SC28"),
-                DetailsSc29 = BudgetHelper.GetBudgetDetails("SC29"),
-                DetailsSc30 = BudgetHelper.GetBudgetDetails("SC30"),
-                DetailsSc31 = BudgetHelper.GetBudgetDetails("SC31"),
-                DetailsSc32 = BudgetHelper.GetBudgetDetails("SC32"),
-                DetailsSc33 = BudgetHelper.GetBudgetDetails("SC33"),
-                DetailsSc34 = BudgetHelper.GetBudgetDetails("SC34"),
-                DetailsSc35 = BudgetHelper.GetBudgetDetails("SC35"),
-                DetailsSc36 = BudgetHelper.GetBudgetDetails("SC36"),
-                DetailsSc37 = BudgetHelper.GetBudgetDetails("SC37"),
-                DetailsSc38 = BudgetHelper.GetBudgetDetails("SC38"),
-                DetailsSc39 = BudgetHelper.GetBudgetDetails("SC39"),
-                DetailsSc40 = BudgetHelper.GetBudgetDetails("SC40"),
-                DetailsSc41 = BudgetHelper.GetBudgetDetails("SC41"),
-                DetailsSc42 = BudgetHelper.GetBudgetDetails("SC42"),
-                DetailsSc43 = BudgetHelper.GetBudgetDetails("SC43"),
-                DetailsSc44 = BudgetHelper.GetBudgetDetails("SC44"),
-                DetailsSc45 = BudgetHelper.GetBudgetDetails("SC45"),
-                DetailsSc46 = BudgetHelper.GetBudgetDetails("SC46"),
-                DetailsSc47 = BudgetHelper.GetBudgetDetails("SC47"),
-                DetailsSc48 = BudgetHelper.GetBudgetDetails("SC48"),
-                DetailsSc49 = BudgetHelper.GetBudgetDetails("SC49"),
-                DetailsSc50 = BudgetHelper.GetBudgetDetails("SC50"),
-                DetailsSc51 = BudgetHelper.GetBudgetDetails("SC51"),
-                DetailsSc52 = BudgetHelper.GetBudgetDetails("SC52"),
-                DetailsSc53 = BudgetHelper.GetBudgetDetails("SC53"),
-                DetailsSc54 = BudgetHelper.GetBudgetDetails("SC54"),
+                DetailsSc01 = db.BudgetDetailTmps.Where(odt => odt.UserName == User.Identity.Name && odt.SubcategoryCode == "SC01").ToList(),
+                DetailsSc02 = db.BudgetDetailTmps.Where(odt => odt.UserName == User.Identity.Name && odt.SubcategoryCode == "SC02").ToList(),
+                DetailsSc03 = db.BudgetDetailTmps.Where(odt => odt.UserName == User.Identity.Name && odt.SubcategoryCode == "SC03").ToList(),
+                DetailsSc04 = db.BudgetDetailTmps.Where(odt => odt.UserName == User.Identity.Name && odt.SubcategoryCode == "SC04").ToList(),
+                DetailsSc05 = db.BudgetDetailTmps.Where(odt => odt.UserName == User.Identity.Name && odt.SubcategoryCode == "SC05").ToList(),
+                DetailsSc06 = db.BudgetDetailTmps.Where(odt => odt.UserName == User.Identity.Name && odt.SubcategoryCode == "SC06").ToList(),
+                DetailsSc07 = db.BudgetDetailTmps.Where(odt => odt.UserName == User.Identity.Name && odt.SubcategoryCode == "SC07").ToList(),
+                DetailsSc08 = db.BudgetDetailTmps.Where(odt => odt.UserName == User.Identity.Name && odt.SubcategoryCode == "SC08").ToList(),
+                DetailsSc09 = db.BudgetDetailTmps.Where(odt => odt.UserName == User.Identity.Name && odt.SubcategoryCode == "SC09").ToList(),
+                DetailsSc10 = db.BudgetDetailTmps.Where(odt => odt.UserName == User.Identity.Name && odt.SubcategoryCode == "SC10").ToList(),
+                DetailsSc11 = db.BudgetDetailTmps.Where(odt => odt.UserName == User.Identity.Name && odt.SubcategoryCode == "SC11").ToList(),
+                DetailsSc12 = db.BudgetDetailTmps.Where(odt => odt.UserName == User.Identity.Name && odt.SubcategoryCode == "SC12").ToList(),
+                DetailsSc13 = db.BudgetDetailTmps.Where(odt => odt.UserName == User.Identity.Name && odt.SubcategoryCode == "SC13").ToList(),
+                DetailsSc14 = db.BudgetDetailTmps.Where(odt => odt.UserName == User.Identity.Name && odt.SubcategoryCode == "SC14").ToList(),
+                DetailsSc15 = db.BudgetDetailTmps.Where(odt => odt.UserName == User.Identity.Name && odt.SubcategoryCode == "SC15").ToList(),
+                DetailsSc16 = db.BudgetDetailTmps.Where(odt => odt.UserName == User.Identity.Name && odt.SubcategoryCode == "SC16").ToList(),
+                DetailsSc17 = db.BudgetDetailTmps.Where(odt => odt.UserName == User.Identity.Name && odt.SubcategoryCode == "SC17").ToList(),
+                DetailsSc18 = db.BudgetDetailTmps.Where(odt => odt.UserName == User.Identity.Name && odt.SubcategoryCode == "SC18").ToList(),
+                DetailsSc19 = db.BudgetDetailTmps.Where(odt => odt.UserName == User.Identity.Name && odt.SubcategoryCode == "SC19").ToList(),
+                DetailsSc20 = db.BudgetDetailTmps.Where(odt => odt.UserName == User.Identity.Name && odt.SubcategoryCode == "SC20").ToList(),
+                DetailsSc21 = db.BudgetDetailTmps.Where(odt => odt.UserName == User.Identity.Name && odt.SubcategoryCode == "SC21").ToList(),
+                DetailsSc22 = db.BudgetDetailTmps.Where(odt => odt.UserName == User.Identity.Name && odt.SubcategoryCode == "SC22").ToList(),
+                DetailsSc23 = db.BudgetDetailTmps.Where(odt => odt.UserName == User.Identity.Name && odt.SubcategoryCode == "SC23").ToList(),
+                DetailsSc24 = db.BudgetDetailTmps.Where(odt => odt.UserName == User.Identity.Name && odt.SubcategoryCode == "SC24").ToList(),
+                DetailsSc25 = db.BudgetDetailTmps.Where(odt => odt.UserName == User.Identity.Name && odt.SubcategoryCode == "SC25").ToList(),
+                DetailsSc26 = db.BudgetDetailTmps.Where(odt => odt.UserName == User.Identity.Name && odt.SubcategoryCode == "SC26").ToList(),
+                DetailsSc27 = db.BudgetDetailTmps.Where(odt => odt.UserName == User.Identity.Name && odt.SubcategoryCode == "SC27").ToList(),
+                DetailsSc28 = db.BudgetDetailTmps.Where(odt => odt.UserName == User.Identity.Name && odt.SubcategoryCode == "SC28").ToList(),
+                DetailsSc29 = db.BudgetDetailTmps.Where(odt => odt.UserName == User.Identity.Name && odt.SubcategoryCode == "SC29").ToList(),
+                DetailsSc30 = db.BudgetDetailTmps.Where(odt => odt.UserName == User.Identity.Name && odt.SubcategoryCode == "SC30").ToList(),
+                DetailsSc31 = db.BudgetDetailTmps.Where(odt => odt.UserName == User.Identity.Name && odt.SubcategoryCode == "SC31").ToList(),
+                DetailsSc32 = db.BudgetDetailTmps.Where(odt => odt.UserName == User.Identity.Name && odt.SubcategoryCode == "SC32").ToList(),
+                DetailsSc33 = db.BudgetDetailTmps.Where(odt => odt.UserName == User.Identity.Name && odt.SubcategoryCode == "SC33").ToList(),
+                DetailsSc34 = db.BudgetDetailTmps.Where(odt => odt.UserName == User.Identity.Name && odt.SubcategoryCode == "SC34").ToList(),
+                DetailsSc35 = db.BudgetDetailTmps.Where(odt => odt.UserName == User.Identity.Name && odt.SubcategoryCode == "SC35").ToList(),
+                DetailsSc36 = db.BudgetDetailTmps.Where(odt => odt.UserName == User.Identity.Name && odt.SubcategoryCode == "SC36").ToList(),
+                DetailsSc37 = db.BudgetDetailTmps.Where(odt => odt.UserName == User.Identity.Name && odt.SubcategoryCode == "SC37").ToList(),
+                DetailsSc38 = db.BudgetDetailTmps.Where(odt => odt.UserName == User.Identity.Name && odt.SubcategoryCode == "SC38").ToList(),
+                DetailsSc39 = db.BudgetDetailTmps.Where(odt => odt.UserName == User.Identity.Name && odt.SubcategoryCode == "SC39").ToList(),
+                DetailsSc40 = db.BudgetDetailTmps.Where(odt => odt.UserName == User.Identity.Name && odt.SubcategoryCode == "SC40").ToList(),
+                DetailsSc41 = db.BudgetDetailTmps.Where(odt => odt.UserName == User.Identity.Name && odt.SubcategoryCode == "SC41").ToList(),
+                DetailsSc42 = db.BudgetDetailTmps.Where(odt => odt.UserName == User.Identity.Name && odt.SubcategoryCode == "SC42").ToList(),
+                DetailsSc43 = db.BudgetDetailTmps.Where(odt => odt.UserName == User.Identity.Name && odt.SubcategoryCode == "SC43").ToList(),
+                DetailsSc44 = db.BudgetDetailTmps.Where(odt => odt.UserName == User.Identity.Name && odt.SubcategoryCode == "SC44").ToList(),
+                DetailsSc45 = db.BudgetDetailTmps.Where(odt => odt.UserName == User.Identity.Name && odt.SubcategoryCode == "SC45").ToList(),
+                DetailsSc46 = db.BudgetDetailTmps.Where(odt => odt.UserName == User.Identity.Name && odt.SubcategoryCode == "SC46").ToList(),
+                DetailsSc47 = db.BudgetDetailTmps.Where(odt => odt.UserName == User.Identity.Name && odt.SubcategoryCode == "SC47").ToList(),
+                DetailsSc48 = db.BudgetDetailTmps.Where(odt => odt.UserName == User.Identity.Name && odt.SubcategoryCode == "SC48").ToList(),
+                DetailsSc49 = db.BudgetDetailTmps.Where(odt => odt.UserName == User.Identity.Name && odt.SubcategoryCode == "SC49").ToList(),
+                DetailsSc50 = db.BudgetDetailTmps.Where(odt => odt.UserName == User.Identity.Name && odt.SubcategoryCode == "SC50").ToList(),
+                DetailsSc51 = db.BudgetDetailTmps.Where(odt => odt.UserName == User.Identity.Name && odt.SubcategoryCode == "SC51").ToList(),
+                DetailsSc52 = db.BudgetDetailTmps.Where(odt => odt.UserName == User.Identity.Name && odt.SubcategoryCode == "SC52").ToList(),
+                DetailsSc53 = db.BudgetDetailTmps.Where(odt => odt.UserName == User.Identity.Name && odt.SubcategoryCode == "SC53").ToList(),
+                DetailsSc54 = db.BudgetDetailTmps.Where(odt => odt.UserName == User.Identity.Name && odt.SubcategoryCode == "SC54").ToList(),
             };            
             return View(view);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(Budget budget)
+        public ActionResult Create(NewBudgetView budget)
         {
             if (ModelState.IsValid)
             {
-                db.Budgets.Add(budget);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
+                var response = MovementsHelper.NewBudget(budget, User.Identity.Name);
+                if (response.Succeeded)
+                {
+                    return RedirectToAction("Index");
+                }
 
-            ViewBag.CompanyId = new SelectList(db.Companies, "CompanyId", "Name", budget.CompanyId);
-            ViewBag.CustomerId = new SelectList(db.Customers, "CustomerId", "UserName", budget.CustomerId);
-            ViewBag.ProjectId = new SelectList(db.Projects, "ProjectId", "Name", budget.ProjectId);
+                ModelState.AddModelError(string.Empty, response.Message);
+            }
+            var adminUser = WebConfigurationManager.AppSettings["AdminUser"];
+            if (adminUser == User.Identity.Name)
+            {
+                ViewBag.CustomerId = new SelectList(CombosHelper.GetCustomers(), "CustomerId", "UserName",
+                    budget.CustomerId);
+                ViewBag.ProjectId = new SelectList(CombosHelper.GetProjects(budget.CompanyId), "ProjectId", "Name",
+                    budget.ProjectId);
+                ViewBag.CompanyId = new SelectList(CombosHelper.GetCompanies(), "CompanyId", "Name", budget.CompanyId);
+            }
+            else
+            {
+                var user = db.Users.FirstOrDefault(u => u.UserName == User.Identity.Name);
+                ViewBag.CustomerId = new SelectList(CombosHelper.GetCustomers(user.CompanyId), "CustomerId", "UserName",
+                    budget.CustomerId);
+                ViewBag.ProjectId = new SelectList(CombosHelper.GetProjects(user.CompanyId), "ProjectId", "Name",
+                    budget.ProjectId);
+            }
+            budget.DetailsSc01 = db.BudgetDetailTmps
+                .Where(odt => odt.UserName == User.Identity.Name && odt.SubcategoryCode == "SC01").ToList();
+            budget.DetailsSc02 = db.BudgetDetailTmps
+                .Where(odt => odt.UserName == User.Identity.Name && odt.SubcategoryCode == "SC02").ToList();
+            budget.DetailsSc03 = db.BudgetDetailTmps
+                .Where(odt => odt.UserName == User.Identity.Name && odt.SubcategoryCode == "SC03").ToList();
+            budget.DetailsSc04 = db.BudgetDetailTmps
+                .Where(odt => odt.UserName == User.Identity.Name && odt.SubcategoryCode == "SC04").ToList();
+            budget.DetailsSc05 = db.BudgetDetailTmps
+                .Where(odt => odt.UserName == User.Identity.Name && odt.SubcategoryCode == "SC05").ToList();
+            budget.DetailsSc06 = db.BudgetDetailTmps
+                .Where(odt => odt.UserName == User.Identity.Name && odt.SubcategoryCode == "SC06").ToList();
+            budget.DetailsSc07 = db.BudgetDetailTmps
+                .Where(odt => odt.UserName == User.Identity.Name && odt.SubcategoryCode == "SC07").ToList();
+            budget.DetailsSc08 = db.BudgetDetailTmps
+                .Where(odt => odt.UserName == User.Identity.Name && odt.SubcategoryCode == "SC08").ToList();
+            budget.DetailsSc09 = db.BudgetDetailTmps
+                .Where(odt => odt.UserName == User.Identity.Name && odt.SubcategoryCode == "SC09").ToList();
+            budget.DetailsSc10 = db.BudgetDetailTmps
+                .Where(odt => odt.UserName == User.Identity.Name && odt.SubcategoryCode == "SC10").ToList();
+            budget.DetailsSc11 = db.BudgetDetailTmps
+                .Where(odt => odt.UserName == User.Identity.Name && odt.SubcategoryCode == "SC11").ToList();
+            budget.DetailsSc12 = db.BudgetDetailTmps
+                .Where(odt => odt.UserName == User.Identity.Name && odt.SubcategoryCode == "SC12").ToList();
+            budget.DetailsSc13 = db.BudgetDetailTmps
+                .Where(odt => odt.UserName == User.Identity.Name && odt.SubcategoryCode == "SC13").ToList();
+            budget.DetailsSc14 = db.BudgetDetailTmps
+                .Where(odt => odt.UserName == User.Identity.Name && odt.SubcategoryCode == "SC14").ToList();
+            budget.DetailsSc15 = db.BudgetDetailTmps
+                .Where(odt => odt.UserName == User.Identity.Name && odt.SubcategoryCode == "SC15").ToList();
+            budget.DetailsSc16 = db.BudgetDetailTmps
+                .Where(odt => odt.UserName == User.Identity.Name && odt.SubcategoryCode == "SC16").ToList();
+            budget.DetailsSc17 = db.BudgetDetailTmps
+                .Where(odt => odt.UserName == User.Identity.Name && odt.SubcategoryCode == "SC17").ToList();
+            budget.DetailsSc18 = db.BudgetDetailTmps
+                .Where(odt => odt.UserName == User.Identity.Name && odt.SubcategoryCode == "SC18").ToList();
+            budget.DetailsSc19 = db.BudgetDetailTmps
+                .Where(odt => odt.UserName == User.Identity.Name && odt.SubcategoryCode == "SC19").ToList();
+            budget.DetailsSc20 = db.BudgetDetailTmps
+                .Where(odt => odt.UserName == User.Identity.Name && odt.SubcategoryCode == "SC20").ToList();
+            budget.DetailsSc21 = db.BudgetDetailTmps
+                .Where(odt => odt.UserName == User.Identity.Name && odt.SubcategoryCode == "SC21").ToList();
+            budget.DetailsSc22 = db.BudgetDetailTmps
+                .Where(odt => odt.UserName == User.Identity.Name && odt.SubcategoryCode == "SC22").ToList();
+            budget.DetailsSc23 = db.BudgetDetailTmps
+                .Where(odt => odt.UserName == User.Identity.Name && odt.SubcategoryCode == "SC23").ToList();
+            budget.DetailsSc24 = db.BudgetDetailTmps
+                .Where(odt => odt.UserName == User.Identity.Name && odt.SubcategoryCode == "SC24").ToList();
+            budget.DetailsSc25 = db.BudgetDetailTmps
+                .Where(odt => odt.UserName == User.Identity.Name && odt.SubcategoryCode == "SC25").ToList();
+            budget.DetailsSc26 = db.BudgetDetailTmps
+                .Where(odt => odt.UserName == User.Identity.Name && odt.SubcategoryCode == "SC26").ToList();
+            budget.DetailsSc27 = db.BudgetDetailTmps
+                .Where(odt => odt.UserName == User.Identity.Name && odt.SubcategoryCode == "SC27").ToList();
+            budget.DetailsSc28 = db.BudgetDetailTmps
+                .Where(odt => odt.UserName == User.Identity.Name && odt.SubcategoryCode == "SC28").ToList();
+            budget.DetailsSc29 = db.BudgetDetailTmps
+                .Where(odt => odt.UserName == User.Identity.Name && odt.SubcategoryCode == "SC29").ToList();
+            budget.DetailsSc30 = db.BudgetDetailTmps
+                .Where(odt => odt.UserName == User.Identity.Name && odt.SubcategoryCode == "SC30").ToList();
+            budget.DetailsSc31 = db.BudgetDetailTmps
+                .Where(odt => odt.UserName == User.Identity.Name && odt.SubcategoryCode == "SC31").ToList();
+            budget.DetailsSc32 = db.BudgetDetailTmps
+                .Where(odt => odt.UserName == User.Identity.Name && odt.SubcategoryCode == "SC32").ToList();
+            budget.DetailsSc33 = db.BudgetDetailTmps
+                .Where(odt => odt.UserName == User.Identity.Name && odt.SubcategoryCode == "SC33").ToList();
+            budget.DetailsSc34 = db.BudgetDetailTmps
+                .Where(odt => odt.UserName == User.Identity.Name && odt.SubcategoryCode == "SC34").ToList();
+            budget.DetailsSc35 = db.BudgetDetailTmps
+                .Where(odt => odt.UserName == User.Identity.Name && odt.SubcategoryCode == "SC35").ToList();
+            budget.DetailsSc36 = db.BudgetDetailTmps
+                .Where(odt => odt.UserName == User.Identity.Name && odt.SubcategoryCode == "SC36").ToList();
+            budget.DetailsSc37 = db.BudgetDetailTmps
+                .Where(odt => odt.UserName == User.Identity.Name && odt.SubcategoryCode == "SC37").ToList();
+            budget.DetailsSc38 = db.BudgetDetailTmps
+                .Where(odt => odt.UserName == User.Identity.Name && odt.SubcategoryCode == "SC38").ToList();
+            budget.DetailsSc39 = db.BudgetDetailTmps
+                .Where(odt => odt.UserName == User.Identity.Name && odt.SubcategoryCode == "SC39").ToList();
+            budget.DetailsSc40 = db.BudgetDetailTmps
+                .Where(odt => odt.UserName == User.Identity.Name && odt.SubcategoryCode == "SC40").ToList();
+            budget.DetailsSc41 = db.BudgetDetailTmps
+                .Where(odt => odt.UserName == User.Identity.Name && odt.SubcategoryCode == "SC41").ToList();
+            budget.DetailsSc42 = db.BudgetDetailTmps
+                .Where(odt => odt.UserName == User.Identity.Name && odt.SubcategoryCode == "SC42").ToList();
+            budget.DetailsSc43 = db.BudgetDetailTmps
+                .Where(odt => odt.UserName == User.Identity.Name && odt.SubcategoryCode == "SC43").ToList();
+            budget.DetailsSc44 = db.BudgetDetailTmps
+                .Where(odt => odt.UserName == User.Identity.Name && odt.SubcategoryCode == "SC44").ToList();
+            budget.DetailsSc45 = db.BudgetDetailTmps
+                .Where(odt => odt.UserName == User.Identity.Name && odt.SubcategoryCode == "SC45").ToList();
+            budget.DetailsSc46 = db.BudgetDetailTmps
+                .Where(odt => odt.UserName == User.Identity.Name && odt.SubcategoryCode == "SC46").ToList();
+            budget.DetailsSc47 = db.BudgetDetailTmps
+                .Where(odt => odt.UserName == User.Identity.Name && odt.SubcategoryCode == "SC47").ToList();
+            budget.DetailsSc48 = db.BudgetDetailTmps
+                .Where(odt => odt.UserName == User.Identity.Name && odt.SubcategoryCode == "SC48").ToList();
+            budget.DetailsSc49 = db.BudgetDetailTmps
+                .Where(odt => odt.UserName == User.Identity.Name && odt.SubcategoryCode == "SC49").ToList();
+            budget.DetailsSc50 = db.BudgetDetailTmps
+                .Where(odt => odt.UserName == User.Identity.Name && odt.SubcategoryCode == "SC50").ToList();
+            budget.DetailsSc51 = db.BudgetDetailTmps
+                .Where(odt => odt.UserName == User.Identity.Name && odt.SubcategoryCode == "SC51").ToList();
+            budget.DetailsSc52 = db.BudgetDetailTmps
+                .Where(odt => odt.UserName == User.Identity.Name && odt.SubcategoryCode == "SC52").ToList();
+            budget.DetailsSc53 = db.BudgetDetailTmps
+                .Where(odt => odt.UserName == User.Identity.Name && odt.SubcategoryCode == "SC53").ToList();
+            budget.DetailsSc54 = db.BudgetDetailTmps
+                .Where(odt => odt.UserName == User.Identity.Name && odt.SubcategoryCode == "SC54").ToList();
             return View(budget);
         }
-        
+
+        public ActionResult EditBudgetDetail(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            var budgetDetailTmp = db.BudgetDetailTmps.Find(id);
+            if (budgetDetailTmp == null)
+            {
+                return HttpNotFound();
+            }
+
+            var editBudgetDetailView = new EditBudgetDetailView
+            {
+                BudgetDetailTmpId = (int)id,
+                Description = budgetDetailTmp.Description,
+                Category = budgetDetailTmp.Category,
+                Subcategory = budgetDetailTmp.Subcategory,
+                Metered = budgetDetailTmp.Metered,
+                UnitPrice = budgetDetailTmp.UnitPrice,
+                Remarks = budgetDetailTmp.Remarks,
+            };
+            return PartialView(editBudgetDetailView);
+        }
+
+        [HttpPost]
+        public ActionResult EditBudgetDetail(EditBudgetDetailView editBudgetDetail)
+        {
+            if (ModelState.IsValid)
+            {
+                var budgetDetailTmp = db.BudgetDetailTmps.FirstOrDefault(odt => odt.UserName == User.Identity.Name && odt.BudgetDetailTmpId == editBudgetDetail.BudgetDetailTmpId);
+                if (budgetDetailTmp != null)
+                {
+                    budgetDetailTmp.UnitPrice = editBudgetDetail.UnitPrice;
+                    budgetDetailTmp.Metered = editBudgetDetail.Metered;
+                    budgetDetailTmp.PartialPrice = editBudgetDetail.UnitPrice * (decimal)editBudgetDetail.Metered;
+                    budgetDetailTmp.Remarks = editBudgetDetail.Remarks;
+                    db.Entry(budgetDetailTmp).State = EntityState.Modified;
+                    var responseSave = DBHelper.SaveChanges(db);
+                    if (responseSave.Succeeded)
+                    {
+                        return RedirectToAction("Create");
+                    }
+                    ModelState.AddModelError(string.Empty, responseSave.Message);
+                }
+            }
+            return PartialView(editBudgetDetail);
+        }
+
+
         public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Budget budget = db.Budgets.Find(id);
+            var budget = db.Budgets.Find(id);
             if (budget == null)
             {
                 return HttpNotFound();

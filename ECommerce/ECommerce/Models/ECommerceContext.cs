@@ -63,5 +63,7 @@ namespace ECommerce.Models
         public DbSet<Budget> Budgets { get; set; }
 
         public DbSet<BudgetDetail> BudgetDetails { get; set; }
+
+        public DbSet<BudgetDetailTmp> BudgetDetailTmps { get; set; }
     }
 }

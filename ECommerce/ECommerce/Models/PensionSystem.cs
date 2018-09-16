@@ -8,11 +8,17 @@ namespace ECommerce.Models
     {
         [Key]
         public int PensionSystemId { get; set; }
+
         [Required(ErrorMessage = "The field {0} is required")]
         [MaxLength(50, ErrorMessage = "The field {0} must be at least {1} characteres length.")]
         [Display(Name = "Pension System")]
         [Index("PensionSystem_Name_Index", IsUnique = true)]
         public string Name { get; set; }
+
+        [Required(ErrorMessage = "The field {0} is required")]
+        [Range(1, double.MaxValue, ErrorMessage = "You must select a {0}")]
+        [Display(Name = "Company")]
+        public int CompanyId { get; set; }
 
         [Display(Name = "Comisión (%)")]
         [Range(0, 100, ErrorMessage = "The field {0} must be between {1} and {2}.")]
@@ -37,6 +43,8 @@ namespace ECommerce.Models
         [Display(Name = "Tope")]
         [Required(ErrorMessage = "The field {0} is required")]
         public double Top { get; set; }
+
+        public virtual Company Companies { get; set; }
 
         public virtual ICollection<User> Users { get; set; }
     }

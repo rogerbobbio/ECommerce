@@ -1,13 +1,13 @@
 ﻿@model ECommerce.Models.PensionSystem
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Detalles";
 }
 
-<h2>Details</h2>
+<h2>Detalles</h2>
 
 <div>
-    <h4>Pension System</h4>
+    <h4>Sistema de Pensiones</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -16,6 +16,14 @@
 
         <dd>
             @Html.DisplayFor(model => model.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Companies.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Companies.Name)
         </dd>
 
         <dt>

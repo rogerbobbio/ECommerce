@@ -159,6 +159,9 @@ namespace ECommerce.Controllers
         {
             if (ModelState.IsValid)
             {
+                if (user.ProjectId == 0)
+                    user.ProjectId = null;
+
                 db.Users.Add(user);
                 var responseSave = DBHelper.SaveChanges(db);
                 if (responseSave.Succeeded)
@@ -244,6 +247,9 @@ namespace ECommerce.Controllers
         {
             if (ModelState.IsValid)
             {
+                if (user.ProjectId == 0)
+                    user.ProjectId = null;
+
                 if (user.PhotoFile != null)
                 {
                     var pic = string.Empty;

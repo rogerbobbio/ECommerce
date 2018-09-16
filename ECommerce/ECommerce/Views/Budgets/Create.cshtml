@@ -74,8 +74,7 @@
             <div class="form-group">
                 @Html.LabelFor(model => model.TotalButget, htmlAttributes: new {@class = "control-label col-md-2"})
                 <div class="col-md-10">
-                    @Html.EditorFor(model => model.TotalButget, new {htmlAttributes = new {@class = "form-control"}})
-                    @Html.ValidationMessageFor(model => model.TotalButget, "", new {@class = "text-danger"})
+                    @Html.DisplayFor(model => model.TotalButget)                    
                 </div>
             </div>
 
@@ -133,19 +132,19 @@
                 @Html.DisplayFor(modelItem => item.Unity)
             </td>
             <td align="right">
-                @Html.EditorFor(model => item.Metered, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => item.Metered, "", new { @class = "text-danger" })
+                @Html.DisplayFor(modelItem => item.Metered)
             </td>
             <td align="right">
-                @Html.EditorFor(model => item.UnitPrice, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => item.UnitPrice, "", new { @class = "text-danger" })
+                @Html.DisplayFor(modelItem => item.UnitPrice)
             </td>
             <td align="right">
                 @Html.DisplayFor(modelItem => item.PartialPrice)
             </td>
             <td>
-                @Html.EditorFor(model => item.Remarks, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => item.Remarks, "", new { @class = "text-danger" })
+                @Html.DisplayFor(modelItem => item.Remarks)
+            </td>
+            <td>
+                @Html.ActionLink("Editar", "EditBudgetDetail", "Budgets", new { id = item.BudgetDetailTmpId }, new { @class = "dialog-window btn btn-info" })
             </td>
         </tr>
     }
@@ -188,32 +187,32 @@
     </tr>
     @foreach (var item in Model.DetailsSc02)
     {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Subcategory)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Unity)
-            </td>
-            <td align="right">
-                @Html.EditorFor(model => item.Metered, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => item.Metered, "", new { @class = "text-danger" })
-            </td>
-            <td align="right">
-                @Html.EditorFor(model => item.UnitPrice, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => item.UnitPrice, "", new { @class = "text-danger" })
-            </td>
-            <td align="right">
-                @Html.DisplayFor(modelItem => item.PartialPrice)
-            </td>
-            <td>
-                @Html.EditorFor(model => item.Remarks, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => item.Remarks, "", new { @class = "text-danger" })
-            </td>
-        </tr>
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Subcategory)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Unity)
+        </td>
+        <td align="right">
+            @Html.DisplayFor(modelItem => item.Metered)
+        </td>
+        <td align="right">
+            @Html.DisplayFor(modelItem => item.UnitPrice)
+        </td>
+        <td align="right">
+            @Html.DisplayFor(modelItem => item.PartialPrice)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Remarks)
+        </td>
+        <td>
+            @Html.ActionLink("Editar", "EditBudgetDetail", "Budgets", new { id = item.BudgetDetailTmpId }, new { @class = "dialog-window btn btn-info" })
+        </td>
+    </tr>
     }
     <tr>
         <td colspan="5" align="right">
@@ -254,32 +253,32 @@
     </tr>
     @foreach (var item in Model.DetailsSc03)
     {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Subcategory)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Unity)
-            </td>
-            <td align="right">
-                @Html.EditorFor(model => item.Metered, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => item.Metered, "", new { @class = "text-danger" })
-            </td>
-            <td align="right">
-                @Html.EditorFor(model => item.UnitPrice, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => item.UnitPrice, "", new { @class = "text-danger" })
-            </td>
-            <td align="right">
-                @Html.DisplayFor(modelItem => item.PartialPrice)
-            </td>
-            <td>
-                @Html.EditorFor(model => item.Remarks, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => item.Remarks, "", new { @class = "text-danger" })
-            </td>
-        </tr>
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Subcategory)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Unity)
+        </td>
+        <td align="right">
+            @Html.DisplayFor(modelItem => item.Metered)
+        </td>
+        <td align="right">
+            @Html.DisplayFor(modelItem => item.UnitPrice)
+        </td>
+        <td align="right">
+            @Html.DisplayFor(modelItem => item.PartialPrice)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Remarks)
+        </td>
+        <td>
+            @Html.ActionLink("Editar", "EditBudgetDetail", "Budgets", new { id = item.BudgetDetailTmpId }, new { @class = "dialog-window btn btn-info" })
+        </td>
+    </tr>
     }
     <tr>
         <td colspan="5" align="right">
@@ -320,32 +319,32 @@
     </tr>
     @foreach (var item in Model.DetailsSc04)
     {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Subcategory)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Unity)
-            </td>
-            <td align="right">
-                @Html.EditorFor(model => item.Metered, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => item.Metered, "", new { @class = "text-danger" })
-            </td>
-            <td align="right">
-                @Html.EditorFor(model => item.UnitPrice, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => item.UnitPrice, "", new { @class = "text-danger" })
-            </td>
-            <td align="right">
-                @Html.DisplayFor(modelItem => item.PartialPrice)
-            </td>
-            <td>
-                @Html.EditorFor(model => item.Remarks, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => item.Remarks, "", new { @class = "text-danger" })
-            </td>
-        </tr>
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Subcategory)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Unity)
+        </td>
+        <td align="right">
+            @Html.DisplayFor(modelItem => item.Metered)
+        </td>
+        <td align="right">
+            @Html.DisplayFor(modelItem => item.UnitPrice)
+        </td>
+        <td align="right">
+            @Html.DisplayFor(modelItem => item.PartialPrice)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Remarks)
+        </td>
+        <td>
+            @Html.ActionLink("Editar", "EditBudgetDetail", "Budgets", new { id = item.BudgetDetailTmpId }, new { @class = "dialog-window btn btn-info" })
+        </td>
+    </tr>
     }
     <tr>
         <td colspan="5" align="right">
@@ -387,32 +386,32 @@
     </tr>
     @foreach (var item in Model.DetailsSc05)
     {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Subcategory)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Unity)
-            </td>
-            <td align="right">
-                @Html.EditorFor(model => item.Metered, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => item.Metered, "", new { @class = "text-danger" })
-            </td>
-            <td align="right">
-                @Html.EditorFor(model => item.UnitPrice, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => item.UnitPrice, "", new { @class = "text-danger" })
-            </td>
-            <td align="right">
-                @Html.DisplayFor(modelItem => item.PartialPrice)
-            </td>
-            <td>
-                @Html.EditorFor(model => item.Remarks, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => item.Remarks, "", new { @class = "text-danger" })
-            </td>
-        </tr>
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Subcategory)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Unity)
+        </td>
+        <td align="right">
+            @Html.DisplayFor(modelItem => item.Metered)
+        </td>
+        <td align="right">
+            @Html.DisplayFor(modelItem => item.UnitPrice)
+        </td>
+        <td align="right">
+            @Html.DisplayFor(modelItem => item.PartialPrice)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Remarks)
+        </td>
+        <td>
+            @Html.ActionLink("Editar", "EditBudgetDetail", "Budgets", new { id = item.BudgetDetailTmpId }, new { @class = "dialog-window btn btn-info" })
+        </td>
+    </tr>
     }
     <tr>
         <td colspan="5" align="right">
@@ -455,32 +454,32 @@
     </tr>
     @foreach (var item in Model.DetailsSc06)
     {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Subcategory)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Unity)
-            </td>
-            <td align="right">
-                @Html.EditorFor(model => item.Metered, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => item.Metered, "", new { @class = "text-danger" })
-            </td>
-            <td align="right">
-                @Html.EditorFor(model => item.UnitPrice, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => item.UnitPrice, "", new { @class = "text-danger" })
-            </td>
-            <td align="right">
-                @Html.DisplayFor(modelItem => item.PartialPrice)
-            </td>
-            <td>
-                @Html.EditorFor(model => item.Remarks, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => item.Remarks, "", new { @class = "text-danger" })
-            </td>
-        </tr>
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Subcategory)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Unity)
+        </td>
+        <td align="right">
+            @Html.DisplayFor(modelItem => item.Metered)
+        </td>
+        <td align="right">
+            @Html.DisplayFor(modelItem => item.UnitPrice)
+        </td>
+        <td align="right">
+            @Html.DisplayFor(modelItem => item.PartialPrice)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Remarks)
+        </td>
+        <td>
+            @Html.ActionLink("Editar", "EditBudgetDetail", "Budgets", new { id = item.BudgetDetailTmpId }, new { @class = "dialog-window btn btn-info" })
+        </td>
+    </tr>
     }
     <tr>
         <td colspan="5" align="right">
@@ -522,32 +521,32 @@
     </tr>
     @foreach (var item in Model.DetailsSc07)
     {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Subcategory)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Unity)
-            </td>
-            <td align="right">
-                @Html.EditorFor(model => item.Metered, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => item.Metered, "", new { @class = "text-danger" })
-            </td>
-            <td align="right">
-                @Html.EditorFor(model => item.UnitPrice, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => item.UnitPrice, "", new { @class = "text-danger" })
-            </td>
-            <td align="right">
-                @Html.DisplayFor(modelItem => item.PartialPrice)
-            </td>
-            <td>
-                @Html.EditorFor(model => item.Remarks, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => item.Remarks, "", new { @class = "text-danger" })
-            </td>
-        </tr>
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Subcategory)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Unity)
+        </td>
+        <td align="right">
+            @Html.DisplayFor(modelItem => item.Metered)
+        </td>
+        <td align="right">
+            @Html.DisplayFor(modelItem => item.UnitPrice)
+        </td>
+        <td align="right">
+            @Html.DisplayFor(modelItem => item.PartialPrice)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Remarks)
+        </td>
+        <td>
+            @Html.ActionLink("Editar", "EditBudgetDetail", "Budgets", new { id = item.BudgetDetailTmpId }, new { @class = "dialog-window btn btn-info" })
+        </td>
+    </tr>
     }
     <tr>
         <td colspan="5" align="right">
@@ -587,32 +586,32 @@
     </tr>
     @foreach (var item in Model.DetailsSc08)
     {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Subcategory)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Unity)
-            </td>
-            <td align="right">
-                @Html.EditorFor(model => item.Metered, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => item.Metered, "", new { @class = "text-danger" })
-            </td>
-            <td align="right">
-                @Html.EditorFor(model => item.UnitPrice, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => item.UnitPrice, "", new { @class = "text-danger" })
-            </td>
-            <td align="right">
-                @Html.DisplayFor(modelItem => item.PartialPrice)
-            </td>
-            <td>
-                @Html.EditorFor(model => item.Remarks, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => item.Remarks, "", new { @class = "text-danger" })
-            </td>
-        </tr>
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Subcategory)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Unity)
+        </td>
+        <td align="right">
+            @Html.DisplayFor(modelItem => item.Metered)
+        </td>
+        <td align="right">
+            @Html.DisplayFor(modelItem => item.UnitPrice)
+        </td>
+        <td align="right">
+            @Html.DisplayFor(modelItem => item.PartialPrice)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Remarks)
+        </td>
+        <td>
+            @Html.ActionLink("Editar", "EditBudgetDetail", "Budgets", new { id = item.BudgetDetailTmpId }, new { @class = "dialog-window btn btn-info" })
+        </td>
+    </tr>
     }
     <tr>
         <td colspan="5" align="right">
@@ -652,32 +651,32 @@
     </tr>
     @foreach (var item in Model.DetailsSc09)
     {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Subcategory)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Unity)
-            </td>
-            <td align="right">
-                @Html.EditorFor(model => item.Metered, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => item.Metered, "", new { @class = "text-danger" })
-            </td>
-            <td align="right">
-                @Html.EditorFor(model => item.UnitPrice, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => item.UnitPrice, "", new { @class = "text-danger" })
-            </td>
-            <td align="right">
-                @Html.DisplayFor(modelItem => item.PartialPrice)
-            </td>
-            <td>
-                @Html.EditorFor(model => item.Remarks, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => item.Remarks, "", new { @class = "text-danger" })
-            </td>
-        </tr>
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Subcategory)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Unity)
+        </td>
+        <td align="right">
+            @Html.DisplayFor(modelItem => item.Metered)
+        </td>
+        <td align="right">
+            @Html.DisplayFor(modelItem => item.UnitPrice)
+        </td>
+        <td align="right">
+            @Html.DisplayFor(modelItem => item.PartialPrice)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Remarks)
+        </td>
+        <td>
+            @Html.ActionLink("Editar", "EditBudgetDetail", "Budgets", new { id = item.BudgetDetailTmpId }, new { @class = "dialog-window btn btn-info" })
+        </td>
+    </tr>
     }
     <tr>
         <td colspan="5" align="right">
@@ -717,32 +716,32 @@
     </tr>
     @foreach (var item in Model.DetailsSc10)
     {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Subcategory)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Unity)
-            </td>
-            <td align="right">
-                @Html.EditorFor(model => item.Metered, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => item.Metered, "", new { @class = "text-danger" })
-            </td>
-            <td align="right">
-                @Html.EditorFor(model => item.UnitPrice, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => item.UnitPrice, "", new { @class = "text-danger" })
-            </td>
-            <td align="right">
-                @Html.DisplayFor(modelItem => item.PartialPrice)
-            </td>
-            <td>
-                @Html.EditorFor(model => item.Remarks, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => item.Remarks, "", new { @class = "text-danger" })
-            </td>
-        </tr>
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Subcategory)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Unity)
+        </td>
+        <td align="right">
+            @Html.DisplayFor(modelItem => item.Metered)
+        </td>
+        <td align="right">
+            @Html.DisplayFor(modelItem => item.UnitPrice)
+        </td>
+        <td align="right">
+            @Html.DisplayFor(modelItem => item.PartialPrice)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Remarks)
+        </td>        
+        <td>
+            @Html.ActionLink("Editar", "EditBudgetDetail", "Budgets", new { id = item.BudgetDetailTmpId }, new { @class = "dialog-window btn btn-info" })
+        </td>
+    </tr>
     }
     <tr>
         <td colspan="5" align="right">
@@ -785,32 +784,32 @@
     </tr>
     @foreach (var item in Model.DetailsSc11)
     {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Subcategory)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Unity)
-            </td>
-            <td align="right">
-                @Html.EditorFor(model => item.Metered, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => item.Metered, "", new { @class = "text-danger" })
-            </td>
-            <td align="right">
-                @Html.EditorFor(model => item.UnitPrice, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => item.UnitPrice, "", new { @class = "text-danger" })
-            </td>
-            <td align="right">
-                @Html.DisplayFor(modelItem => item.PartialPrice)
-            </td>
-            <td>
-                @Html.EditorFor(model => item.Remarks, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => item.Remarks, "", new { @class = "text-danger" })
-            </td>
-        </tr>
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Subcategory)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Unity)
+        </td>
+        <td align="right">
+            @Html.DisplayFor(modelItem => item.Metered)
+        </td>
+        <td align="right">
+            @Html.DisplayFor(modelItem => item.UnitPrice)
+        </td>
+        <td align="right">
+            @Html.DisplayFor(modelItem => item.PartialPrice)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Remarks)
+        </td>        
+        <td>
+            @Html.ActionLink("Editar", "EditBudgetDetail", "Budgets", new { id = item.BudgetDetailTmpId }, new { @class = "dialog-window btn btn-info" })
+        </td>
+    </tr>
     }
     <tr>
         <td colspan="5" align="right">
@@ -851,32 +850,32 @@
     </tr>
     @foreach (var item in Model.DetailsSc12)
     {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Subcategory)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Unity)
-            </td>
-            <td align="right">
-                @Html.EditorFor(model => item.Metered, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => item.Metered, "", new { @class = "text-danger" })
-            </td>
-            <td align="right">
-                @Html.EditorFor(model => item.UnitPrice, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => item.UnitPrice, "", new { @class = "text-danger" })
-            </td>
-            <td align="right">
-                @Html.DisplayFor(modelItem => item.PartialPrice)
-            </td>
-            <td>
-                @Html.EditorFor(model => item.Remarks, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => item.Remarks, "", new { @class = "text-danger" })
-            </td>
-        </tr>
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Subcategory)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Unity)
+        </td>
+        <td align="right">
+            @Html.DisplayFor(modelItem => item.Metered)
+        </td>
+        <td align="right">
+            @Html.DisplayFor(modelItem => item.UnitPrice)
+        </td>
+        <td align="right">
+            @Html.DisplayFor(modelItem => item.PartialPrice)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Remarks)
+        </td>        
+        <td>
+            @Html.ActionLink("Editar", "EditBudgetDetail", "Budgets", new { id = item.BudgetDetailTmpId }, new { @class = "dialog-window btn btn-info" })
+        </td>
+    </tr>
     }
     <tr>
         <td colspan="5" align="right">
@@ -917,32 +916,32 @@
     </tr>
     @foreach (var item in Model.DetailsSc13)
     {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Subcategory)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Unity)
-            </td>
-            <td align="right">
-                @Html.EditorFor(model => item.Metered, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => item.Metered, "", new { @class = "text-danger" })
-            </td>
-            <td align="right">
-                @Html.EditorFor(model => item.UnitPrice, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => item.UnitPrice, "", new { @class = "text-danger" })
-            </td>
-            <td align="right">
-                @Html.DisplayFor(modelItem => item.PartialPrice)
-            </td>
-            <td>
-                @Html.EditorFor(model => item.Remarks, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => item.Remarks, "", new { @class = "text-danger" })
-            </td>
-        </tr>
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Subcategory)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Unity)
+        </td>
+        <td align="right">
+            @Html.DisplayFor(modelItem => item.Metered)
+        </td>
+        <td align="right">
+            @Html.DisplayFor(modelItem => item.UnitPrice)
+        </td>
+        <td align="right">
+            @Html.DisplayFor(modelItem => item.PartialPrice)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Remarks)
+        </td>
+        <td>
+            @Html.ActionLink("Editar", "EditBudgetDetail", "Budgets", new { id = item.BudgetDetailTmpId }, new { @class = "dialog-window btn btn-info" })
+        </td>
+    </tr>
     }
     <tr>
         <td colspan="5" align="right">
@@ -983,32 +982,32 @@
     </tr>
     @foreach (var item in Model.DetailsSc14)
     {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Subcategory)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Unity)
-            </td>
-            <td align="right">
-                @Html.EditorFor(model => item.Metered, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => item.Metered, "", new { @class = "text-danger" })
-            </td>
-            <td align="right">
-                @Html.EditorFor(model => item.UnitPrice, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => item.UnitPrice, "", new { @class = "text-danger" })
-            </td>
-            <td align="right">
-                @Html.DisplayFor(modelItem => item.PartialPrice)
-            </td>
-            <td>
-                @Html.EditorFor(model => item.Remarks, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => item.Remarks, "", new { @class = "text-danger" })
-            </td>
-        </tr>
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Subcategory)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Unity)
+        </td>
+        <td align="right">
+            @Html.DisplayFor(modelItem => item.Metered)
+        </td>
+        <td align="right">
+            @Html.DisplayFor(modelItem => item.UnitPrice)
+        </td>
+        <td align="right">
+            @Html.DisplayFor(modelItem => item.PartialPrice)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Remarks)
+        </td>
+        <td>
+            @Html.ActionLink("Editar", "EditBudgetDetail", "Budgets", new { id = item.BudgetDetailTmpId }, new { @class = "dialog-window btn btn-info" })
+        </td>
+    </tr>
     }
     <tr>
         <td colspan="5" align="right">
@@ -1050,32 +1049,32 @@
     </tr>
     @foreach (var item in Model.DetailsSc15)
     {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Subcategory)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Unity)
-            </td>
-            <td align="right">
-                @Html.EditorFor(model => item.Metered, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => item.Metered, "", new { @class = "text-danger" })
-            </td>
-            <td align="right">
-                @Html.EditorFor(model => item.UnitPrice, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => item.UnitPrice, "", new { @class = "text-danger" })
-            </td>
-            <td align="right">
-                @Html.DisplayFor(modelItem => item.PartialPrice)
-            </td>
-            <td>
-                @Html.EditorFor(model => item.Remarks, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => item.Remarks, "", new { @class = "text-danger" })
-            </td>
-        </tr>
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Subcategory)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Unity)
+        </td>
+        <td align="right">
+            @Html.DisplayFor(modelItem => item.Metered)            
+        </td>
+        <td align="right">
+            @Html.DisplayFor(modelItem => item.UnitPrice)            
+        </td>
+        <td align="right">
+            @Html.DisplayFor(modelItem => item.PartialPrice)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Remarks)
+        </td>
+        <td>
+            @Html.ActionLink("Editar", "EditBudgetDetail", "Budgets", new { id = item.BudgetDetailTmpId }, new { @class = "dialog-window btn btn-info" })
+        </td>
+    </tr>
     }
     <tr>
         <td colspan="5" align="right">
@@ -1118,32 +1117,35 @@
     </tr>
     @foreach (var item in Model.DetailsSc16)
     {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Subcategory)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Unity)
-            </td>
-            <td align="right">
-                @Html.EditorFor(model => item.Metered, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => item.Metered, "", new { @class = "text-danger" })
-            </td>
-            <td align="right">
-                @Html.EditorFor(model => item.UnitPrice, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => item.UnitPrice, "", new { @class = "text-danger" })
-            </td>
-            <td align="right">
-                @Html.DisplayFor(modelItem => item.PartialPrice)
-            </td>
-            <td>
-                @Html.EditorFor(model => item.Remarks, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => item.Remarks, "", new { @class = "text-danger" })
-            </td>
-        </tr>
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Subcategory)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Unity)
+        </td>
+        <td align="right">
+            @Html.DisplayFor(modelItem => item.Metered)
+            
+        </td>
+        <td align="right">
+            @Html.DisplayFor(modelItem => item.UnitPrice)
+            
+        </td>
+        <td align="right">
+            @Html.DisplayFor(modelItem => item.PartialPrice)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Remarks)
+            
+        </td>
+        <td>
+            @Html.ActionLink("Editar", "EditBudgetDetail", "Budgets", new { id = item.BudgetDetailTmpId }, new { @class = "dialog-window btn btn-info" })
+        </td>
+    </tr>
     }
     <tr>
         <td colspan="5" align="right">
@@ -1184,32 +1186,35 @@
     </tr>
     @foreach (var item in Model.DetailsSc17)
     {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Subcategory)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Unity)
-            </td>
-            <td align="right">
-                @Html.EditorFor(model => item.Metered, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => item.Metered, "", new { @class = "text-danger" })
-            </td>
-            <td align="right">
-                @Html.EditorFor(model => item.UnitPrice, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => item.UnitPrice, "", new { @class = "text-danger" })
-            </td>
-            <td align="right">
-                @Html.DisplayFor(modelItem => item.PartialPrice)
-            </td>
-            <td>
-                @Html.EditorFor(model => item.Remarks, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => item.Remarks, "", new { @class = "text-danger" })
-            </td>
-        </tr>
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Subcategory)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Unity)
+        </td>
+        <td align="right">
+            @Html.DisplayFor(modelItem => item.Metered)
+            
+        </td>
+        <td align="right">
+            @Html.DisplayFor(modelItem => item.UnitPrice)
+            
+        </td>
+        <td align="right">
+            @Html.DisplayFor(modelItem => item.PartialPrice)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Remarks)
+            
+        </td>
+        <td>
+            @Html.ActionLink("Editar", "EditBudgetDetail", "Budgets", new { id = item.BudgetDetailTmpId }, new { @class = "dialog-window btn btn-info" })
+        </td>
+    </tr>
     }
     <tr>
         <td colspan="5" align="right">
@@ -1260,19 +1265,22 @@
                 @Html.DisplayFor(modelItem => item.Unity)
             </td>
             <td align="right">
-                @Html.EditorFor(model => item.Metered, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => item.Metered, "", new { @class = "text-danger" })
+                @Html.DisplayFor(modelItem => item.Metered)
+                
             </td>
             <td align="right">
-                @Html.EditorFor(model => item.UnitPrice, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => item.UnitPrice, "", new { @class = "text-danger" })
+                @Html.DisplayFor(modelItem => item.UnitPrice)
+                
             </td>
             <td align="right">
                 @Html.DisplayFor(modelItem => item.PartialPrice)
             </td>
             <td>
-                @Html.EditorFor(model => item.Remarks, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => item.Remarks, "", new { @class = "text-danger" })
+                @Html.DisplayFor(modelItem => item.Remarks)
+                
+            </td>
+            <td>
+                @Html.ActionLink("Editar", "EditBudgetDetail", "Budgets", new { id = item.BudgetDetailTmpId }, new { @class = "dialog-window btn btn-info" })
             </td>
         </tr>
     }
@@ -1325,19 +1333,22 @@
                 @Html.DisplayFor(modelItem => item.Unity)
             </td>
             <td align="right">
-                @Html.EditorFor(model => item.Metered, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => item.Metered, "", new { @class = "text-danger" })
+                @Html.DisplayFor(modelItem => item.Metered)
+                
             </td>
             <td align="right">
-                @Html.EditorFor(model => item.UnitPrice, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => item.UnitPrice, "", new { @class = "text-danger" })
+                @Html.DisplayFor(modelItem => item.UnitPrice)
+                
             </td>
             <td align="right">
                 @Html.DisplayFor(modelItem => item.PartialPrice)
             </td>
             <td>
-                @Html.EditorFor(model => item.Remarks, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => item.Remarks, "", new { @class = "text-danger" })
+                @Html.DisplayFor(modelItem => item.Remarks)
+                
+            </td>
+            <td>
+                @Html.ActionLink("Editar", "EditBudgetDetail", "Budgets", new { id = item.BudgetDetailTmpId }, new { @class = "dialog-window btn btn-info" })
             </td>
         </tr>
     }
@@ -1390,19 +1401,22 @@
                 @Html.DisplayFor(modelItem => item.Unity)
             </td>
             <td align="right">
-                @Html.EditorFor(model => item.Metered, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => item.Metered, "", new { @class = "text-danger" })
+                @Html.DisplayFor(modelItem => item.Metered)
+                
             </td>
             <td align="right">
-                @Html.EditorFor(model => item.UnitPrice, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => item.UnitPrice, "", new { @class = "text-danger" })
+                @Html.DisplayFor(modelItem => item.UnitPrice)
+                
             </td>
             <td align="right">
                 @Html.DisplayFor(modelItem => item.PartialPrice)
             </td>
             <td>
-                @Html.EditorFor(model => item.Remarks, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => item.Remarks, "", new { @class = "text-danger" })
+                @Html.DisplayFor(modelItem => item.Remarks)
+                
+            </td>
+            <td>
+                @Html.ActionLink("Editar", "EditBudgetDetail", "Budgets", new { id = item.BudgetDetailTmpId }, new { @class = "dialog-window btn btn-info" })
             </td>
         </tr>
     }
@@ -1457,19 +1471,22 @@
                 @Html.DisplayFor(modelItem => item.Unity)
             </td>
             <td align="right">
-                @Html.EditorFor(model => item.Metered, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => item.Metered, "", new { @class = "text-danger" })
+                @Html.DisplayFor(modelItem => item.Metered)
+                
             </td>
             <td align="right">
-                @Html.EditorFor(model => item.UnitPrice, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => item.UnitPrice, "", new { @class = "text-danger" })
+                @Html.DisplayFor(modelItem => item.UnitPrice)
+                
             </td>
             <td align="right">
                 @Html.DisplayFor(modelItem => item.PartialPrice)
             </td>
             <td>
-                @Html.EditorFor(model => item.Remarks, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => item.Remarks, "", new { @class = "text-danger" })
+                @Html.DisplayFor(modelItem => item.Remarks)
+                
+            </td>
+            <td>
+                @Html.ActionLink("Editar", "EditBudgetDetail", "Budgets", new { id = item.BudgetDetailTmpId }, new { @class = "dialog-window btn btn-info" })
             </td>
         </tr>
     }
@@ -1522,19 +1539,22 @@
                 @Html.DisplayFor(modelItem => item.Unity)
             </td>
             <td align="right">
-                @Html.EditorFor(model => item.Metered, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => item.Metered, "", new { @class = "text-danger" })
+                @Html.DisplayFor(modelItem => item.Metered)
+                
             </td>
             <td align="right">
-                @Html.EditorFor(model => item.UnitPrice, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => item.UnitPrice, "", new { @class = "text-danger" })
+                @Html.DisplayFor(modelItem => item.UnitPrice)
+                
             </td>
             <td align="right">
                 @Html.DisplayFor(modelItem => item.PartialPrice)
             </td>
             <td>
-                @Html.EditorFor(model => item.Remarks, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => item.Remarks, "", new { @class = "text-danger" })
+                @Html.DisplayFor(modelItem => item.Remarks)
+                
+            </td>
+            <td>
+                @Html.ActionLink("Editar", "EditBudgetDetail", "Budgets", new { id = item.BudgetDetailTmpId }, new { @class = "dialog-window btn btn-info" })
             </td>
         </tr>
     }
@@ -1588,19 +1608,22 @@
                 @Html.DisplayFor(modelItem => item.Unity)
             </td>
             <td align="right">
-                @Html.EditorFor(model => item.Metered, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => item.Metered, "", new { @class = "text-danger" })
+                @Html.DisplayFor(modelItem => item.Metered)
+                
             </td>
             <td align="right">
-                @Html.EditorFor(model => item.UnitPrice, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => item.UnitPrice, "", new { @class = "text-danger" })
+                @Html.DisplayFor(modelItem => item.UnitPrice)
+                
             </td>
             <td align="right">
                 @Html.DisplayFor(modelItem => item.PartialPrice)
             </td>
             <td>
-                @Html.EditorFor(model => item.Remarks, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => item.Remarks, "", new { @class = "text-danger" })
+                @Html.DisplayFor(modelItem => item.Remarks)
+                
+            </td>
+            <td>
+                @Html.ActionLink("Editar", "EditBudgetDetail", "Budgets", new { id = item.BudgetDetailTmpId }, new { @class = "dialog-window btn btn-info" })
             </td>
         </tr>
     }
@@ -1654,19 +1677,22 @@
                 @Html.DisplayFor(modelItem => item.Unity)
             </td>
             <td align="right">
-                @Html.EditorFor(model => item.Metered, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => item.Metered, "", new { @class = "text-danger" })
+                @Html.DisplayFor(modelItem => item.Metered)
+                
             </td>
             <td align="right">
-                @Html.EditorFor(model => item.UnitPrice, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => item.UnitPrice, "", new { @class = "text-danger" })
+                @Html.DisplayFor(modelItem => item.UnitPrice)
+                
             </td>
             <td align="right">
                 @Html.DisplayFor(modelItem => item.PartialPrice)
             </td>
             <td>
-                @Html.EditorFor(model => item.Remarks, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => item.Remarks, "", new { @class = "text-danger" })
+                @Html.DisplayFor(modelItem => item.Remarks)
+                
+            </td>
+            <td>
+                @Html.ActionLink("Editar", "EditBudgetDetail", "Budgets", new { id = item.BudgetDetailTmpId }, new { @class = "dialog-window btn btn-info" })
             </td>
         </tr>
     }
@@ -1721,19 +1747,22 @@
                 @Html.DisplayFor(modelItem => item.Unity)
             </td>
             <td align="right">
-                @Html.EditorFor(model => item.Metered, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => item.Metered, "", new { @class = "text-danger" })
+                @Html.DisplayFor(modelItem => item.Metered)
+                
             </td>
             <td align="right">
-                @Html.EditorFor(model => item.UnitPrice, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => item.UnitPrice, "", new { @class = "text-danger" })
+                @Html.DisplayFor(modelItem => item.UnitPrice)
+                
             </td>
             <td align="right">
                 @Html.DisplayFor(modelItem => item.PartialPrice)
             </td>
             <td>
-                @Html.EditorFor(model => item.Remarks, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => item.Remarks, "", new { @class = "text-danger" })
+                @Html.DisplayFor(modelItem => item.Remarks)
+                
+            </td>
+            <td>
+                @Html.ActionLink("Editar", "EditBudgetDetail", "Budgets", new { id = item.BudgetDetailTmpId }, new { @class = "dialog-window btn btn-info" })
             </td>
         </tr>
     }
@@ -1789,19 +1818,22 @@
                 @Html.DisplayFor(modelItem => item.Unity)
             </td>
             <td align="right">
-                @Html.EditorFor(model => item.Metered, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => item.Metered, "", new { @class = "text-danger" })
+                @Html.DisplayFor(modelItem => item.Metered)
+                
             </td>
             <td align="right">
-                @Html.EditorFor(model => item.UnitPrice, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => item.UnitPrice, "", new { @class = "text-danger" })
+                @Html.DisplayFor(modelItem => item.UnitPrice)
+                
             </td>
             <td align="right">
                 @Html.DisplayFor(modelItem => item.PartialPrice)
             </td>
             <td>
-                @Html.EditorFor(model => item.Remarks, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => item.Remarks, "", new { @class = "text-danger" })
+                @Html.DisplayFor(modelItem => item.Remarks)
+                
+            </td>
+            <td>
+                @Html.ActionLink("Editar", "EditBudgetDetail", "Budgets", new { id = item.BudgetDetailTmpId }, new { @class = "dialog-window btn btn-info" })
             </td>
         </tr>
     }
@@ -1856,19 +1888,22 @@
                 @Html.DisplayFor(modelItem => item.Unity)
             </td>
             <td align="right">
-                @Html.EditorFor(model => item.Metered, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => item.Metered, "", new { @class = "text-danger" })
+                @Html.DisplayFor(modelItem => item.Metered)
+                
             </td>
             <td align="right">
-                @Html.EditorFor(model => item.UnitPrice, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => item.UnitPrice, "", new { @class = "text-danger" })
+                @Html.DisplayFor(modelItem => item.UnitPrice)
+                
             </td>
             <td align="right">
                 @Html.DisplayFor(modelItem => item.PartialPrice)
             </td>
             <td>
-                @Html.EditorFor(model => item.Remarks, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => item.Remarks, "", new { @class = "text-danger" })
+                @Html.DisplayFor(modelItem => item.Remarks)
+                
+            </td>
+            <td>
+                @Html.ActionLink("Editar", "EditBudgetDetail", "Budgets", new { id = item.BudgetDetailTmpId }, new { @class = "dialog-window btn btn-info" })
             </td>
         </tr>
     }
@@ -1922,19 +1957,19 @@
                 @Html.DisplayFor(modelItem => item.Unity)
             </td>
             <td align="right">
-                @Html.EditorFor(model => item.Metered, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => item.Metered, "", new { @class = "text-danger" })
+                @Html.DisplayFor(modelItem => item.Metered)
+                
             </td>
             <td align="right">
-                @Html.EditorFor(model => item.UnitPrice, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => item.UnitPrice, "", new { @class = "text-danger" })
+                @Html.DisplayFor(modelItem => item.UnitPrice)
+                
             </td>
             <td align="right">
                 @Html.DisplayFor(modelItem => item.PartialPrice)
             </td>
             <td>
-                @Html.EditorFor(model => item.Remarks, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => item.Remarks, "", new { @class = "text-danger" })
+                @Html.DisplayFor(modelItem => item.Remarks)
+                
             </td>
         </tr>
     }
@@ -1988,19 +2023,22 @@
                 @Html.DisplayFor(modelItem => item.Unity)
             </td>
             <td align="right">
-                @Html.EditorFor(model => item.Metered, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => item.Metered, "", new { @class = "text-danger" })
+                @Html.DisplayFor(modelItem => item.Metered)
+                
             </td>
             <td align="right">
-                @Html.EditorFor(model => item.UnitPrice, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => item.UnitPrice, "", new { @class = "text-danger" })
+                @Html.DisplayFor(modelItem => item.UnitPrice)
+                
             </td>
             <td align="right">
                 @Html.DisplayFor(modelItem => item.PartialPrice)
             </td>
             <td>
-                @Html.EditorFor(model => item.Remarks, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => item.Remarks, "", new { @class = "text-danger" })
+                @Html.DisplayFor(modelItem => item.Remarks)
+                
+            </td>
+            <td>
+                @Html.ActionLink("Editar", "EditBudgetDetail", "Budgets", new { id = item.BudgetDetailTmpId }, new { @class = "dialog-window btn btn-info" })
             </td>
         </tr>
     }
@@ -2053,19 +2091,22 @@
                 @Html.DisplayFor(modelItem => item.Unity)
             </td>
             <td align="right">
-                @Html.EditorFor(model => item.Metered, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => item.Metered, "", new { @class = "text-danger" })
+                @Html.DisplayFor(modelItem => item.Metered)
+                
             </td>
             <td align="right">
-                @Html.EditorFor(model => item.UnitPrice, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => item.UnitPrice, "", new { @class = "text-danger" })
+                @Html.DisplayFor(modelItem => item.UnitPrice)
+                
             </td>
             <td align="right">
                 @Html.DisplayFor(modelItem => item.PartialPrice)
             </td>
             <td>
-                @Html.EditorFor(model => item.Remarks, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => item.Remarks, "", new { @class = "text-danger" })
+                @Html.DisplayFor(modelItem => item.Remarks)
+                
+            </td>
+            <td>
+                @Html.ActionLink("Editar", "EditBudgetDetail", "Budgets", new { id = item.BudgetDetailTmpId }, new { @class = "dialog-window btn btn-info" })
             </td>
         </tr>
     }
@@ -2121,19 +2162,22 @@
                 @Html.DisplayFor(modelItem => item.Unity)
             </td>
             <td align="right">
-                @Html.EditorFor(model => item.Metered, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => item.Metered, "", new { @class = "text-danger" })
+                @Html.DisplayFor(modelItem => item.Metered)
+                
             </td>
             <td align="right">
-                @Html.EditorFor(model => item.UnitPrice, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => item.UnitPrice, "", new { @class = "text-danger" })
+                @Html.DisplayFor(modelItem => item.UnitPrice)
+                
             </td>
             <td align="right">
                 @Html.DisplayFor(modelItem => item.PartialPrice)
             </td>
             <td>
-                @Html.EditorFor(model => item.Remarks, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => item.Remarks, "", new { @class = "text-danger" })
+                @Html.DisplayFor(modelItem => item.Remarks)
+                
+            </td>
+            <td>
+                @Html.ActionLink("Editar", "EditBudgetDetail", "Budgets", new { id = item.BudgetDetailTmpId }, new { @class = "dialog-window btn btn-info" })
             </td>
         </tr>
     }
@@ -2187,19 +2231,22 @@
                 @Html.DisplayFor(modelItem => item.Unity)
             </td>
             <td align="right">
-                @Html.EditorFor(model => item.Metered, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => item.Metered, "", new { @class = "text-danger" })
+                @Html.DisplayFor(modelItem => item.Metered)
+                
             </td>
             <td align="right">
-                @Html.EditorFor(model => item.UnitPrice, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => item.UnitPrice, "", new { @class = "text-danger" })
+                @Html.DisplayFor(modelItem => item.UnitPrice)
+                
             </td>
             <td align="right">
                 @Html.DisplayFor(modelItem => item.PartialPrice)
             </td>
             <td>
-                @Html.EditorFor(model => item.Remarks, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => item.Remarks, "", new { @class = "text-danger" })
+                @Html.DisplayFor(modelItem => item.Remarks)
+                
+            </td>
+            <td>
+                @Html.ActionLink("Editar", "EditBudgetDetail", "Budgets", new { id = item.BudgetDetailTmpId }, new { @class = "dialog-window btn btn-info" })
             </td>
         </tr>
     }
@@ -2253,19 +2300,22 @@
                 @Html.DisplayFor(modelItem => item.Unity)
             </td>
             <td align="right">
-                @Html.EditorFor(model => item.Metered, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => item.Metered, "", new { @class = "text-danger" })
+                @Html.DisplayFor(modelItem => item.Metered)
+                
             </td>
             <td align="right">
-                @Html.EditorFor(model => item.UnitPrice, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => item.UnitPrice, "", new { @class = "text-danger" })
+                @Html.DisplayFor(modelItem => item.UnitPrice)
+                
             </td>
             <td align="right">
                 @Html.DisplayFor(modelItem => item.PartialPrice)
             </td>
             <td>
-                @Html.EditorFor(model => item.Remarks, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => item.Remarks, "", new { @class = "text-danger" })
+                @Html.DisplayFor(modelItem => item.Remarks)
+                
+            </td>
+            <td>
+                @Html.ActionLink("Editar", "EditBudgetDetail", "Budgets", new { id = item.BudgetDetailTmpId }, new { @class = "dialog-window btn btn-info" })
             </td>
         </tr>
     }
@@ -2319,19 +2369,22 @@
                 @Html.DisplayFor(modelItem => item.Unity)
             </td>
             <td align="right">
-                @Html.EditorFor(model => item.Metered, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => item.Metered, "", new { @class = "text-danger" })
+                @Html.DisplayFor(modelItem => item.Metered)
+                
             </td>
             <td align="right">
-                @Html.EditorFor(model => item.UnitPrice, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => item.UnitPrice, "", new { @class = "text-danger" })
+                @Html.DisplayFor(modelItem => item.UnitPrice)
+                
             </td>
             <td align="right">
                 @Html.DisplayFor(modelItem => item.PartialPrice)
             </td>
             <td>
-                @Html.EditorFor(model => item.Remarks, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => item.Remarks, "", new { @class = "text-danger" })
+                @Html.DisplayFor(modelItem => item.Remarks)
+                
+            </td>
+            <td>
+                @Html.ActionLink("Editar", "EditBudgetDetail", "Budgets", new { id = item.BudgetDetailTmpId }, new { @class = "dialog-window btn btn-info" })
             </td>
         </tr>
     }
@@ -2386,19 +2439,22 @@
                 @Html.DisplayFor(modelItem => item.Unity)
             </td>
             <td align="right">
-                @Html.EditorFor(model => item.Metered, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => item.Metered, "", new { @class = "text-danger" })
+                @Html.DisplayFor(modelItem => item.Metered)
+                
             </td>
             <td align="right">
-                @Html.EditorFor(model => item.UnitPrice, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => item.UnitPrice, "", new { @class = "text-danger" })
+                @Html.DisplayFor(modelItem => item.UnitPrice)
+                
             </td>
             <td align="right">
                 @Html.DisplayFor(modelItem => item.PartialPrice)
             </td>
             <td>
-                @Html.EditorFor(model => item.Remarks, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => item.Remarks, "", new { @class = "text-danger" })
+                @Html.DisplayFor(modelItem => item.Remarks)
+                
+            </td>
+            <td>
+                @Html.ActionLink("Editar", "EditBudgetDetail", "Budgets", new { id = item.BudgetDetailTmpId }, new { @class = "dialog-window btn btn-info" })
             </td>
         </tr>
     }
@@ -2453,19 +2509,22 @@
                 @Html.DisplayFor(modelItem => item.Unity)
             </td>
             <td align="right">
-                @Html.EditorFor(model => item.Metered, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => item.Metered, "", new { @class = "text-danger" })
+                @Html.DisplayFor(modelItem => item.Metered)
+                
             </td>
             <td align="right">
-                @Html.EditorFor(model => item.UnitPrice, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => item.UnitPrice, "", new { @class = "text-danger" })
+                @Html.DisplayFor(modelItem => item.UnitPrice)
+                
             </td>
             <td align="right">
                 @Html.DisplayFor(modelItem => item.PartialPrice)
             </td>
             <td>
-                @Html.EditorFor(model => item.Remarks, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => item.Remarks, "", new { @class = "text-danger" })
+                @Html.DisplayFor(modelItem => item.Remarks)
+                
+            </td>
+            <td>
+                @Html.ActionLink("Editar", "EditBudgetDetail", "Budgets", new { id = item.BudgetDetailTmpId }, new { @class = "dialog-window btn btn-info" })
             </td>
         </tr>
     }
@@ -2520,19 +2579,22 @@
                 @Html.DisplayFor(modelItem => item.Unity)
             </td>
             <td align="right">
-                @Html.EditorFor(model => item.Metered, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => item.Metered, "", new { @class = "text-danger" })
+                @Html.DisplayFor(modelItem => item.Metered)
+                
             </td>
             <td align="right">
-                @Html.EditorFor(model => item.UnitPrice, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => item.UnitPrice, "", new { @class = "text-danger" })
+                @Html.DisplayFor(modelItem => item.UnitPrice)
+                
             </td>
             <td align="right">
                 @Html.DisplayFor(modelItem => item.PartialPrice)
             </td>
             <td>
-                @Html.EditorFor(model => item.Remarks, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => item.Remarks, "", new { @class = "text-danger" })
+                @Html.DisplayFor(modelItem => item.Remarks)
+                
+            </td>
+            <td>
+                @Html.ActionLink("Editar", "EditBudgetDetail", "Budgets", new { id = item.BudgetDetailTmpId }, new { @class = "dialog-window btn btn-info" })
             </td>
         </tr>
     }
@@ -2586,19 +2648,22 @@
                 @Html.DisplayFor(modelItem => item.Unity)
             </td>
             <td align="right">
-                @Html.EditorFor(model => item.Metered, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => item.Metered, "", new { @class = "text-danger" })
+                @Html.DisplayFor(modelItem => item.Metered)
+                
             </td>
             <td align="right">
-                @Html.EditorFor(model => item.UnitPrice, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => item.UnitPrice, "", new { @class = "text-danger" })
+                @Html.DisplayFor(modelItem => item.UnitPrice)
+                
             </td>
             <td align="right">
                 @Html.DisplayFor(modelItem => item.PartialPrice)
             </td>
             <td>
-                @Html.EditorFor(model => item.Remarks, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => item.Remarks, "", new { @class = "text-danger" })
+                @Html.DisplayFor(modelItem => item.Remarks)
+                
+            </td>
+            <td>
+                @Html.ActionLink("Editar", "EditBudgetDetail", "Budgets", new { id = item.BudgetDetailTmpId }, new { @class = "dialog-window btn btn-info" })
             </td>
         </tr>
     }
@@ -2652,19 +2717,22 @@
                 @Html.DisplayFor(modelItem => item.Unity)
             </td>
             <td align="right">
-                @Html.EditorFor(model => item.Metered, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => item.Metered, "", new { @class = "text-danger" })
+                @Html.DisplayFor(modelItem => item.Metered)
+                
             </td>
             <td align="right">
-                @Html.EditorFor(model => item.UnitPrice, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => item.UnitPrice, "", new { @class = "text-danger" })
+                @Html.DisplayFor(modelItem => item.UnitPrice)
+                
             </td>
             <td align="right">
                 @Html.DisplayFor(modelItem => item.PartialPrice)
             </td>
             <td>
-                @Html.EditorFor(model => item.Remarks, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => item.Remarks, "", new { @class = "text-danger" })
+                @Html.DisplayFor(modelItem => item.Remarks)
+                
+            </td>
+            <td>
+                @Html.ActionLink("Editar", "EditBudgetDetail", "Budgets", new { id = item.BudgetDetailTmpId }, new { @class = "dialog-window btn btn-info" })
             </td>
         </tr>
     }
@@ -2717,19 +2785,22 @@
                 @Html.DisplayFor(modelItem => item.Unity)
             </td>
             <td align="right">
-                @Html.EditorFor(model => item.Metered, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => item.Metered, "", new { @class = "text-danger" })
+                @Html.DisplayFor(modelItem => item.Metered)
+                
             </td>
             <td align="right">
-                @Html.EditorFor(model => item.UnitPrice, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => item.UnitPrice, "", new { @class = "text-danger" })
+                @Html.DisplayFor(modelItem => item.UnitPrice)
+                
             </td>
             <td align="right">
                 @Html.DisplayFor(modelItem => item.PartialPrice)
             </td>
             <td>
-                @Html.EditorFor(model => item.Remarks, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => item.Remarks, "", new { @class = "text-danger" })
+                @Html.DisplayFor(modelItem => item.Remarks)
+                
+            </td>
+            <td>
+                @Html.ActionLink("Editar", "EditBudgetDetail", "Budgets", new { id = item.BudgetDetailTmpId }, new { @class = "dialog-window btn btn-info" })
             </td>
         </tr>
     }
@@ -2784,19 +2855,22 @@
                 @Html.DisplayFor(modelItem => item.Unity)
             </td>
             <td align="right">
-                @Html.EditorFor(model => item.Metered, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => item.Metered, "", new { @class = "text-danger" })
+                @Html.DisplayFor(modelItem => item.Metered)
+                
             </td>
             <td align="right">
-                @Html.EditorFor(model => item.UnitPrice, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => item.UnitPrice, "", new { @class = "text-danger" })
+                @Html.DisplayFor(modelItem => item.UnitPrice)
+                
             </td>
             <td align="right">
                 @Html.DisplayFor(modelItem => item.PartialPrice)
             </td>
             <td>
-                @Html.EditorFor(model => item.Remarks, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => item.Remarks, "", new { @class = "text-danger" })
+                @Html.DisplayFor(modelItem => item.Remarks)
+                
+            </td>
+            <td>
+                @Html.ActionLink("Editar", "EditBudgetDetail", "Budgets", new { id = item.BudgetDetailTmpId }, new { @class = "dialog-window btn btn-info" })
             </td>
         </tr>
     }
@@ -2850,19 +2924,22 @@
                 @Html.DisplayFor(modelItem => item.Unity)
             </td>
             <td align="right">
-                @Html.EditorFor(model => item.Metered, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => item.Metered, "", new { @class = "text-danger" })
+                @Html.DisplayFor(modelItem => item.Metered)
+                
             </td>
             <td align="right">
-                @Html.EditorFor(model => item.UnitPrice, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => item.UnitPrice, "", new { @class = "text-danger" })
+                @Html.DisplayFor(modelItem => item.UnitPrice)
+                
             </td>
             <td align="right">
                 @Html.DisplayFor(modelItem => item.PartialPrice)
             </td>
             <td>
-                @Html.EditorFor(model => item.Remarks, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => item.Remarks, "", new { @class = "text-danger" })
+                @Html.DisplayFor(modelItem => item.Remarks)
+                
+            </td>
+            <td>
+                @Html.ActionLink("Editar", "EditBudgetDetail", "Budgets", new { id = item.BudgetDetailTmpId }, new { @class = "dialog-window btn btn-info" })
             </td>
         </tr>
     }
@@ -2915,19 +2992,22 @@
                 @Html.DisplayFor(modelItem => item.Unity)
             </td>
             <td align="right">
-                @Html.EditorFor(model => item.Metered, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => item.Metered, "", new { @class = "text-danger" })
+                @Html.DisplayFor(modelItem => item.Metered)
+                
             </td>
             <td align="right">
-                @Html.EditorFor(model => item.UnitPrice, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => item.UnitPrice, "", new { @class = "text-danger" })
+                @Html.DisplayFor(modelItem => item.UnitPrice)
+                
             </td>
             <td align="right">
                 @Html.DisplayFor(modelItem => item.PartialPrice)
             </td>
             <td>
-                @Html.EditorFor(model => item.Remarks, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => item.Remarks, "", new { @class = "text-danger" })
+                @Html.DisplayFor(modelItem => item.Remarks)
+                
+            </td>
+            <td>
+                @Html.ActionLink("Editar", "EditBudgetDetail", "Budgets", new { id = item.BudgetDetailTmpId }, new { @class = "dialog-window btn btn-info" })
             </td>
         </tr>
     }
@@ -2981,19 +3061,22 @@
                 @Html.DisplayFor(modelItem => item.Unity)
             </td>
             <td align="right">
-                @Html.EditorFor(model => item.Metered, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => item.Metered, "", new { @class = "text-danger" })
+                @Html.DisplayFor(modelItem => item.Metered)
+                
             </td>
             <td align="right">
-                @Html.EditorFor(model => item.UnitPrice, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => item.UnitPrice, "", new { @class = "text-danger" })
+                @Html.DisplayFor(modelItem => item.UnitPrice)
+                
             </td>
             <td align="right">
                 @Html.DisplayFor(modelItem => item.PartialPrice)
             </td>
             <td>
-                @Html.EditorFor(model => item.Remarks, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => item.Remarks, "", new { @class = "text-danger" })
+                @Html.DisplayFor(modelItem => item.Remarks)
+                
+            </td>
+            <td>
+                @Html.ActionLink("Editar", "EditBudgetDetail", "Budgets", new { id = item.BudgetDetailTmpId }, new { @class = "dialog-window btn btn-info" })
             </td>
         </tr>
     }
@@ -3048,19 +3131,22 @@
                 @Html.DisplayFor(modelItem => item.Unity)
             </td>
             <td align="right">
-                @Html.EditorFor(model => item.Metered, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => item.Metered, "", new { @class = "text-danger" })
+                @Html.DisplayFor(modelItem => item.Metered)
+                
             </td>
             <td align="right">
-                @Html.EditorFor(model => item.UnitPrice, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => item.UnitPrice, "", new { @class = "text-danger" })
+                @Html.DisplayFor(modelItem => item.UnitPrice)
+                
             </td>
             <td align="right">
                 @Html.DisplayFor(modelItem => item.PartialPrice)
             </td>
             <td>
-                @Html.EditorFor(model => item.Remarks, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => item.Remarks, "", new { @class = "text-danger" })
+                @Html.DisplayFor(modelItem => item.Remarks)
+                
+            </td>
+            <td>
+                @Html.ActionLink("Editar", "EditBudgetDetail", "Budgets", new { id = item.BudgetDetailTmpId }, new { @class = "dialog-window btn btn-info" })
             </td>
         </tr>
     }
@@ -3116,19 +3202,22 @@
                 @Html.DisplayFor(modelItem => item.Unity)
             </td>
             <td align="right">
-                @Html.EditorFor(model => item.Metered, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => item.Metered, "", new { @class = "text-danger" })
+                @Html.DisplayFor(modelItem => item.Metered)
+                
             </td>
             <td align="right">
-                @Html.EditorFor(model => item.UnitPrice, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => item.UnitPrice, "", new { @class = "text-danger" })
+                @Html.DisplayFor(modelItem => item.UnitPrice)
+                
             </td>
             <td align="right">
                 @Html.DisplayFor(modelItem => item.PartialPrice)
             </td>
             <td>
-                @Html.EditorFor(model => item.Remarks, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => item.Remarks, "", new { @class = "text-danger" })
+                @Html.DisplayFor(modelItem => item.Remarks)
+                
+            </td>
+            <td>
+                @Html.ActionLink("Editar", "EditBudgetDetail", "Budgets", new { id = item.BudgetDetailTmpId }, new { @class = "dialog-window btn btn-info" })
             </td>
         </tr>
     }
@@ -3183,19 +3272,22 @@
                 @Html.DisplayFor(modelItem => item.Unity)
             </td>
             <td align="right">
-                @Html.EditorFor(model => item.Metered, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => item.Metered, "", new { @class = "text-danger" })
+                @Html.DisplayFor(modelItem => item.Metered)
+                
             </td>
             <td align="right">
-                @Html.EditorFor(model => item.UnitPrice, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => item.UnitPrice, "", new { @class = "text-danger" })
+                @Html.DisplayFor(modelItem => item.UnitPrice)
+                
             </td>
             <td align="right">
                 @Html.DisplayFor(modelItem => item.PartialPrice)
             </td>
             <td>
-                @Html.EditorFor(model => item.Remarks, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => item.Remarks, "", new { @class = "text-danger" })
+                @Html.DisplayFor(modelItem => item.Remarks)
+                
+            </td>
+            <td>
+                @Html.ActionLink("Editar", "EditBudgetDetail", "Budgets", new { id = item.BudgetDetailTmpId }, new { @class = "dialog-window btn btn-info" })
             </td>
         </tr>
     }
@@ -3249,19 +3341,22 @@
                 @Html.DisplayFor(modelItem => item.Unity)
             </td>
             <td align="right">
-                @Html.EditorFor(model => item.Metered, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => item.Metered, "", new { @class = "text-danger" })
+                @Html.DisplayFor(modelItem => item.Metered)
+                
             </td>
             <td align="right">
-                @Html.EditorFor(model => item.UnitPrice, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => item.UnitPrice, "", new { @class = "text-danger" })
+                @Html.DisplayFor(modelItem => item.UnitPrice)
+                
             </td>
             <td align="right">
                 @Html.DisplayFor(modelItem => item.PartialPrice)
             </td>
             <td>
-                @Html.EditorFor(model => item.Remarks, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => item.Remarks, "", new { @class = "text-danger" })
+                @Html.DisplayFor(modelItem => item.Remarks)
+                
+            </td>
+            <td>
+                @Html.ActionLink("Editar", "EditBudgetDetail", "Budgets", new { id = item.BudgetDetailTmpId }, new { @class = "dialog-window btn btn-info" })
             </td>
         </tr>
     }
@@ -3315,19 +3410,22 @@
                 @Html.DisplayFor(modelItem => item.Unity)
             </td>
             <td align="right">
-                @Html.EditorFor(model => item.Metered, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => item.Metered, "", new { @class = "text-danger" })
+                @Html.DisplayFor(modelItem => item.Metered)
+                
             </td>
             <td align="right">
-                @Html.EditorFor(model => item.UnitPrice, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => item.UnitPrice, "", new { @class = "text-danger" })
+                @Html.DisplayFor(modelItem => item.UnitPrice)
+                
             </td>
             <td align="right">
                 @Html.DisplayFor(modelItem => item.PartialPrice)
             </td>
             <td>
-                @Html.EditorFor(model => item.Remarks, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => item.Remarks, "", new { @class = "text-danger" })
+                @Html.DisplayFor(modelItem => item.Remarks)
+                
+            </td>
+            <td>
+                @Html.ActionLink("Editar", "EditBudgetDetail", "Budgets", new { id = item.BudgetDetailTmpId }, new { @class = "dialog-window btn btn-info" })
             </td>
         </tr>
     }
@@ -3380,19 +3478,22 @@
                 @Html.DisplayFor(modelItem => item.Unity)
             </td>
             <td align="right">
-                @Html.EditorFor(model => item.Metered, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => item.Metered, "", new { @class = "text-danger" })
+                @Html.DisplayFor(modelItem => item.Metered)
+                
             </td>
             <td align="right">
-                @Html.EditorFor(model => item.UnitPrice, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => item.UnitPrice, "", new { @class = "text-danger" })
+                @Html.DisplayFor(modelItem => item.UnitPrice)
+                
             </td>
             <td align="right">
                 @Html.DisplayFor(modelItem => item.PartialPrice)
             </td>
             <td>
-                @Html.EditorFor(model => item.Remarks, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => item.Remarks, "", new { @class = "text-danger" })
+                @Html.DisplayFor(modelItem => item.Remarks)
+                
+            </td>
+            <td>
+                @Html.ActionLink("Editar", "EditBudgetDetail", "Budgets", new { id = item.BudgetDetailTmpId }, new { @class = "dialog-window btn btn-info" })
             </td>
         </tr>
     }
@@ -3445,19 +3546,22 @@
                 @Html.DisplayFor(modelItem => item.Unity)
             </td>
             <td align="right">
-                @Html.EditorFor(model => item.Metered, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => item.Metered, "", new { @class = "text-danger" })
+                @Html.DisplayFor(modelItem => item.Metered)
+                
             </td>
             <td align="right">
-                @Html.EditorFor(model => item.UnitPrice, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => item.UnitPrice, "", new { @class = "text-danger" })
+                @Html.DisplayFor(modelItem => item.UnitPrice)
+                
             </td>
             <td align="right">
                 @Html.DisplayFor(modelItem => item.PartialPrice)
             </td>
             <td>
-                @Html.EditorFor(model => item.Remarks, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => item.Remarks, "", new { @class = "text-danger" })
+                @Html.DisplayFor(modelItem => item.Remarks)
+                
+            </td>
+            <td>
+                @Html.ActionLink("Editar", "EditBudgetDetail", "Budgets", new { id = item.BudgetDetailTmpId }, new { @class = "dialog-window btn btn-info" })
             </td>
         </tr>
     }
@@ -3512,19 +3616,22 @@
                 @Html.DisplayFor(modelItem => item.Unity)
             </td>
             <td align="right">
-                @Html.EditorFor(model => item.Metered, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => item.Metered, "", new { @class = "text-danger" })
+                @Html.DisplayFor(modelItem => item.Metered)
+                
             </td>
             <td align="right">
-                @Html.EditorFor(model => item.UnitPrice, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => item.UnitPrice, "", new { @class = "text-danger" })
+                @Html.DisplayFor(modelItem => item.UnitPrice)
+                
             </td>
             <td align="right">
                 @Html.DisplayFor(modelItem => item.PartialPrice)
             </td>
             <td>
-                @Html.EditorFor(model => item.Remarks, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => item.Remarks, "", new { @class = "text-danger" })
+                @Html.DisplayFor(modelItem => item.Remarks)
+                
+            </td>
+            <td>
+                @Html.ActionLink("Editar", "EditBudgetDetail", "Budgets", new { id = item.BudgetDetailTmpId }, new { @class = "dialog-window btn btn-info" })
             </td>
         </tr>
     }
@@ -3579,19 +3686,22 @@
                 @Html.DisplayFor(modelItem => item.Unity)
             </td>
             <td align="right">
-                @Html.EditorFor(model => item.Metered, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => item.Metered, "", new { @class = "text-danger" })
+                @Html.DisplayFor(modelItem => item.Metered)
+                
             </td>
             <td align="right">
-                @Html.EditorFor(model => item.UnitPrice, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => item.UnitPrice, "", new { @class = "text-danger" })
+                @Html.DisplayFor(modelItem => item.UnitPrice)
+                
             </td>
             <td align="right">
                 @Html.DisplayFor(modelItem => item.PartialPrice)
             </td>
             <td>
-                @Html.EditorFor(model => item.Remarks, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => item.Remarks, "", new { @class = "text-danger" })
+                @Html.DisplayFor(modelItem => item.Remarks)
+                
+            </td>
+            <td>
+                @Html.ActionLink("Editar", "EditBudgetDetail", "Budgets", new { id = item.BudgetDetailTmpId }, new { @class = "dialog-window btn btn-info" })
             </td>
         </tr>
     }
@@ -3645,19 +3755,22 @@
                 @Html.DisplayFor(modelItem => item.Unity)
             </td>
             <td align="right">
-                @Html.EditorFor(model => item.Metered, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => item.Metered, "", new { @class = "text-danger" })
+                @Html.DisplayFor(modelItem => item.Metered)
+                
             </td>
             <td align="right">
-                @Html.EditorFor(model => item.UnitPrice, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => item.UnitPrice, "", new { @class = "text-danger" })
+                @Html.DisplayFor(modelItem => item.UnitPrice)
+                
             </td>
             <td align="right">
                 @Html.DisplayFor(modelItem => item.PartialPrice)
             </td>
             <td>
-                @Html.EditorFor(model => item.Remarks, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => item.Remarks, "", new { @class = "text-danger" })
+                @Html.DisplayFor(modelItem => item.Remarks)
+                
+            </td>
+            <td>
+                @Html.ActionLink("Editar", "EditBudgetDetail", "Budgets", new { id = item.BudgetDetailTmpId }, new { @class = "dialog-window btn btn-info" })
             </td>
         </tr>
     }
@@ -3672,29 +3785,46 @@
 </table>
 
 
+<div class="modal fade" id="EditBudgetDetail" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h2 class="modal-title"></h2>
+            </div>
+            <div class="modal-body"><div class="te">Please wait...</div></div>
+        </div>
+    </div>
+</div>
+
+
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
-    <script type="text/javascript">
+<script type="text/javascript">
         $(function() {
             $('#datepicker').datetimepicker({ format: 'YYYY/MM/DD'});
         });
-        $(function() {
-            $('#id_1_textbox').change(function() {
-                var value1 = parseInt($('#id_1_textbox').val());
-                var value2 = parseInt($('#id_2_textbox').val());
-                if (!isNaN(value1) && !isNaN(value2))
-                {
-                    var newValue = value1 + value2;
-                    $(this).val(newValue);
 
-                } else
-                {
-                    alert('You have entered an invalid integer value');
+        var UrlProject = '@Url.Action("GetProjects", "Generic")';
+
+        $(document).ready(function () {
+            $("body").on("click", "a.dialog-window", null, function (e) {
+                e.preventDefault();
+                var $link = $(this);
+                var title = $link.text();
+                $('#EditBudgetDetail .modal-title').html(title);
+                var url = $(this).attr('href');
+                if (url.indexOf('#') == 0) {
+                    $('#EditBudgetDetail').modal('show');
+                }
+                else {
+                    $.get(url, function (data) {
+                        $('#EditBudgetDetail .te').html(data);
+                        $('#EditBudgetDetail').modal();
+                    }).success(function () { $('input:text:visible:first').focus(); });
 
                 }
-
-            });     
-
+            });
         });
-    </script>
+</script>
 }

@@ -246,9 +246,11 @@
     <Compile Include="Models\AddProductView.cs" />
     <Compile Include="Models\Budget.cs" />
     <Compile Include="Models\BudgetDetail.cs" />
+    <Compile Include="Models\BudgetDetailTmp.cs" />
     <Compile Include="Models\CompanyCustomer.cs" />
     <Compile Include="Models\CompanySupplier.cs" />
     <Compile Include="Models\Customer.cs" />
+    <Compile Include="Models\EditBudgetDetailView.cs" />
     <Compile Include="Models\Inventory.cs" />
     <Compile Include="Models\NewBudgetView.cs" />
     <Compile Include="Models\NewOrderView.cs" />
@@ -430,6 +432,7 @@
     <Content Include="Views\Budgets\Details.cshtml" />
     <Content Include="Views\Budgets\Edit.cshtml" />
     <Content Include="Views\Budgets\Index.cshtml" />
+    <Content Include="Views\Budgets\EditBudgetDetail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

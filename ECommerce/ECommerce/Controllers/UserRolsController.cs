@@ -1,5 +1,4 @@
-﻿using System;
-using System.Data.Entity;
+﻿using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Web.Configuration;
@@ -56,14 +55,38 @@ namespace ECommerce.Controllers
             if (adminUser == User.Identity.Name)
             {
                 ViewBag.CompanyId = new SelectList(CombosHelper.GetCompanies(), "CompanyId", "Name");
-                return View();
+                var userRolNew = new UserRol
+                {                    
+                    AccumulatedMobility = 0,
+                    BasicJornal = 0,
+                    Buc = 0,
+                    Cts = 0,
+                    Dominical = 0,
+                    Holidays = 0,
+                    HourExtra100 = 0,
+                    HourExtra60 = 0,
+                    Reward = 0,
+                };
+                return View(userRolNew);
             }
             //verifica el usuario logeado y envia su compania a la vista
             var user = db.Users.FirstOrDefault(u => u.UserName == User.Identity.Name);
             if (user == null)
                 return RedirectToAction("Index", "Home");
 
-            var userRol = new UserRol { CompanyId = user.CompanyId };
+            var userRol = new UserRol
+            {
+                CompanyId = user.CompanyId,
+                AccumulatedMobility = 0,
+                BasicJornal = 0,
+                Buc = 0,
+                Cts = 0,
+                Dominical = 0,
+                Holidays = 0,
+                HourExtra100 = 0,
+                HourExtra60 = 0,
+                Reward = 0,
+            };
             return View(userRol);
         }
 

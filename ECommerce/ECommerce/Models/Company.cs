@@ -51,6 +51,7 @@ namespace ECommerce.Models
         public virtual City City { get; set; }
         public virtual Department Department { get; set; }
 
+        public virtual ICollection<PensionSystem> PensionSystems { get; set; }
         public virtual ICollection<Project> Projects { get; set; }
         public virtual ICollection<UserRol> UserRols { get; set; }
         public virtual ICollection<User> Users { get; set; }
