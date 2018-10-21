@@ -35,7 +35,6 @@ namespace ECommerce.Controllers
                     .Include(p => p.ProductCategory)
                     .Include(p => p.Tax)
                     .Where(p => p.CompanyId == user.CompanyId).OrderBy(c => c.Description);
-                //==================================================
             }
             
             return View(products.ToPagedList((int)page, 5));
@@ -79,7 +78,6 @@ namespace ECommerce.Controllers
             return View(product);
         }
 
-        
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(Product product)

@@ -222,7 +222,7 @@ namespace ECommerce.Controllers
         
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "OrderId,CustomerId,ProjectId,OrderStateId,Date,Remarks")] Order order)
+        public ActionResult Edit(Order order)
         {
             if (ModelState.IsValid)
             {

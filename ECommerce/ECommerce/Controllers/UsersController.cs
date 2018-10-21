@@ -133,6 +133,7 @@ namespace ECommerce.Controllers
                 {
                     State = true,
                     AdmissionDate = DateTime.Now,
+                    BirthDate = DateTime.Now,
                 };
                 return View(adminUserModel);
             }            
@@ -147,6 +148,7 @@ namespace ECommerce.Controllers
             {
                 CompanyId = user.CompanyId,
                 AdmissionDate = DateTime.Now,
+                BirthDate = DateTime.Now,
                 State = true,
             };
             return View(userModel);

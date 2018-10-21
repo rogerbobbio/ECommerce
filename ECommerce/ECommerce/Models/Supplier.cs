@@ -50,5 +50,6 @@ namespace ECommerce.Models
         public virtual Department Department { get; set; }
 
         public virtual ICollection<CompanySupplier> CompanySuppliers { get; set; }
+        public virtual ICollection<Quote> Quotes { get; set; }
     }
 }

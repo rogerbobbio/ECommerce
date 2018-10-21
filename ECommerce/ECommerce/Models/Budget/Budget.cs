@@ -42,7 +42,7 @@ namespace ECommerce.Models
         public decimal TotalButget { get; set; }
 
         public virtual Customer Customer { get; set; }
-        public virtual Project Project { get; set; }        
+        public virtual Project Project { get; set; }
         public virtual Company Company { get; set; }
 
         public virtual ICollection<BudgetDetail> BudgetDetails { get; set; }

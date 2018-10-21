@@ -34,13 +34,17 @@ namespace ECommerce.Classes
             }           
         }
 
-        public static string UploadFile(HttpPostedFileBase file, string folder, string name)
+        public static bool UploadFile(HttpPostedFileBase file, string folder, string name)
         {
-            var document = string.Empty;
+            if (file == null || string.IsNullOrEmpty(folder) || string.IsNullOrEmpty(name))
+            {
+                return false;
+            }
 
+            try
+            {
             if (file != null)
             {
-                document = Path.GetFileName(file.FileName);
                 var path = Path.Combine(HttpContext.Current.Server.MapPath(folder), name);
                 file.SaveAs(path);
                 using (var ms = new MemoryStream())
@@ -50,7 +54,12 @@ namespace ECommerce.Classes
                 }
             }
 
-            return document;
+                return true;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
         }
     }
 }

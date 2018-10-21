@@ -106,6 +106,7 @@ namespace ECommerce.Classes
                             CategoryCode = budgetDetailTmp.CategoryCode,
                             Subcategory = budgetDetailTmp.Subcategory,
                             SubcategoryCode = budgetDetailTmp.SubcategoryCode,
+                            Metered = budgetDetailTmp.Metered,
                             Unity = budgetDetailTmp.Unity,
                             UnitPrice = budgetDetailTmp.UnitPrice,
                             PartialPrice = budgetDetailTmp.PartialPrice,
@@ -129,6 +130,31 @@ namespace ECommerce.Classes
                 {
                     transacction.Rollback();
                     return new Response {Message = ex.Message, Succeeded = false};
+                }
+            }
+        }
+
+        public static Response EditBudget(EditBudgetView budget)
+        {
+            using (var transacction = db.Database.BeginTransaction())
+            {
+                try
+                {
+                    var budgetEdit = db.Budgets.FirstOrDefault(odt => odt.BudgetId == budget.BudgetId);
+                    if (budgetEdit != null)
+                    {
+                        budgetEdit.Remarks = budget.Remarks;
+                        db.Entry(budgetEdit).State = EntityState.Modified;                        
+                    }
+
+                    db.SaveChanges();
+                    transacction.Commit();
+                    return new Response { Succeeded = true };
+                }
+                catch (Exception ex)
+                {
+                    transacction.Rollback();
+                    return new Response { Message = ex.Message, Succeeded = false };
                 }
             }
         }

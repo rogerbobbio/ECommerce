@@ -65,5 +65,9 @@ namespace ECommerce.Models
         public DbSet<BudgetDetail> BudgetDetails { get; set; }
 
         public DbSet<BudgetDetailTmp> BudgetDetailTmps { get; set; }
+
+        public System.Data.Entity.DbSet<ECommerce.Models.Quote> Quotes { get; set; }
+
+        public System.Data.Entity.DbSet<ECommerce.Models.Overrun> Overruns { get; set; }
     }
 }
